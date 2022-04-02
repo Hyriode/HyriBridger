@@ -1,0 +1,5 @@
+main: fr.hyriode.hyribridger.HyriBridger
+version: @version@
+name: HyriBridger
+author: Calyx
+depend: [Hyrame]
