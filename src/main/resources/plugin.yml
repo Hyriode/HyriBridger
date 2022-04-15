@@ -1,4 +1,4 @@
-main: fr.hyriode.hyribridger.HyriBridger
+main: fr.hyriode.bridger.Bridger
 version: @version@
 name: HyriBridger
 author: Calyx

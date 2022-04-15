@@ -1,3 +1,35 @@
 {
+  "scoreboard.best-time": "Best time:",
+  "scoreboard.actual-time": "Current time:",
+  "scoreboard.top-3": "Top 3 of the session:",
+  "scoreboard.medal.actual": "Medal: ",
 
+  "medal.bronze": "&7Bronze",
+  "medal.iron": "&fSilver",
+  "medal.gold": "&eGold",
+
+  "medal.ultimate": "&cUltimate",
+  "message.player.oob.block": "You can't place blocks that far",
+  "message.player.failed-bridge": "Failed ! You placed %block% blocks.",
+  "utils.days": "days",
+  "utils.hours": "hours",
+  "utils.minutes": "minutes",
+
+  "hologram.placed-blocks": "Placed blocks: ",
+  "hologram.made-bridges": "Succeeded bridges: ",
+  "hologram.failed-bridged": "Failed bridges: ",
+  "hologram.played-time": "Game time: ",
+
+  "npc.name": "&6&lTrainer",
+  "npc.lore": "&3Settings / modes",
+
+  "gui.item.short": "Normal bridge",
+  "gui.item.long": "Long bridge",
+  "gui.item.diagonal": "Diagonal bridge",
+  "gui.item.choose-island": "Choose your island",
+  "gui.item.island": "Island",
+
+  "gui.lore.occupied":"This island is already taken",
+  "gui.lore.free": "Empty island, right click to teleport to it",
+  "gui.lore.bridger-mode": "Click to choose this mode"
 }

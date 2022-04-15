@@ -1,15 +1,15 @@
-package fr.hyriode.hyribridger;
+package fr.hyriode.bridger;
 
 import fr.hyriode.hyrame.plugin.IPluginProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class HyriBridgerProvider implements IPluginProvider {
+public class BridgerProvider implements IPluginProvider {
 
-    private static final String PACKAGE = "fr.hyriode.hyribridger";
+    private static final String PACKAGE = "fr.hyriode.bridger";
 
-    private final HyriBridger plugin;
+    private final Bridger plugin;
 
-    public HyriBridgerProvider(HyriBridger plugin) {
+    public BridgerProvider(Bridger plugin) {
         this.plugin = plugin;
     }
 
@@ -20,7 +20,7 @@ public class HyriBridgerProvider implements IPluginProvider {
 
     @Override
     public String getId() {
-        return "hyribridger";
+        return "bridger";
     }
 
     @Override

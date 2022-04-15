@@ -1,20 +1,33 @@
-package fr.hyriode.hyribridger;
+package fr.hyriode.bridger;
 
+import fr.hyriode.api.HyriAPI;
+import fr.hyriode.bridger.api.HyriBridgerAPI;
+import fr.hyriode.bridger.listener.PlayerListener;
 import fr.hyriode.hyrame.HyrameLoader;
 import fr.hyriode.hyrame.IHyrame;
 import fr.hyriode.hyrame.language.IHyriLanguageManager;
+import fr.hyriode.bridger.config.BridgerConfiguration;
+import fr.hyriode.bridger.game.BridgerGame;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.function.Supplier;
 import java.util.logging.Level;
 
-public class HyriBridger extends JavaPlugin {
+public class Bridger extends JavaPlugin {
 
-    public static final String NAME = "Hyrield";
+    public static final String NAME = "Bridger";
+    public static final Supplier<World> WORLD = () -> Bukkit.getWorld("world");
 
     private IHyrame hyrame;
+    private BridgerGame game;
+    private HyriBridgerAPI api;
+
+    private BridgerConfiguration configuration;
+
     private static IHyriLanguageManager languageManager;
 
     @Override
@@ -33,9 +46,17 @@ public class HyriBridger extends JavaPlugin {
 
         log("Starting " + NAME + "...");
 
-        this.hyrame = HyrameLoader.load(new HyriBridgerProvider(this));
+        this.configuration = new BridgerConfiguration(this);
+        this.configuration.create();
+        this.configuration.load();
+        this.hyrame = HyrameLoader.load(new BridgerProvider(this));
 
         languageManager = this.hyrame.getLanguageManager();
+
+        this.api = new HyriBridgerAPI(HyriAPI.get().getRedisConnection().getPool());
+        this.api.start();
+        this.game = new BridgerGame(this.hyrame, this);
+        this.hyrame.getGameManager().registerGame(() -> this.game);
     }
 
     public static void log(String msg) {
@@ -64,4 +85,15 @@ public class HyriBridger extends JavaPlugin {
         return hyrame;
     }
 
+    public BridgerGame getGame() {
+        return game;
+    }
+
+    public BridgerConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    public HyriBridgerAPI getApi() {
+        return api;
+    }
 }
