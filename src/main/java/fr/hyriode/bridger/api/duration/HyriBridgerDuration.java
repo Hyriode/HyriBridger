@@ -9,9 +9,9 @@ public class HyriBridgerDuration {
 
     public HyriBridgerDuration(long timeInMs) {
         if(new Random().nextBoolean()) {
-            this.ms = Math.round(timeInMs/50)* 50L + 50;
+            this.ms = Math.round(timeInMs / 50.0) * 50L + 50;
         }else {
-            this.ms = Math.round(timeInMs/50)* 50L;
+            this.ms = Math.round(timeInMs / 50.0) * 50L;
         }
     }
 

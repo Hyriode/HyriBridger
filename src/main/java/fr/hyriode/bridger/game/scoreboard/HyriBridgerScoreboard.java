@@ -55,7 +55,7 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
         if(this.accountSupplier.get().getStatistics().getPersonalBest() != null) {
             return ChatColor.YELLOW + this.accountSupplier.get().getStatistics().getPersonalBest().toFormattedTime();
         }else {
-            return ChatColor.GRAY + "none";
+            return ChatColor.GRAY + "----";
         }
     }
 

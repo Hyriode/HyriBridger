@@ -1,5 +1,7 @@
 package fr.hyriode.bridger.api.player;
 
+import fr.hyriode.api.HyriAPI;
+import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.bridger.api.HyriBridgerAPI;
 
 import java.util.UUID;
@@ -7,32 +9,20 @@ import java.util.function.Function;
 
 public class HyriBridgerPlayerManager {
 
-    private static final Function<UUID, String> REDIS_KEY = uuid -> HyriBridgerAPI.REDIS_KEY + "players:" + uuid.toString();
-
-    private final HyriBridgerAPI api;
-
-    public HyriBridgerPlayerManager(HyriBridgerAPI api) {
-        this.api = api;
+    public HyriBridgerPlayerManager() {
     }
 
     public HyriBridgerPlayer getPlayer(UUID uuid) {
-        final String json = this.api.getFromRedis(REDIS_KEY.apply(uuid));
+        IHyriPlayer hyriPlayer = HyriAPI.get().getPlayerManager().getPlayer(uuid);
 
-        if (json != null) {
-            return HyriBridgerAPI.GSON.fromJson(json, HyriBridgerPlayer.class);
-        }else {
-            HyriBridgerPlayer account = new HyriBridgerPlayer(uuid);
-            this.sendPlayer(account);
-            return account;
-        }
+        return hyriPlayer.getData("therunner", HyriBridgerPlayer.class);
     }
 
     public void sendPlayer(HyriBridgerPlayer player) {
-        this.api.redisRequest(jedis -> jedis.set(REDIS_KEY.apply(player.getUniqueId()), HyriBridgerAPI.GSON.toJson(player)));
-    }
+        final IHyriPlayer hyriPlayer = HyriAPI.get().getPlayerManager().getPlayer(player.getUniqueId());
 
-    public void removePlayer(UUID uuid) {
-        this.api.redisRequest(jedis -> jedis.del(REDIS_KEY.apply(uuid)));
+        hyriPlayer.addData("therunner", player);
+        HyriAPI.get().getPlayerManager().sendPlayer(hyriPlayer);
     }
 
 }

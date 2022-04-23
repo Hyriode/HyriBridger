@@ -73,7 +73,7 @@ public class PlayerListener extends HyriListener<Bridger> {
             }
             return;
         }
-        if(event.getTo().getY() < this.plugin.getConfiguration().getyMinBeforeTp()) {
+        if(event.getTo().getY() < this.plugin.getConfiguration().getyPosBeforeTeleport()) {
             if(gamePlayer.isBridging()) {
                 gamePlayer.endBridging(false);
                 return;

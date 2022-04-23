@@ -2,13 +2,13 @@ package fr.hyriode.bridger.game;
 
 import fr.hyriode.bridger.api.player.HyriBridgerPlayer;
 import fr.hyriode.bridger.api.player.Medal;
+import fr.hyriode.bridger.config.BridgerConfig;
 import fr.hyriode.bridger.game.timers.BridgerPlayedDuration;
 import fr.hyriode.bridger.gui.ChangeModeGUI;
 import fr.hyriode.hyrame.actionbar.ActionBar;
 import fr.hyriode.hyrame.game.HyriGame;
 import fr.hyriode.hyrame.game.HyriGamePlayer;
 import fr.hyriode.bridger.Bridger;
-import fr.hyriode.bridger.config.BridgerConfiguration;
 import fr.hyriode.bridger.game.scoreboard.HyriBridgerScoreboard;
 import fr.hyriode.bridger.game.timers.BridgerTimer;
 import fr.hyriode.hyrame.hologram.Hologram;
@@ -28,7 +28,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -74,16 +73,16 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         this.accountSupplier = () -> this.plugin.getApi().getPlayerManager().getPlayer(this.player.getUniqueId());
         this.playerNumber = playerNumber;
 
-        this.spawn = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getSpawnLocationOnFirstIsland());
-        this.hologramLocation = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getHologramLocationOnFirstIsland());
-        this.npcLocation = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getNPCLocationOnFirstIsland());
+        this.spawn = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getSpawnLocationOnFirstIsland().asBukkit());
+        this.hologramLocation = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getHologramLocationOnFirstIsland().asBukkit());
+        this.npcLocation = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getNpcLocationOnFirstIsland().asBukkit());
 
         this.blockType = Material.SANDSTONE;
         this.setupScoreboard();
         this.setupNPC();
 
         this.spawnPlayer();
-        this.gameArea = new Area(this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getGameAreaOnFirstIslandFirst()),this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getGameAreaOnFirstIslandSecond()));
+        this.gameArea = new Area(this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getGameAreaOnFirstIslandFirst().asBukkit()),this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getGameAreaOnFirstIslandSecond().asBukkit()));
 
         this.oldPlacedBlocks = this.accountSupplier.get().getStatistics().getBlocksPlaced();
         this.oldMadeBridges = this.accountSupplier.get().getStatistics().getBridgesMade();
@@ -251,10 +250,10 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     private Location calculateLocationForThisPlayer(Location location) {
-        BridgerConfiguration config = plugin.getConfiguration();
-        Location diff = config.getDiffBetweenIslands();
+        BridgerConfig config = plugin.getConfiguration();
+        Location diff = config.getDiffBetweenIslands().asBukkit();
         Location forFirstIsland = location.clone();
-        return  forFirstIsland.add(diff.getX()*playerNumber, diff.getY()*playerNumber, diff.getZ()*playerNumber);
+        return forFirstIsland.add(diff.getX() * playerNumber, diff.getY() * playerNumber, diff.getZ() * playerNumber);
     }
 
     public int getPlayerNumber() {

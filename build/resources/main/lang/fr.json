@@ -1,0 +1,36 @@
+{
+  "scoreboard.best-time": "Meilleur temps:",
+  "scoreboard.actual-time": "Temps actuel:",
+  "scoreboard.top-3": "Top 3 de la session:",
+  "scoreboard.medal.actual": "Médaille: ",
+
+  "hologram.placed-blocks": "Blocks placés: ",
+  "hologram.made-bridges": "Bridges réussis: ",
+  "hologram.failed-bridged": "Bridges ratés: ",
+  "hologram.played-time": "Temps de jeu: ",
+
+  "npc.name": "&6&lEntraineur",
+  "npc.lore": "&3Paramètres / modes",
+
+  "gui.item.short": "Bridge normal",
+  "gui.item.long": "Bridge long",
+  "gui.item.diagonal": "Bridge diagonal",
+  "gui.item.choose-island": "Choisir son île",
+  "gui.item.island": "Ile",
+
+  "gui.lore.occupied":"Cette île est déjà prise",
+  "gui.lore.free": "Ile vide, clic droit pour s'y téléporter",
+  "gui.lore.bridger-mode": "Clique pour choisir ce mode",
+
+  "medal.bronze": "&7Bronze",
+  "medal.iron": "&fArgent",
+  "medal.gold": "&eOr",
+  "medal.ultimate": "&cUltime",
+
+  "message.player.oob.block": "Tu ne peux pas poser de blocs aussi loin",
+  "message.player.failed-bridge": "Raté ! vous avez placé %block% blocs.",
+
+  "utils.days": "jours",
+  "utils.hours": "heures",
+  "utils.minutes": "minutes"
+}

@@ -1,8 +1,10 @@
 package fr.hyriode.bridger.api.player;
 
+import fr.hyriode.api.player.HyriPlayerData;
+
 import java.util.UUID;
 
-public class HyriBridgerPlayer {
+public class HyriBridgerPlayer extends HyriPlayerData {
 
     private final UUID uniqueId;
     private final HyriBridgerStatistics statistics;
