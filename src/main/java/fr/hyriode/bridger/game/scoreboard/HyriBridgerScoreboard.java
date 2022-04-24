@@ -42,8 +42,8 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
         this.setLine(8, this.getBestTimes(2), line -> line.setValue(this.getBestTimes(2)), 80);
         this.setLine(9, this.getBestTimes(3), line -> line.setValue(this.getBestTimes(3)), 80);
         this.addBlankLine(10);
-        this.setLine(11, this.getMedalLine(), line -> line.setValue(this.getMedalLine()), 80);
-        this.addBlankLine(12);
+        //this.setLine(11, this.getMedalLine(), line -> line.setValue(this.getMedalLine()), 80);
+        //this.addBlankLine(12);
         this.addHostnameLine();
     }
 
@@ -52,20 +52,22 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
     }
 
     private String getBestTime() {
-        if(this.accountSupplier.get().getStatistics().getPersonalBest() != null) {
-            return ChatColor.YELLOW + this.accountSupplier.get().getStatistics().getPersonalBest().toFormattedTime();
-        }else {
-            return ChatColor.GRAY + "----";
+        if(this.accountSupplier.get().getPersonalBest() != null) {
+            return ChatColor.YELLOW + this.accountSupplier.get().getPersonalBest().toFormattedTime();
         }
+        return ChatColor.GRAY + "-.---";
     }
 
     private String getActualTime() {
         String startString = ChatColor.WHITE + this.getValue("scoreboard.actual-time") + " " + ChatColor.YELLOW;
         if(this.gamePlayer.isBridging()) {
-            return startString + this.gamePlayer.getActualTimer().getFormattedActualTime();
-        }else {
-            return startString + "0.000";
+            if(this.gamePlayer.getActualTimer() != null) {
+                if(this.gamePlayer.getActualTimer().getFormattedActualTime() != null) {
+                    return startString + this.gamePlayer.getActualTimer().getFormattedActualTime();
+                }
+            }
         }
+        return startString + "0.000";
     }
 
     private String getBestTimes(int i) {
@@ -73,8 +75,10 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
     }
 
     private String getMedalLine() {
-        final Medal actualMedal = this.accountSupplier.get().getStatistics().getHighestAcquiredMedal();
+        final Medal actualMedal = this.gamePlayer.getHighestAcquiredMedalInThisGameType();
         if(actualMedal != null) {
+            System.out.println("not null");
+            System.out.println("found : " + actualMedal.name());
             return ChatColor.GOLD + this.getValue("scoreboard.medal.actual") + this.getValue(actualMedal.getLanguageValue());
         }else {
             return ChatColor.GOLD + this.getValue("scoreboard.medal.actual") + ChatColor.RED + "✘";

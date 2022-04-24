@@ -23,7 +23,7 @@ public class ChangeIslandGUI extends HyriInventory {
 
     public void init() {
         List<Boolean> emplacements = this.plugin.getGame().getEmplacements();
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 30; i++) {
             boolean emplacement = emplacements.get(i);
             if(emplacement) {
                 this.setItem(i, new ItemBuilder(Material.STAINED_CLAY, i+1, (short)14)

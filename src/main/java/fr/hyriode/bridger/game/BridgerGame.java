@@ -25,15 +25,17 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
                                           "ZJyWeWhCnA3AzDGNcg+OfTmgT7TxDFWWEBXyWcX2g7/CeQp6rmndUok5Seq0+iAcISVaUGUUMQjrLIv2ivR4YXltZyMKTirb7vPt5B7rLo7I8j6YWTc6jrJgAbf83e7q5fSF0WNZ4Bm3DG6edSRxwYZOFFaG8v+ZsFy21v0KL+OvAifEGYp6Or01pNfR/aNdhg7fFsk7difO8QIXghoAARiRGzcitDHPtgMCDQuphYkUSSiFlKFIg5sVMXC8a0E8x7wAWXan06/vdlZXnjZz/ZWehEl7wLstLZZb0mNl6k60VVt3lk5/5epMHhoiq3DaKFoxkGLBLx+qQmfT9Y0NsrEyjBdZDYQiOVSomC1c2BJ0f2aGEZCBaOHWzuJY9elB8o+rek4ovBc1E4W+EjwS0EYHggKCPmYhChUntN1TC4XQy64GEquZGAQLCzqKOPOeHdFg1oXAIpgI7R2orjfWkOb4MOtx/k+jriIb+oHjeE/q3tGYtwX9F8UdTWj3ZoyIoHfzd7uxcvGNUAH6X9gNPl0WpX21YmE3zdZnX75p1RRo2iwaUgxNTJdQrqWXN15TmwyvfuisJHZ3oijU8G9Dcaph+FcfJPfFTjmN5Skqb9IVMjmMSKHs7QANNWfhNNO5McwE+kvcIAr3HZsVXmLAAgEJTm9FqaCDU21mwfVCpfA=");
 
     public BridgerGame(IHyrame hyrame, Bridger plugin) {
-        super(hyrame, plugin, HyriAPI.get().getGameManager().getGameInfo("bridger"), BridgerGamePlayer.class, BridgerGameType.SHORT);
-       // PROD super(hyrame, plugin, HyriAPI.get().getGameManager().getGameInfo("bridger"), BridgerGamePlayer.class, HyriGameType.getFromData(BridgerGameType.values()));
+        //dev:
+        //super(hyrame, plugin, new BridgerGameInfo("bridger", "Bridger"), BridgerGamePlayer.class, BridgerGameType.SHORT);
+        //prod:
+        super(hyrame, plugin, HyriAPI.get().getGameManager().getGameInfo("bridger"), BridgerGamePlayer.class, HyriGameType.getFromData(BridgerGameType.values()));
         this.plugin = plugin;
         this.defaultStarting = false;
         this.setState(HyriGameState.READY);
         this.emplacements = new ArrayList<>();
         this.session = new BridgerSession();
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 30; i++) {
             this.emplacements.add(false);
         }
     }

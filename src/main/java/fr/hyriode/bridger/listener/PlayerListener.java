@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -82,6 +83,11 @@ public class PlayerListener extends HyriListener<Bridger> {
             gamePlayer.getPlayer().sendMessage(ChatColor.RED + Bridger.getLanguageManager().getValue(event.getPlayer(), "message.player.failed-bridge")
                     .replace("%block%", "0"));
         }
+    }
+
+    @EventHandler
+    public void onBlockPhysic(BlockPhysicsEvent event) {
+        event.setCancelled(true);
     }
 
     @EventHandler

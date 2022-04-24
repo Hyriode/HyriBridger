@@ -29,6 +29,9 @@ public class ChangeModeGUI extends HyriInventory {
             UUID uuid = event.getWhoClicked().getUniqueId();
             if(!HyriAPI.get().getServer().getGameType().equalsIgnoreCase(BridgerGameType.SHORT.getName())) {
                 HyriAPI.get().getQueueManager().addPlayerInQueue(uuid, "bridger", BridgerGameType.SHORT.getName());
+            }else {
+                this.owner.closeInventory();
+                this.owner.sendMessage(this.getValue("message.player.already-on-the-server"));
             }
         });
 
@@ -39,6 +42,9 @@ public class ChangeModeGUI extends HyriInventory {
             UUID uuid = event.getWhoClicked().getUniqueId();
             if(!HyriAPI.get().getServer().getGameType().equalsIgnoreCase(BridgerGameType.LONG.getName())) {
                 HyriAPI.get().getQueueManager().addPlayerInQueue(uuid, "bridger", BridgerGameType.LONG.getName());
+            }else {
+                this.owner.closeInventory();
+                this.owner.sendMessage(this.getValue("message.player.already-on-the-server"));
             }
         });
 
@@ -49,6 +55,9 @@ public class ChangeModeGUI extends HyriInventory {
             UUID uuid = event.getWhoClicked().getUniqueId();
             if(!HyriAPI.get().getServer().getGameType().equalsIgnoreCase(BridgerGameType.DIAGONAL.getName())) {
                 HyriAPI.get().getQueueManager().addPlayerInQueue(uuid, "bridger", BridgerGameType.DIAGONAL.getName());
+            }else {
+                this.owner.closeInventory();
+                this.owner.sendMessage(this.getValue("message.player.already-on-the-server"));
             }
         });
 

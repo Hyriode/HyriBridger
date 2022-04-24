@@ -19,7 +19,7 @@ public class BridgerConfig implements IConfig {
 
     private final double yPosBeforeTeleport;
 
-    private final LocationWrapper diffBetweenIslands; // 20 en x pour long et short
+    private final LocationWrapper diffBetweenIslands; // 20 in x for long and short
 
     public BridgerConfig(LocationWrapper spawnLocationOnFirstIsland, LocationWrapper npcLocationOnFirstIsland, LocationWrapper hologramLocationOnFirstIsland, LocationWrapper gameAreaOnFirstIslandFirst, LocationWrapper gameAreaOnFirstIslandSecond, double yPosBeforeTeleport, LocationWrapper diffBetweenIslands) {
         this.spawnLocationOnFirstIsland = spawnLocationOnFirstIsland;

@@ -29,6 +29,8 @@
 
   "message.player.oob.block": "Tu ne peux pas poser de blocs aussi loin",
   "message.player.failed-bridge": "Raté ! vous avez placé %block% blocs.",
+  "message.player.succeed-bridge": "&aRéussi ! Vous gagnez 200xp et 50 hyris",
+  "message.player.already-on-the-server": "§cVous êtes déjà dans ce mode",
 
   "utils.days": "jours",
   "utils.hours": "heures",
