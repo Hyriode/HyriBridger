@@ -52,34 +52,34 @@ public class Bridger extends JavaPlugin {
         if(HyriAPI.get().getConfiguration().isDevEnvironment()) {
             this.configuration = new BridgerConfig(
                     //  Spawn location on the first island
-                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 0.5, 100.0, 0.5, 180.0F, 0.0F)),
+                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 285.5, 30.0, 245.5, 180.0F, 0.0F)),
                     // NPC Location on the first island
-                    new LocationWrapper(new Location(IHyrame.WORLD.get(), -3.5, 100.0, 1.5, 0.0F, 0.0F)),
+                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 281.5, 30.0, 246.5, 0.0F, 0.0F)),
                     // Hologram Location on the first island
-                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 4.0, 102.0, 0.0, 0.0F, 0.0F)),
+                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 284.0, 32.0, 250.0, 0.0F, 0.0F)),
                     // Pos1 of island area
-                    new LocationWrapper(new Location(IHyrame.WORLD.get(), -12.0, 92.0, 1.0)),
+                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 280.0, 47.0, 222.0)),
                     // Pos2 of island area
-                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 12.0, 116.0, -33.0)),
+                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 313.0, 21.0, 264.0)),
                     // Y coordinates where the player respawn
-                    96.0,
+                    26.0,
                     // Distance between 2 islands
-                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 33.0, 0.0,0.0))
+                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 331.5-285.5, 0.0,284.5-245.5))
             );
         } else this.configuration = HyriAPI.get().getServer().getConfig(BridgerConfig.class);
 
 
         this.hyrame = HyrameLoader.load(new BridgerProvider(this));
 
-        HyriAPI.get().getHystiaAPI().getConfigManager().saveConfig(this.configuration, "bridger", BridgerGameType.LONG.getName(), "long").whenComplete((aBoolean, throwable) -> System.out.println(aBoolean + " map l"));
+       /* HyriAPI.get().getHystiaAPI().getConfigManager().saveConfig(this.configuration, "bridger", BridgerGameType.LONG.getName(), "long").whenComplete((aBoolean, throwable) -> System.out.println(aBoolean + " map l"));
         HyriAPI.get().getHystiaAPI().getWorldManager().saveWorld(IHyrame.WORLD.get().getUID(), "bridger", BridgerGameType.LONG.getName(), "long").whenComplete((aBoolean, throwable) -> System.out.println(aBoolean + " world l"));
 
-        HyriAPI.get().getHystiaAPI().getConfigManager().saveConfig(this.configuration, "bridger", BridgerGameType.LONG.getName(), "short").whenComplete((aBoolean, throwable) -> System.out.println(aBoolean + " map s"));
-        HyriAPI.get().getHystiaAPI().getWorldManager().saveWorld(IHyrame.WORLD.get().getUID(), "bridger", BridgerGameType.LONG.getName(), "short").whenComplete((aBoolean, throwable) -> System.out.println(aBoolean + " world s"));
+        HyriAPI.get().getHystiaAPI().getConfigManager().saveConfig(this.configuration, "bridger", BridgerGameType.SHORT.getName(), "short").whenComplete((aBoolean, throwable) -> System.out.println(aBoolean + " map s"));
+        HyriAPI.get().getHystiaAPI().getWorldManager().saveWorld(IHyrame.WORLD.get().getUID(), "bridger", BridgerGameType.SHORT.getName(), "short").whenComplete((aBoolean, throwable) -> System.out.println(aBoolean + " world s"));
 
-        HyriAPI.get().getHystiaAPI().getConfigManager().saveConfig(this.configuration, "bridger", BridgerGameType.LONG.getName(), "diagonal").whenComplete((aBoolean, throwable) -> System.out.println(aBoolean + " map d"));
-        HyriAPI.get().getHystiaAPI().getWorldManager().saveWorld(IHyrame.WORLD.get().getUID(), "bridger", BridgerGameType.LONG.getName(), "diagonal").whenComplete((aBoolean, throwable) -> System.out.println(aBoolean + " world d"));
-
+        HyriAPI.get().getHystiaAPI().getConfigManager().saveConfig(this.configuration, "bridger", BridgerGameType.DIAGONAL.getName(), "diagonal").whenComplete((aBoolean, throwable) -> System.out.println(aBoolean + " map d"));
+        HyriAPI.get().getHystiaAPI().getWorldManager().saveWorld(IHyrame.WORLD.get().getUID(), "bridger", BridgerGameType.DIAGONAL.getName(), "diagonal").whenComplete((aBoolean, throwable) -> System.out.println(aBoolean + " world d"));
+*/
 
         languageManager = this.hyrame.getLanguageManager();
 

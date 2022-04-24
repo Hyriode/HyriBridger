@@ -26,9 +26,9 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
 
     public BridgerGame(IHyrame hyrame, Bridger plugin) {
         //dev:
-        //super(hyrame, plugin, new BridgerGameInfo("bridger", "Bridger"), BridgerGamePlayer.class, BridgerGameType.SHORT);
+        super(hyrame, plugin, new BridgerGameInfo("bridger", "Bridger"), BridgerGamePlayer.class, BridgerGameType.SHORT);
         //prod:
-        super(hyrame, plugin, HyriAPI.get().getGameManager().getGameInfo("bridger"), BridgerGamePlayer.class, HyriGameType.getFromData(BridgerGameType.values()));
+        //super(hyrame, plugin, HyriAPI.get().getGameManager().getGameInfo("bridger"), BridgerGamePlayer.class, HyriGameType.getFromData(BridgerGameType.values()));
         this.plugin = plugin;
         this.defaultStarting = false;
         this.setState(HyriGameState.READY);
