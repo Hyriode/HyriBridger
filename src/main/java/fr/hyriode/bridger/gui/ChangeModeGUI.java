@@ -9,8 +9,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
 public class ChangeModeGUI extends HyriInventory {
 
     private final Bridger plugin;
@@ -22,44 +20,22 @@ public class ChangeModeGUI extends HyriInventory {
     }
 
     private void init() {
-        this.setItem(20, new ItemBuilder(Material.RED_SANDSTONE, 1, (short)1)
-                .withName(ChatColor.DARK_AQUA + this.getValue("gui.item.short"))
-                .withLore(ChatColor.RESET + this.getValue("gui.lore.bridger-mode"))
-                .build(), event -> {
-            UUID uuid = event.getWhoClicked().getUniqueId();
-            if(!HyriAPI.get().getServer().getGameType().equalsIgnoreCase(BridgerGameType.SHORT.getName())) {
-                HyriAPI.get().getQueueManager().addPlayerInQueue(uuid, "bridger", BridgerGameType.SHORT.getName());
+        int i = 20;
+        for (BridgerGameType type : BridgerGameType.values()) {
+            if(!HyriAPI.get().getServer().getGameType().equalsIgnoreCase(BridgerGameType.NORMAL.getName())) {
+                this.setItem(i, new ItemBuilder(type.getItemstack())
+                    .withName(ChatColor.DARK_AQUA + this.getValue("gui.item." + type.getName()))
+                    .withLore(ChatColor.RESET + this.getValue("gui.lore.bridger-mode"))
+                    .build(), event -> HyriAPI.get().getQueueManager().addPlayerInQueue(event.getWhoClicked().getUniqueId(), "bridger", type.getName()));
             }else {
-                this.owner.closeInventory();
-                this.owner.sendMessage(this.getValue("message.player.already-on-the-server"));
+                this.setItem(i, new ItemBuilder(type.getItemstack())
+                        .withName(ChatColor.DARK_AQUA + this.getValue("gui.item." + type.getName()))
+                        .withLore(ChatColor.RESET + this.getValue("gui.lore.bridger-mode-selected"))
+                        .withGlow()
+                        .build());
             }
-        });
-
-        this.setItem(21, new ItemBuilder(Material.SANDSTONE, 1)
-                .withName(ChatColor.DARK_AQUA + this.getValue("gui.item.long"))
-                .withLore(ChatColor.RESET + this.getValue("gui.lore.bridger-mode"))
-                .build(), event -> {
-            UUID uuid = event.getWhoClicked().getUniqueId();
-            if(!HyriAPI.get().getServer().getGameType().equalsIgnoreCase(BridgerGameType.LONG.getName())) {
-                HyriAPI.get().getQueueManager().addPlayerInQueue(uuid, "bridger", BridgerGameType.LONG.getName());
-            }else {
-                this.owner.closeInventory();
-                this.owner.sendMessage(this.getValue("message.player.already-on-the-server"));
-            }
-        });
-
-        this.setItem(22, new ItemBuilder(Material.SANDSTONE_STAIRS, 1)
-                .withName(ChatColor.DARK_AQUA + this.getValue("gui.item.diagonal"))
-                .withLore(ChatColor.RESET + this.getValue("gui.lore.bridger-mode"))
-                .build(), event -> {
-            UUID uuid = event.getWhoClicked().getUniqueId();
-            if(!HyriAPI.get().getServer().getGameType().equalsIgnoreCase(BridgerGameType.DIAGONAL.getName())) {
-                HyriAPI.get().getQueueManager().addPlayerInQueue(uuid, "bridger", BridgerGameType.DIAGONAL.getName());
-            }else {
-                this.owner.closeInventory();
-                this.owner.sendMessage(this.getValue("message.player.already-on-the-server"));
-            }
-        });
+            i++;
+        }
 
         this.setItem(24, new ItemBuilder(Material.REDSTONE_COMPARATOR)
                 .withName(ChatColor.YELLOW + this.getValue("gui.item.choose-island"))

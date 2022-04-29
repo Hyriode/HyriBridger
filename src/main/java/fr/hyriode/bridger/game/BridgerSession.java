@@ -12,26 +12,41 @@ public class BridgerSession {
     private BridgerScore scoreThird;
 
     public void add(Player player, HyriBridgerDuration duration) {
+        StringBuilder debugCode = new StringBuilder("Classement debug code: ");
         if(this.scoreFirst == null) {
+            debugCode.append("0");
             this.scoreFirst = new BridgerScore(duration, player);
+            player.sendMessage(debugCode.toString());
             return;
         }
         if(this.scoreSecond == null) {
+            debugCode.append("1");
             if(duration.getExactTime() < this.scoreFirst.getDuration().getExactTime()) {
+                debugCode.append("0");
                 if(this.scoreFirst.getPlayer().equals(player)) {
+                    debugCode.append("0");
                     this.scoreFirst.setDuration(duration);
                 }else {
+                    debugCode.append("1");
                     this.scoreSecond = this.scoreFirst;
                     this.scoreFirst = new BridgerScore(duration, player);
                 }
             }else {
-                this.scoreSecond = new BridgerScore(duration, player);
+                debugCode.append("1");
+                if(!this.scoreFirst.getPlayer().equals(player)) {
+                    debugCode.append("a");
+                    this.scoreSecond = new BridgerScore(duration, player);
+                }
             }
+            player.sendMessage(debugCode.toString());
             return;
         }
         if(this.scoreThird == null) {
+            debugCode.append("2");
             if(duration.getExactTime() < this.scoreSecond.getDuration().getExactTime()) {
+                debugCode.append("0");
                 if(duration.getExactTime() < this.scoreFirst.getDuration().getExactTime()) {
+                    debugCode.append("0");
                     if(this.scoreFirst.getPlayer().equals(player)) {
                         this.scoreFirst.setDuration(duration);
                     }else {
@@ -40,6 +55,7 @@ public class BridgerSession {
                         this.scoreFirst  = new BridgerScore(duration, player);
                     }
                 }else {
+                    debugCode.append("1");
                     if(this.scoreSecond.getPlayer().equals(player)) {
                         this.scoreSecond.setDuration(duration);
                     }else {
@@ -50,49 +66,67 @@ public class BridgerSession {
                     }
                 }
             }else {
+                debugCode.append("1");
                 if(!this.scoreFirst.getPlayer().equals(player) && !this.scoreSecond.getPlayer().equals(player)) {
                     this.scoreThird = new BridgerScore(duration, player);
                 }
             }
+            player.sendMessage(debugCode.toString());
             return;
         }
         if(duration.getExactTime() < this.scoreThird.getDuration().getExactTime()) {
+            debugCode.append("3");
             if(this.scoreThird.getPlayer().equals(player)) {
+                debugCode.append("a");
                 this.scoreThird = null;
             }
             if(duration.getExactTime() < this.scoreSecond.getDuration().getExactTime()) {
+                debugCode.append("0");
                 if(this.scoreSecond.getPlayer().equals(player)) {
+                    debugCode.append("a");
                     this.scoreSecond = this.scoreThird;
                     this.scoreThird = null;
                 }
                 if(duration.getExactTime() < this.scoreFirst.getDuration().getExactTime()) {
+                    debugCode.append("0");
                     if(this.scoreFirst.getPlayer().equals(player)) {
+                        debugCode.append("0");
                         this.scoreFirst.setDuration(duration);
                     }else {
+                        debugCode.append("1");
                         this.scoreThird = this.scoreSecond;
                         this.scoreSecond = this.scoreFirst;
                         this.scoreFirst  = new BridgerScore(duration, player);
                     }
                 }else {
+                    debugCode.append("1");
                     if(this.scoreSecond.getPlayer().equals(player)) {
+                        debugCode.append("0");
                         this.scoreSecond.setDuration(duration);
                     }else {
+                        debugCode.append("1");
                         if(!this.scoreFirst.getPlayer().equals(player)) {
+                            debugCode.append("a");
                             this.scoreThird = this.scoreSecond;
                             this.scoreSecond = new BridgerScore(duration, player);
                         }
                     }
                 }
             }else {
+                debugCode.append("1");
                 if(this.scoreThird.getPlayer().equals(player)) {
+                    debugCode.append("0");
                     this.scoreThird.setDuration(duration);
                 }else {
+                    debugCode.append("1");
                     if(!this.scoreFirst.getPlayer().equals(player) && !this.scoreSecond.getPlayer().equals(player)) {
+                        debugCode.append("a");
                         this.scoreThird = new BridgerScore(duration, player);
                     }
                 }
             }
         }
+        player.sendMessage(debugCode.toString());
     }
 
     public void removeScoresOf(Player player) {

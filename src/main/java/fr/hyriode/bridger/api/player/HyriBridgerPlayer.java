@@ -7,26 +7,20 @@ import java.util.UUID;
 
 public class HyriBridgerPlayer extends HyriPlayerData {
 
-    private HyriBridgerDuration personalBest;
+    private HyriBridgerDuration personalShortBest;
+    private HyriBridgerDuration personalNormalBest;
+    private HyriBridgerDuration personalDiagonalBest;
+    private Medal highestAcquiredShortMedal;
+    private Medal highestAcquiredNormalMedal;
+    private Medal highestAcquiredDiagonalMedal;
     private long blocksPlaced;
     private long bridgesMade;
     private long bridgeFailed;
     private long playedTimeInMs;
-    private int highestAcquiredShortMedal;
-    private int highestAcquiredLongMedal;
-    private int highestAcquiredDiagonalMedal;
     private final UUID uuid;
 
     public HyriBridgerPlayer(UUID uuid) {
         this.uuid = uuid;
-    }
-
-    public HyriBridgerDuration getPersonalBest() {
-        return personalBest;
-    }
-
-    public void setPersonalBest(HyriBridgerDuration personalBest) {
-        this.personalBest = personalBest;
     }
 
     public long getBlocksPlaced() {
@@ -61,27 +55,51 @@ public class HyriBridgerPlayer extends HyriPlayerData {
         this.playedTimeInMs += playedTimeInMs;
     }
 
-    public int getHighestAcquiredShortMedal() {
+    public HyriBridgerDuration getPersonalShortBest() {
+        return personalShortBest;
+    }
+
+    public void setPersonalShortBest(HyriBridgerDuration personalShortBest) {
+        this.personalShortBest = personalShortBest;
+    }
+
+    public HyriBridgerDuration getPersonalNormalBest() {
+        return personalNormalBest;
+    }
+
+    public void setPersonalNormalBest(HyriBridgerDuration personalNormalBest) {
+        this.personalNormalBest = personalNormalBest;
+    }
+
+    public HyriBridgerDuration getPersonalDiagonalBest() {
+        return personalDiagonalBest;
+    }
+
+    public void setPersonalDiagonalBest(HyriBridgerDuration personalDiagonalBest) {
+        this.personalDiagonalBest = personalDiagonalBest;
+    }
+
+    public Medal getHighestAcquiredShortMedal() {
         return highestAcquiredShortMedal;
     }
 
-    public void setHighestAcquiredShortMedal(int highestAcquiredShortMedal) {
+    public void setHighestAcquiredShortMedal(Medal highestAcquiredShortMedal) {
         this.highestAcquiredShortMedal = highestAcquiredShortMedal;
     }
 
-    public int getHighestAcquiredLongMedal() {
-        return highestAcquiredLongMedal;
+    public Medal getHighestAcquiredNormalMedal() {
+        return highestAcquiredNormalMedal;
     }
 
-    public void setHighestAcquiredLongMedal(int highestAcquiredLongMedal) {
-        this.highestAcquiredLongMedal = highestAcquiredLongMedal;
+    public void setHighestAcquiredNormalMedal(Medal highestAcquiredNormalMedal) {
+        this.highestAcquiredNormalMedal = highestAcquiredNormalMedal;
     }
 
-    public int getHighestAcquiredDiagonalMedal() {
+    public Medal getHighestAcquiredDiagonalMedal() {
         return highestAcquiredDiagonalMedal;
     }
 
-    public void setHighestAcquiredDiagonalMedal(int highestAcquiredDiagonalMedal) {
+    public void setHighestAcquiredDiagonalMedal(Medal highestAcquiredDiagonalMedal) {
         this.highestAcquiredDiagonalMedal = highestAcquiredDiagonalMedal;
     }
 

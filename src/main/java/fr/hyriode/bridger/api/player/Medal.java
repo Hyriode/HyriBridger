@@ -9,14 +9,14 @@ public enum Medal {
     ;
 
     private final long timeToReachShort;
-    private final long timeToReachLong;
+    private final long timeToReachNormal;
     private final long timeToReachDiagonal;
     private final int id;
     private final String languageValue;
 
     Medal(long timeToReachShort, long timeToReachLong, long timeToReachDiagonal, int id, String languageValue) {
         this.timeToReachShort = timeToReachShort;
-        this.timeToReachLong = timeToReachLong;
+        this.timeToReachNormal = timeToReachLong;
         this.timeToReachDiagonal = timeToReachDiagonal;
         this.id = id;
         this.languageValue = languageValue;
@@ -31,16 +31,14 @@ public enum Medal {
         return null;
     }
 
-    public long getTimeToReachShort() {
-        return timeToReachShort;
-    }
-
-    public long getTimeToReachLong() {
-        return timeToReachLong;
-    }
-
-    public long getTimeToReachDiagonal() {
-        return timeToReachDiagonal;
+    public long getTimeToReach(String gameType) {
+        if(gameType.equals("short")) {
+            return this.timeToReachShort;
+        }else if(gameType.equals("normal")) {
+            return this.timeToReachNormal;
+        }else {
+            return this.timeToReachDiagonal;
+        }
     }
 
     public int getId() {

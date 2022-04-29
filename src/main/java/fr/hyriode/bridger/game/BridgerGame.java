@@ -1,23 +1,22 @@
 package fr.hyriode.bridger.game;
 
 import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
-import fr.hyriode.api.HyriAPI;
-import fr.hyriode.api.game.IHyriGameInfo;
 import fr.hyriode.api.util.Skin;
+import fr.hyriode.bridger.api.player.HyriBridgerPlayerManager;
 import fr.hyriode.hyrame.IHyrame;
 import fr.hyriode.hyrame.game.HyriGame;
 import fr.hyriode.hyrame.game.HyriGameState;
 import fr.hyriode.bridger.Bridger;
-import fr.hyriode.hyrame.game.HyriGameType;
 import fr.hyriode.hyrame.npc.NPCManager;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import java.util.*;
 
 public class BridgerGame extends HyriGame<BridgerGamePlayer> {
 
-    private Bridger plugin;
+    private final Bridger plugin;
     private final List<Boolean> emplacements;
     private final BridgerSession session;
 
@@ -34,10 +33,13 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
         this.setState(HyriGameState.READY);
         this.emplacements = new ArrayList<>();
         this.session = new BridgerSession();
+        this.usingGameTabList = false;
 
         for (int i = 0; i < 30; i++) {
             this.emplacements.add(false);
         }
+
+        HyriBridgerPlayerManager.gameType = this.getType().getName();
     }
 
     @Override
@@ -51,6 +53,7 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
         player.setHealth(20);
         player.setLevel(0);
         player.setExp(0.0F);
+        player.setVelocity(new Vector(0, 0, 0));
         player.setCanPickupItems(false);
         player.teleport(this.plugin.getConfiguration().getSpawnLocationOnFirstIsland().asBukkit());
 

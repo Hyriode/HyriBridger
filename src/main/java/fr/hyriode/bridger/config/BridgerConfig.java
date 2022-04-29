@@ -2,7 +2,6 @@ package fr.hyriode.bridger.config;
 
 import fr.hyriode.hyrame.utils.LocationWrapper;
 import fr.hyriode.hystia.api.config.IConfig;
-import org.bukkit.Location;
 
 /**
  * Project: HyriBridger

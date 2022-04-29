@@ -4,6 +4,7 @@
   "scoreboard.top-3": "Top 3 de la session:",
   "scoreboard.medal.actual": "Médaille: ",
 
+  "hologram.stats": "Statistiques:",
   "hologram.placed-blocks": "Blocks placés: ",
   "hologram.made-bridges": "Bridges réussis: ",
   "hologram.failed-bridged": "Bridges ratés: ",
@@ -12,8 +13,8 @@
   "npc.name": "&6&lEntraineur",
   "npc.lore": "&3Paramètres / modes",
 
-  "gui.item.short": "Bridge normal",
-  "gui.item.long": "Bridge long",
+  "gui.item.short": "Bridge short",
+  "gui.item.normal": "Bridge normal",
   "gui.item.diagonal": "Bridge diagonal",
   "gui.item.choose-island": "Choisir son île",
   "gui.item.island": "Ile",
@@ -21,6 +22,7 @@
   "gui.lore.occupied":"Cette île est déjà prise",
   "gui.lore.free": "Ile vide, clic droit pour s'y téléporter",
   "gui.lore.bridger-mode": "Clique pour choisir ce mode",
+  "gui.lore.bridger-mode-selected": "&cVous êtes déjà dans ce mode",
 
   "medal.bronze": "&7Bronze",
   "medal.iron": "&fArgent",
@@ -29,8 +31,12 @@
 
   "message.player.oob.block": "Tu ne peux pas poser de blocs aussi loin",
   "message.player.failed-bridge": "Raté ! vous avez placé %block% blocs.",
-  "message.player.succeed-bridge": "&aRéussi ! Vous gagnez 200xp et 50 hyris",
+  "message.player.succeed-pb": "&3&m-----------------------------------------------\n&r&6                   RECORD !             \n&rVous avez battu votre ancien record.\n&rVotre nouveau record est de %pb% secondes !\n&a                Récompenses:\n               &r- &d50 Hyris\n               &r- &375 XP\n&3&m-----------------------------------------------",
+  "message.player.failed-pb": "&3&m-----------------------------------------------\n&r&3               COURSE TERMINÉE !             \n&rVous avez fini la course en %time% secondes !\n&rVotre ancien record est de %pb% secondes.\n&a                Récompenses:\n               &r- &d50 Hyris\n               &r- &375 XP\n&3&m-----------------------------------------------",
   "message.player.already-on-the-server": "§cVous êtes déjà dans ce mode",
+
+  "title.player.ended-bridge": "&aBridge Réussi !",
+  "title.sub.player.pb": "&3Votre nouveau record est %pb%",
 
   "utils.days": "jours",
   "utils.hours": "heures",

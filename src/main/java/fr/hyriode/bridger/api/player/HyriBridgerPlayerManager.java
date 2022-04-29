@@ -7,6 +7,8 @@ import java.util.UUID;
 
 public class HyriBridgerPlayerManager {
 
+    public static String gameType;
+
     public HyriBridgerPlayerManager() {
     }
 
@@ -23,7 +25,7 @@ public class HyriBridgerPlayerManager {
         final IHyriPlayer hyriPlayer = HyriAPI.get().getPlayerManager().getPlayer(player.getUUID());
 
         hyriPlayer.addStatistics("bridger", player);
-        hyriPlayer.update();
+        HyriAPI.get().getPlayerManager().sendPlayer(hyriPlayer);
     }
 
 }

@@ -1,6 +1,5 @@
 package fr.hyriode.bridger.game.scoreboard;
 
-import fr.hyriode.bridger.api.player.HyriBridgerPlayer;
 import fr.hyriode.bridger.api.player.Medal;
 import fr.hyriode.bridger.game.BridgerGamePlayer;
 import fr.hyriode.hyrame.game.scoreboard.HyriGameScoreboard;
@@ -11,21 +10,18 @@ import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.function.Supplier;
 
 public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
 
     private final Bridger plugin;
     private final Player player;
     private final BridgerGamePlayer gamePlayer;
-    private final Supplier<HyriBridgerPlayer> accountSupplier;
 
     public HyriBridgerScoreboard(Bridger plugin, Player player) {
         super(plugin, plugin.getGame(), player, plugin.getGame().getName());
         this.plugin = plugin;
         this.player = player;
         this.gamePlayer = this.plugin.getGame().getPlayer(player);
-        this.accountSupplier = () -> this.plugin.getApi().getPlayerManager().getPlayer(this.player.getUniqueId());
 
         this.addLines();
     }
@@ -34,16 +30,16 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
         this.setLine(0, this.getDateLine(), line -> line.setValue(this.getDateLine()), 20*60);
         this.addBlankLine(1);
         this.setLine(2, ChatColor.AQUA + "" + ChatColor.BOLD + this.getValue("scoreboard.best-time"));
-        this.setLine(3, this.getBestTime(), line -> line.setValue(this.getBestTime()), 80);
+        this.setLine(3, this.getBestTime(), line -> line.setValue(this.getBestTime()), 20);
         this.setLine(4, this.getActualTime(), line -> line.setValue(this.getActualTime()), 1);
         this.addBlankLine(5);
         this.setLine(6, ChatColor.DARK_AQUA + this.getValue("scoreboard.top-3"));
-        this.setLine(7, this.getBestTimes(1), line -> line.setValue(this.getBestTimes(1)), 80);
-        this.setLine(8, this.getBestTimes(2), line -> line.setValue(this.getBestTimes(2)), 80);
-        this.setLine(9, this.getBestTimes(3), line -> line.setValue(this.getBestTimes(3)), 80);
+        this.setLine(7, this.getBestTimes(1), line -> line.setValue(this.getBestTimes(1)), 20);
+        this.setLine(8, this.getBestTimes(2), line -> line.setValue(this.getBestTimes(2)), 20);
+        this.setLine(9, this.getBestTimes(3), line -> line.setValue(this.getBestTimes(3)), 20);
         this.addBlankLine(10);
-        //this.setLine(11, this.getMedalLine(), line -> line.setValue(this.getMedalLine()), 80);
-        //this.addBlankLine(12);
+        this.setLine(11, this.getMedalLine(), line -> line.setValue(this.getMedalLine()), 20);
+        this.addBlankLine(12);
         this.addHostnameLine();
     }
 
@@ -52,8 +48,8 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
     }
 
     private String getBestTime() {
-        if(this.accountSupplier.get().getPersonalBest() != null) {
-            return ChatColor.YELLOW + this.accountSupplier.get().getPersonalBest().toFormattedTime();
+        if(this.gamePlayer.getPB() != null) {
+            return ChatColor.YELLOW + this.gamePlayer.getPB().toFormattedTime();
         }
         return ChatColor.GRAY + "-.---";
     }
@@ -75,11 +71,9 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
     }
 
     private String getMedalLine() {
-        final Medal actualMedal = this.gamePlayer.getHighestAcquiredMedalInThisGameType();
-        if(actualMedal != null) {
-            System.out.println("not null");
-            System.out.println("found : " + actualMedal.name());
-            return ChatColor.GOLD + this.getValue("scoreboard.medal.actual") + this.getValue(actualMedal.getLanguageValue());
+        final Medal medal = this.gamePlayer.getMedal();
+        if(medal != null) {
+            return ChatColor.GOLD + this.getValue("scoreboard.medal.actual") + this.getValue(medal.getLanguageValue());
         }else {
             return ChatColor.GOLD + this.getValue("scoreboard.medal.actual") + ChatColor.RED + "✘";
         }
