@@ -1,6 +1,7 @@
 package fr.hyriode.bridger.api;
 
 import fr.hyriode.bridger.api.player.HyriBridgerPlayerManager;
+
 public class HyriBridgerAPI {
 
     private final HyriBridgerPlayerManager playerManager;

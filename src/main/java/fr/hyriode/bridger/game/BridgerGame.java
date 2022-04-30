@@ -1,12 +1,14 @@
 package fr.hyriode.bridger.game;
 
 import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
+import fr.hyriode.api.HyriAPI;
 import fr.hyriode.api.util.Skin;
 import fr.hyriode.bridger.api.player.HyriBridgerPlayerManager;
 import fr.hyriode.hyrame.IHyrame;
 import fr.hyriode.hyrame.game.HyriGame;
 import fr.hyriode.hyrame.game.HyriGameState;
 import fr.hyriode.bridger.Bridger;
+import fr.hyriode.hyrame.game.HyriGameType;
 import fr.hyriode.hyrame.npc.NPCManager;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -25,9 +27,9 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
 
     public BridgerGame(IHyrame hyrame, Bridger plugin) {
         //dev:
-        super(hyrame, plugin, new BridgerGameInfo("bridger", "Bridger"), BridgerGamePlayer.class, BridgerGameType.SHORT);
+        //super(hyrame, plugin, new BridgerGameInfo("bridger", "Bridger"), BridgerGamePlayer.class, BridgerGameType.SHORT);
         //prod:
-        //super(hyrame, plugin, HyriAPI.get().getGameManager().getGameInfo("bridger"), BridgerGamePlayer.class, HyriGameType.getFromData(BridgerGameType.values()));
+        super(hyrame, plugin, HyriAPI.get().getGameManager().getGameInfo("bridger"), BridgerGamePlayer.class, HyriGameType.getFromData(BridgerGameType.values()));
         this.plugin = plugin;
         this.defaultStarting = false;
         this.setState(HyriGameState.READY);
@@ -38,8 +40,6 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
         for (int i = 0; i < 30; i++) {
             this.emplacements.add(false);
         }
-
-        HyriBridgerPlayerManager.gameType = this.getType().getName();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package fr.hyriode.bridger.game.scoreboard;
 
-import fr.hyriode.bridger.api.player.Medal;
+import fr.hyriode.bridger.api.Medal;
 import fr.hyriode.bridger.game.BridgerGamePlayer;
 import fr.hyriode.hyrame.game.scoreboard.HyriGameScoreboard;
 import fr.hyriode.bridger.Bridger;

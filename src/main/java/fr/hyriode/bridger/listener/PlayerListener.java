@@ -94,9 +94,4 @@ public class PlayerListener extends HyriListener<Bridger> {
     public void onPlayerTakeDamage(EntityDamageEvent event) {
         event.setCancelled(true);
     }
-
-    @EventHandler
-    public void onTimeChange() {
-
-    }
 }

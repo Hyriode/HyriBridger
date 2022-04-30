@@ -3,7 +3,7 @@ package fr.hyriode.bridger.game;
 import fr.hyriode.api.HyriAPI;
 import fr.hyriode.bridger.api.duration.HyriBridgerDuration;
 import fr.hyriode.bridger.api.player.HyriBridgerPlayer;
-import fr.hyriode.bridger.api.player.Medal;
+import fr.hyriode.bridger.api.Medal;
 import fr.hyriode.bridger.config.BridgerConfig;
 import fr.hyriode.bridger.game.timers.BridgerPlayedDuration;
 import fr.hyriode.bridger.gui.ChangeModeGUI;

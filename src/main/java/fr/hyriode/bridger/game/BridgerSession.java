@@ -157,17 +157,17 @@ public class BridgerSession {
         }
         if(i == 1) {
             if(this.scoreFirst != null) {
-                return ChatColor.GRAY + this.scoreFirst.getPlayer().getName() + ": " + ChatColor.YELLOW + this.scoreFirst.getDuration().toFormattedTime();
+                return ChatColor.GRAY + this.scoreFirst.getPlayer().getDisplayName() + ": " + ChatColor.YELLOW + this.scoreFirst.getDuration().toFormattedTime();
             }
             return returnString.toString();
         }else if(i == 2) {
             if(this.scoreSecond != null) {
-                return ChatColor.GRAY + this.scoreSecond.getPlayer().getName() + ": " + ChatColor.YELLOW + this.scoreSecond.getDuration().toFormattedTime();
+                return ChatColor.GRAY + this.scoreSecond.getPlayer().getDisplayName() + ": " + ChatColor.YELLOW + this.scoreSecond.getDuration().toFormattedTime();
             }
             return returnString.toString();
         }else {
             if (this.scoreThird != null) {
-                return ChatColor.GRAY + this.scoreThird.getPlayer().getName() + ": " + ChatColor.YELLOW + this.scoreThird.getDuration().toFormattedTime();
+                return ChatColor.GRAY + this.scoreThird.getPlayer().getDisplayName() + ": " + ChatColor.YELLOW + this.scoreThird.getDuration().toFormattedTime();
             }
             return returnString.toString();
         }

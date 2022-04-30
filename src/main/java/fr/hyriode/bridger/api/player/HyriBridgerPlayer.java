@@ -1,6 +1,7 @@
 package fr.hyriode.bridger.api.player;
 
 import fr.hyriode.api.player.HyriPlayerData;
+import fr.hyriode.bridger.api.Medal;
 import fr.hyriode.bridger.api.duration.HyriBridgerDuration;
 
 import java.util.UUID;

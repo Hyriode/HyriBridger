@@ -1,4 +1,4 @@
-package fr.hyriode.bridger.api.player;
+package fr.hyriode.bridger.api;
 
 public enum Medal {
 
@@ -32,9 +32,9 @@ public enum Medal {
     }
 
     public long getTimeToReach(String gameType) {
-        if(gameType.equals("short")) {
+        if(gameType.equalsIgnoreCase("short")) {
             return this.timeToReachShort;
-        }else if(gameType.equals("normal")) {
+        }else if(gameType.equalsIgnoreCase("normal")) {
             return this.timeToReachNormal;
         }else {
             return this.timeToReachDiagonal;

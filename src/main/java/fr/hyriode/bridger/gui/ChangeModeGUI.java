@@ -9,6 +9,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import java.util.Locale;
+
 public class ChangeModeGUI extends HyriInventory {
 
     private final Bridger plugin;
@@ -24,12 +26,12 @@ public class ChangeModeGUI extends HyriInventory {
         for (BridgerGameType type : BridgerGameType.values()) {
             if(!HyriAPI.get().getServer().getGameType().equalsIgnoreCase(BridgerGameType.NORMAL.getName())) {
                 this.setItem(i, new ItemBuilder(type.getItemstack())
-                    .withName(ChatColor.DARK_AQUA + this.getValue("gui.item." + type.getName()))
+                    .withName(ChatColor.DARK_AQUA + this.getValue("gui.item." + type.getDisplayName()))
                     .withLore(ChatColor.RESET + this.getValue("gui.lore.bridger-mode"))
                     .build(), event -> HyriAPI.get().getQueueManager().addPlayerInQueue(event.getWhoClicked().getUniqueId(), "bridger", type.getName()));
             }else {
                 this.setItem(i, new ItemBuilder(type.getItemstack())
-                        .withName(ChatColor.DARK_AQUA + this.getValue("gui.item." + type.getName()))
+                        .withName(ChatColor.DARK_AQUA + this.getValue("gui.item." + type.getDisplayName()))
                         .withLore(ChatColor.RESET + this.getValue("gui.lore.bridger-mode-selected"))
                         .withGlow()
                         .build());

@@ -7,8 +7,6 @@ import java.util.UUID;
 
 public class HyriBridgerPlayerManager {
 
-    public static String gameType;
-
     public HyriBridgerPlayerManager() {
     }
 
