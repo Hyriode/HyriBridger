@@ -16,7 +16,7 @@ public class BridgerSession {
         if(this.scoreFirst == null) {
             debugCode.append("0");
             this.scoreFirst = new BridgerScore(duration, player);
-            player.sendMessage(debugCode.toString());
+            //player.sendMessage(debugCode.toString());
             return;
         }
         if(this.scoreSecond == null) {
@@ -38,7 +38,7 @@ public class BridgerSession {
                     this.scoreSecond = new BridgerScore(duration, player);
                 }
             }
-            player.sendMessage(debugCode.toString());
+            //player.sendMessage(debugCode.toString());
             return;
         }
         if(this.scoreThird == null) {
@@ -71,7 +71,7 @@ public class BridgerSession {
                     this.scoreThird = new BridgerScore(duration, player);
                 }
             }
-            player.sendMessage(debugCode.toString());
+            //player.sendMessage(debugCode.toString());
             return;
         }
         if(duration.getExactTime() < this.scoreThird.getDuration().getExactTime()) {
@@ -126,7 +126,7 @@ public class BridgerSession {
                 }
             }
         }
-        player.sendMessage(debugCode.toString());
+        //player.sendMessage(debugCode.toString());
     }
 
     public void removeScoresOf(Player player) {
@@ -151,7 +151,7 @@ public class BridgerSession {
     }
 
     public String getFormattedTop(int i) {
-        StringBuilder returnString = new StringBuilder(ChatColor.GRAY + "none:" + ChatColor.YELLOW + " 0.000");
+        StringBuilder returnString = new StringBuilder(ChatColor.GRAY + "*****:" + ChatColor.YELLOW + " -.---");
         for (int i1 = 0; i1 < i; i1++) {
             returnString.append(" ");
         }
@@ -160,16 +160,16 @@ public class BridgerSession {
                 return ChatColor.GRAY + this.scoreFirst.getPlayer().getDisplayName() + ": " + ChatColor.YELLOW + this.scoreFirst.getDuration().toFormattedTime();
             }
             return returnString.toString();
-        }else if(i == 2) {
+        }
+        if(i == 2) {
             if(this.scoreSecond != null) {
                 return ChatColor.GRAY + this.scoreSecond.getPlayer().getDisplayName() + ": " + ChatColor.YELLOW + this.scoreSecond.getDuration().toFormattedTime();
             }
             return returnString.toString();
-        }else {
-            if (this.scoreThird != null) {
-                return ChatColor.GRAY + this.scoreThird.getPlayer().getDisplayName() + ": " + ChatColor.YELLOW + this.scoreThird.getDuration().toFormattedTime();
-            }
-            return returnString.toString();
         }
+        if (this.scoreThird != null) {
+            return ChatColor.GRAY + this.scoreThird.getPlayer().getDisplayName() + ": " + ChatColor.YELLOW + this.scoreThird.getDuration().toFormattedTime();
+        }
+        return returnString.toString();
     }
 }

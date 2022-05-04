@@ -1,6 +1,7 @@
 package fr.hyriode.bridger.game;
 
 import fr.hyriode.api.HyriAPI;
+import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.bridger.api.duration.HyriBridgerDuration;
 import fr.hyriode.bridger.api.player.HyriBridgerPlayer;
 import fr.hyriode.bridger.api.Medal;
@@ -39,7 +40,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     private BridgerTimer actualTimer;
     private boolean isBridging;
     private HyriBridgerScoreboard scoreboard;
-    private final List<Location> placedBlocks;
+    private List<Location> placedBlocks;
     private Area gameArea;
     private Location hologramLocation;
     private Location npcLocation;
@@ -104,10 +105,9 @@ public class BridgerGamePlayer extends HyriGamePlayer {
                 .withEnchant(Enchantment.DIG_SPEED, 2)
                 .unbreakable()
                 .build());
-        if(!this.placedBlocks.isEmpty()) {
-            this.deletePlacedBlocks();
-        }
-        this.placedBlocks.clear();
+
+        this.deletePlacedBlocks();
+        this.placedBlocks = new ArrayList<>();
     }
 
     public void startBridging() {
@@ -119,7 +119,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         this.endTimer();
         this.isBridging = false;
 
-        if(success) {
+        if(success && this.placedBlocks.size() > 20) {
             if((this.actualPB == null || this.actualPB.getExactTime() > this.actualTimer.getFinalTime()) && (this.oldPB == null || this.oldPB.getExactTime() > this.actualTimer.getFinalTime())) {
                 this.successPersonalBest();
             }else {
@@ -128,12 +128,15 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
             this.plugin.getGame().getSession().add(this.player, this.actualTimer.toFinalDuration());
 
-            HyriAPI.get().getPlayerManager().getPlayer(this.player.getUniqueId()).getHyris().add(50, false);
-            HyriAPI.get().getPlayerManager().getPlayer(this.player.getUniqueId()).getNetworkLeveling().addExperience(75);
+            IHyriPlayer hyriPlayer = HyriAPI.get().getPlayerManager().getPlayer(this.player.getUniqueId());
+            hyriPlayer.getHyris().add(50, false);
+            hyriPlayer.getNetworkLeveling().addExperience(75);
+
+            hyriPlayer.update();
             this.addActualMadeBridges(1);
         }else {
-            this.player.sendMessage(ChatColor.RED + this.getValue("message.player.failed-bridge")
-                    .replace("%block%", String.valueOf(this.placedBlocks.size())));
+            new ActionBar(ChatColor.RED + this.getValue("message.player.failed-bridge")
+                    .replace("%block%", String.valueOf(this.placedBlocks.size()-1))).send(this.player);
             this.addActualFailedBridges(1);
         }
 
@@ -178,14 +181,16 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     private void deletePlacedBlocks() {
-        for (Location placedBlock : placedBlocks) {
-            if(placedBlocks.size() < 50) {
+        if(placedBlocks.size() < 30) {
+            for (Location placedBlock : placedBlocks) {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, () -> {
                     if(placedBlock.getBlock().getType() != Material.AIR) {
                         placedBlock.getBlock().setType(Material.AIR);
                     }
                 }, this.placedBlocks.indexOf(placedBlock));
-            }else {
+            }
+        }else {
+            for (Location placedBlock : placedBlocks) {
                 if(placedBlock.getBlock().getType() != Material.AIR) {
                     placedBlock.getBlock().setType(Material.AIR);
                 }
@@ -197,21 +202,21 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         HyriBridgerPlayer account = this.plugin.getApi().getPlayerManager().getPlayer(this.getUUID());
 
         if(this.actualPB != null) {
-            if(this.game.getType().equals(BridgerGameType.SHORT)) {
+            if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.SHORT.getName())) {
                 account.setPersonalShortBest(this.actualPB);
-            }else if(this.game.getType().equals(BridgerGameType.NORMAL)) {
+            }else if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.NORMAL.getName())) {
                 account.setPersonalNormalBest(this.actualPB);
-            }else if(this.game.getType().equals(BridgerGameType.DIAGONAL)) {
+            }else if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.DIAGONAL.getName())) {
                 account.setPersonalDiagonalBest(this.actualPB);
             }
         }
 
         if(this.actualMedal != null) {
-            if(this.game.getType().equals(BridgerGameType.SHORT)) {
+            if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.SHORT.getName())) {
                 account.setHighestAcquiredShortMedal(this.actualMedal);
-            }else if(this.game.getType().equals(BridgerGameType.NORMAL)) {
+            }else if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.NORMAL.getName())) {
                 account.setHighestAcquiredNormalMedal(this.actualMedal);
-            }else if(this.game.getType().equals(BridgerGameType.DIAGONAL)) {
+            }else if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.DIAGONAL.getName())) {
                 account.setHighestAcquiredDiagonalMedal(this.actualMedal);
             }
         }
@@ -288,7 +293,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     private Location calculateLocationForThisPlayer(Location location) {
-        BridgerConfig config = plugin.getConfiguration();
+        BridgerConfig config = this.plugin.getConfiguration();
         Location diff = config.getDiffBetweenIslands().asBukkit();
         Location forFirstIsland = location.clone();
         return forFirstIsland.add(diff.getX() * playerNumber, diff.getY() * playerNumber, diff.getZ() * playerNumber);

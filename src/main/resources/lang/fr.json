@@ -31,8 +31,8 @@
 
   "message.player.oob.block": "Tu ne peux pas poser de blocs aussi loin",
   "message.player.failed-bridge": "Raté ! vous avez placé %block% blocs.",
-  "message.player.succeed-pb": "&3&m-----------------------------------------------\n&r&6                   RECORD !             \n&rVous avez battu votre ancien record.\n&rVotre nouveau record est de %pb% secondes !\n&a                Récompenses:\n               &r- &d50 Hyris\n               &r- &375 XP\n&3&m-----------------------------------------------",
-  "message.player.failed-pb": "&3&m-----------------------------------------------\n&r&3               COURSE TERMINÉE !             \n&rVous avez fini la course en %time% secondes !\n&rVotre ancien record est de %pb% secondes.\n&a                Récompenses:\n               &r- &d50 Hyris\n               &r- &375 XP\n&3&m-----------------------------------------------",
+  "message.player.succeed-pb": "&3&m-----------------------------------------------\n&r&6&l                  RECORD !             \n&rVous avez battu votre ancien record.\n&rVotre nouveau record est de %pb% secondes !\n&a&l                Récompenses :\n               &r- &d50 Hyris\n               &r- &375 XP\n&3&m-----------------------------------------------",
+  "message.player.failed-pb": "&3&m-----------------------------------------------\n&r&b&l               COURSE TERMINÉE !             \n&rVous avez fini la course en %time% secondes !\n&rVotre ancien record est de %pb% secondes.\n&a&l                Récompenses :\n               &r- &d50 Hyris\n               &r- &375 XP\n&3&m-----------------------------------------------",
   "message.player.already-on-the-server": "§cVous êtes déjà dans ce mode",
 
   "title.player.ended-bridge": "&aBridge Réussi !",

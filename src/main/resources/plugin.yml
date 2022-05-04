@@ -1,5 +1,5 @@
 main: fr.hyriode.bridger.Bridger
 version: @version@
-name: bridger
+name: Bridger
 author: Calyx
 depend: [Hyrame]

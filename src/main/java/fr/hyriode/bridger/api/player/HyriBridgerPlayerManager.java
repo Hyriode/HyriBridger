@@ -23,7 +23,7 @@ public class HyriBridgerPlayerManager {
         final IHyriPlayer hyriPlayer = HyriAPI.get().getPlayerManager().getPlayer(player.getUUID());
 
         hyriPlayer.addStatistics("bridger", player);
-        HyriAPI.get().getPlayerManager().sendPlayer(hyriPlayer);
+        hyriPlayer.update();
     }
 
 }

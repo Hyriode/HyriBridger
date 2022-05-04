@@ -31,8 +31,8 @@
 
   "message.player.oob.block": "You can't place blocks that far",
   "message.player.failed-bridge": "Failed ! You placed %block% blocks.",
-  "message.player.succeed-pb": "&3&m-----------------------------------------------\n&r&6                PERSONAL BEST!             \n&rYou beat your old personal best.\n&rYour new record is of %pb% seconds!\n&a                   Rewards:\n               &r- &d50 Hyris\n         &r- &375XP\n&3&m-----------------------------------------------",
-  "message.player.failed-pb": "&3&m-----------------------------------------------\n&r&3                 BRIDGE ENDED!             \n&rYou ended the bridge in %time% seconds!\n&rYour old record is of %pb% seconds.\n&a                Récompenses:\n               &r- &d50 Hyris\n         &r- &375XP\n&3&m-----------------------------------------------",
+  "message.player.succeed-pb": "&3&m-----------------------------------------------\n&r&6&l                PERSONAL BEST!             \n&rYou beat your old personal best.\n&rYour new record is of %pb% seconds!\n&a&l                   Rewards :\n               &r- &d50 Hyris\n         &r- &375XP\n&3&m-----------------------------------------------",
+  "message.player.failed-pb": "&3&m-----------------------------------------------\n&r&b&l                 BRIDGE ENDED!             \n&rYou ended the bridge in %time% seconds!\n&rYour old record is of %pb% seconds.\n&a&l                Rewards :\n               &r- &d50 Hyris\n         &r- &375XP\n&3&m-----------------------------------------------",
 
   "message.player.already-on-the-server": "§cYou are already in this mode",
   "message.player.pb": "You made a personal best",

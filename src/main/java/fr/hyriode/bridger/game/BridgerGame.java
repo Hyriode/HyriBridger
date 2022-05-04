@@ -3,16 +3,15 @@ package fr.hyriode.bridger.game;
 import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
 import fr.hyriode.api.HyriAPI;
 import fr.hyriode.api.util.Skin;
-import fr.hyriode.bridger.api.player.HyriBridgerPlayerManager;
 import fr.hyriode.hyrame.IHyrame;
 import fr.hyriode.hyrame.game.HyriGame;
 import fr.hyriode.hyrame.game.HyriGameState;
 import fr.hyriode.bridger.Bridger;
 import fr.hyriode.hyrame.game.HyriGameType;
 import fr.hyriode.hyrame.npc.NPCManager;
+import fr.hyriode.hyrame.utils.PlayerUtil;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 import java.util.*;
 
@@ -46,22 +45,16 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
     public void handleLogin(Player player) {
         super.handleLogin(player);
 
-        player.getInventory().setArmorContents(null);
-        player.getInventory().clear();
+        PlayerUtil.resetPlayer(player, true);
         player.setGameMode(GameMode.SURVIVAL);
-        player.setFoodLevel(20);
-        player.setHealth(20);
-        player.setLevel(0);
-        player.setExp(0.0F);
-        player.setVelocity(new Vector(0, 0, 0));
         player.setCanPickupItems(false);
+
         player.teleport(this.plugin.getConfiguration().getSpawnLocationOnFirstIsland().asBukkit());
 
-        final UUID uuid = player.getUniqueId();
         final BridgerGamePlayer gamePlayer;
 
-        if(this.getPlayer(uuid) != null) {
-             gamePlayer = this.getPlayer(uuid);
+        if(this.getPlayer(player.getUniqueId()) != null) {
+             gamePlayer = this.getPlayer(player.getUniqueId());
         }else {
             gamePlayer = new BridgerGamePlayer(this, player);
         }
@@ -76,10 +69,10 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
         if(this.getPlayer(player).isBridging()) {
             this.getPlayer(player).endBridging(false);
         }
+        this.getPlayer(player).sendPlayerStats();
         NPCManager.removeNPC(this.getPlayer(player).getNPC());
         this.session.removeScoresOf(player);
         this.emplacements.set(this.getPlayer(player).getPlayerNumber(), false);
-        this.getPlayer(player).sendPlayerStats();
         super.handleLogout(player);
     }
 
@@ -100,6 +93,5 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
     public List<Boolean> getEmplacements() {
         return emplacements;
     }
-
 
 }
