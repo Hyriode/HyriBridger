@@ -13,7 +13,7 @@ public enum BridgerGameType implements HyriGameType {
 
     SHORT("SHORT","Short", 1, 30, new ItemStack(Material.STONE_SLAB2, 1)),
     NORMAL("NORMAL", "Normal", 1, 30, new ItemStack(Material.SANDSTONE)),
-    DIAGONAL("DIAGONAL", "Diagonal", 1, 30, new ItemStack(Material.SANDSTONE_STAIRS)),
+    //DIAGONAL("DIAGONAL", "Diagonal", 1, 30, new ItemStack(Material.SANDSTONE_STAIRS)),
     ;
 
     private final String name;

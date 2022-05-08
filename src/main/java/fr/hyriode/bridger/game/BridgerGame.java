@@ -8,9 +8,7 @@ import fr.hyriode.hyrame.game.HyriGame;
 import fr.hyriode.hyrame.game.HyriGameState;
 import fr.hyriode.bridger.Bridger;
 import fr.hyriode.hyrame.game.HyriGameType;
-import fr.hyriode.hyrame.npc.NPCManager;
-import fr.hyriode.hyrame.utils.PlayerUtil;
-import org.bukkit.GameMode;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -26,9 +24,10 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
 
     public BridgerGame(IHyrame hyrame, Bridger plugin) {
         //dev:
-        //super(hyrame, plugin, new BridgerGameInfo("bridger", "Bridger"), BridgerGamePlayer.class, BridgerGameType.SHORT);
+        super(hyrame, plugin, new BridgerGameInfo("bridger", "Bridger"), BridgerGamePlayer.class, BridgerGameType.SHORT);
         //prod:
-        super(hyrame, plugin, HyriAPI.get().getGameManager().getGameInfo("bridger"), BridgerGamePlayer.class, HyriGameType.getFromData(BridgerGameType.values()));
+        //super(hyrame, plugin, HyriAPI.get().getGameManager().getGameInfo("bridger"), BridgerGamePlayer.class, HyriGameType.getFromData(BridgerGameType.values()));
+
         this.plugin = plugin;
         this.defaultStarting = false;
         this.setState(HyriGameState.READY);
@@ -45,35 +44,34 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
     public void handleLogin(Player player) {
         super.handleLogin(player);
 
-        PlayerUtil.resetPlayer(player, true);
-        player.setGameMode(GameMode.SURVIVAL);
-        player.setCanPickupItems(false);
-
-        player.teleport(this.plugin.getConfiguration().getSpawnLocationOnFirstIsland().asBukkit());
-
-        final BridgerGamePlayer gamePlayer;
-
-        if(this.getPlayer(player.getUniqueId()) != null) {
-             gamePlayer = this.getPlayer(player.getUniqueId());
-        }else {
-            gamePlayer = new BridgerGamePlayer(this, player);
-        }
-
+        BridgerGamePlayer gamePlayer = this.getPlayer(player);
         gamePlayer.init(this.plugin, this.getFirstEmplacementEmptyAndTakeIt());
-
-        gamePlayer.setConnectionTime();
     }
 
     @Override
     public void handleLogout(Player player) {
-        if(this.getPlayer(player).isBridging()) {
-            this.getPlayer(player).endBridging(false);
+        this.handleBridgerLogout(player);
+        super.handleLogout(player);
+    }
+
+    private void handleBridgerLogout(Player player) {
+        BridgerGamePlayer gamePlayer = this.getPlayer(player);
+        if(gamePlayer.isBridging()) {
+            gamePlayer.endBridging(false);
         }
-        this.getPlayer(player).sendPlayerStats();
-        NPCManager.removeNPC(this.getPlayer(player).getNPC());
+
+        gamePlayer.sendPlayerStats();
+        gamePlayer.deleteHologram();
+        gamePlayer.deleteNPC();
+
         this.session.removeScoresOf(player);
         this.emplacements.set(this.getPlayer(player).getPlayerNumber(), false);
-        super.handleLogout(player);
+
+        if(!gamePlayer.getWatchers().isEmpty()) {
+            for (BridgerGamePlayer watcher : gamePlayer.getWatchers()) {
+                watcher.setPlayerNumber(this.getFirstEmplacementEmptyAndTakeIt());
+            }
+        }
     }
 
     public int getFirstEmplacementEmptyAndTakeIt() {

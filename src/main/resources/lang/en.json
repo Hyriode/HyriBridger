@@ -33,9 +33,10 @@
   "message.player.failed-bridge": "Failed ! You placed %block% blocks.",
   "message.player.succeed-pb": "&3&m-----------------------------------------------\n&r&6&l                PERSONAL BEST!             \n&rYou beat your old personal best.\n&rYour new record is of %pb% seconds!\n&a&l                   Rewards :\n               &r- &d50 Hyris\n         &r- &375XP\n&3&m-----------------------------------------------",
   "message.player.failed-pb": "&3&m-----------------------------------------------\n&r&b&l                 BRIDGE ENDED!             \n&rYou ended the bridge in %time% seconds!\n&rYour old record is of %pb% seconds.\n&a&l                Rewards :\n               &r- &d50 Hyris\n         &r- &375XP\n&3&m-----------------------------------------------",
-
   "message.player.already-on-the-server": "§cYou are already in this mode",
   "message.player.pb": "You made a personal best",
+  "message.player.cant-spectate": "You can't spectate you yourself",
+  "message.player.cant-spectate-2": "You can't spectate a spectator",
 
   "utils.days": "days",
   "utils.hours": "hours",

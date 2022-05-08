@@ -3,9 +3,10 @@ package fr.hyriode.bridger.game;
 import fr.hyriode.api.HyriAPI;
 import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.bridger.api.duration.HyriBridgerDuration;
-import fr.hyriode.bridger.api.player.HyriBridgerPlayer;
+import fr.hyriode.bridger.api.player.HyriBridgerStats;
 import fr.hyriode.bridger.api.Medal;
 import fr.hyriode.bridger.config.BridgerConfig;
+import fr.hyriode.bridger.game.blocks.BridgerBlock;
 import fr.hyriode.bridger.game.timers.BridgerPlayedDuration;
 import fr.hyriode.bridger.gui.ChangeModeGUI;
 import fr.hyriode.hyrame.actionbar.ActionBar;
@@ -20,6 +21,7 @@ import fr.hyriode.hyrame.npc.NPC;
 import fr.hyriode.hyrame.npc.NPCManager;
 import fr.hyriode.hyrame.title.Title;
 import fr.hyriode.hyrame.utils.Area;
+import fr.hyriode.hyrame.utils.PlayerUtil;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -29,14 +31,20 @@ import org.bukkit.scheduler.BukkitTask;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class BridgerGamePlayer extends HyriGamePlayer {
 
     private Bridger plugin;
     private int playerNumber;
+
+    private List<BridgerGamePlayer> watchers;
+    private boolean isSpec;
+    private BridgerGamePlayer watchedPlayer;
+
     private Location spawn;
-    private Material blockType;
+    private BridgerBlock actualBlock;
+    private ItemStack actualItemStack;
+
     private BridgerTimer actualTimer;
     private boolean isBridging;
     private HyriBridgerScoreboard scoreboard;
@@ -46,6 +54,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     private Location npcLocation;
     private Hologram hologram;
     private NPC npc;
+    private HyriBridgerStats oldAccount;
 
     private HyriBridgerDuration oldPB;
     private Medal oldMedal;
@@ -59,48 +68,77 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     private long actualPlacedBlocks;
     private long actualMadeBridges;
     private long actualFailedBridges;
-    private final long connexionTime;
-
-    private Supplier<HyriBridgerPlayer> accountSupplier;
+    private long connectionTime;
 
     public BridgerGamePlayer(HyriGame<?> game, Player player) {
         super(game, player);
-        this.actualPlacedBlocks = 0;
-        this.actualMadeBridges = 0;
-        this.actualFailedBridges = 0;
-        this.connexionTime = System.currentTimeMillis();
-        this.placedBlocks = new ArrayList<>();
+    }
+
+    public void initSpec(Bridger plugin, BridgerGamePlayer watchedPlayer) {
+        this.plugin = plugin;
+        this.isSpec = true;
+        this.watchedPlayer = watchedPlayer;
+        this.watchers = new ArrayList<>();
+
+        this.oldAccount =  HyriBridgerStats.get(this.player.getUniqueId());
+
+        this.watchedPlayer.addWatcher(watchedPlayer);
+        PlayerUtil.addSpectatorAbilities(this.player);
+        PlayerUtil.hidePlayer(this.player,false);
+
+        this.deleteNPC();
+        this.deleteHologram();
+
+        this.player.setGameMode(GameMode.SPECTATOR);
+        this.player.teleport(this.watchedPlayer.player);
     }
 
     public void init(Bridger plugin, int playerNumber) {
+        this.actualBlock = BridgerBlock.getById(0);
+
         this.plugin = plugin;
-        this.accountSupplier = () -> this.plugin.getApi().getPlayerManager().getPlayer(this.player.getUniqueId());
+        this.isSpec = false;
         this.playerNumber = playerNumber;
+        this.watchers = new ArrayList<>();
 
-        this.spawn = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getSpawnLocationOnFirstIsland().asBukkit());
-        this.hologramLocation = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getHologramLocationOnFirstIsland().asBukkit());
-        this.npcLocation = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getNpcLocationOnFirstIsland().asBukkit());
+        this.oldAccount = HyriBridgerStats.get(this.player.getUniqueId());
 
-        this.blockType = Material.SANDSTONE;
-        this.setupScoreboard();
-        this.setupNPC();
-
-        this.spawnPlayer();
-        this.gameArea = new Area(this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getGameAreaOnFirstIslandFirst().asBukkit()),this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getGameAreaOnFirstIslandSecond().asBukkit()));
-
+        //Setup new stats
+        this.actualPlacedBlocks = 0;
+        this.actualMadeBridges = 0;
+        this.actualFailedBridges = 0;
+        this.connectionTime = System.currentTimeMillis();
+        this.placedBlocks = new ArrayList<>();
+        //Setup old stats
         this.oldPB = this.getOldPB();
         this.oldMedal = this.getOldMedal();
-        this.oldPlacedBlocks = this.accountSupplier.get().getBlocksPlaced();
-        this.oldMadeBridges = this.accountSupplier.get().getBridgesMade();
-        this.oldFailedBridges = this.accountSupplier.get().getBridgeFailed();
-        this.playedTime = this.accountSupplier.get().getPlayedTimeInMs();
+        this.oldPlacedBlocks = this.oldAccount.getBlocksPlaced();
+        this.oldMadeBridges = this.oldAccount.getBridgesMade();
+        this.oldFailedBridges = this.oldAccount.getBridgeFailed();
+        this.playedTime = this.oldAccount.getPlayedTimeInMs();
+        //Setup config
+        this.spawn = this.calculateLocationForThisPlayer(new Location(Bukkit.getWorld("world"), 0.5, 100, 0.5, 180F, 0F));
+        this.hologramLocation = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getHologramLocationOnFirstIsland().asBukkit());
+        this.npcLocation = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getNpcLocationOnFirstIsland().asBukkit());
+        this.gameArea = new Area(this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getGameAreaOnFirstIslandFirst().asBukkit()),this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getGameAreaOnFirstIslandSecond().asBukkit()));
+         //Setup game
+        this.actualItemStack = new ItemStack(this.actualBlock.getMaterial(), 64*9, this.actualBlock.getMeta());
+        this.setupScoreboard();
+        this.setupNPC();
         this.refreshHologram();
+        //Reset player
+        PlayerUtil.resetPlayer(this.player, true);
+        PlayerUtil.showPlayer(this.player);
+        this.player.setGameMode(GameMode.SURVIVAL);
+        this.player.setCanPickupItems(false);
+        //Spawn player
+        this.spawnPlayer();
     }
 
     public void spawnPlayer() {
         this.player.teleport(this.spawn);
         this.player.getInventory().clear();
-        this.player.getInventory().addItem(new ItemStack(blockType, 64*9));
+        this.player.getInventory().addItem(this.actualItemStack);
         this.player.getInventory().setItem(3, new ItemBuilder(Material.IRON_PICKAXE)
                 .withEnchant(Enchantment.DIG_SPEED, 2)
                 .unbreakable()
@@ -115,11 +153,23 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         this.isBridging = true;
     }
 
+    private void startTimer() {
+        BukkitTask bukkitTask = Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, () -> {
+            if(actualTimer.getActualTime() > Duration.ofHours(10).toMillis()-1) {
+                this.endBridging(false);
+            }else {
+                new ActionBar(ChatColor.DARK_AQUA + actualTimer.getFormattedActualTime()).send(player);
+            }
+        }, 1, 0);
+        this.actualTimer = new BridgerTimer(bukkitTask);
+        this.actualTimer.start();
+    }
+
     public void endBridging(boolean success) {
         this.endTimer();
         this.isBridging = false;
 
-        if(success && this.placedBlocks.size() > 20) {
+        if(success && this.placedBlocks.size() > 20 && this.getActualTimer().getActualTime() > 3000) {
             if((this.actualPB == null || this.actualPB.getExactTime() > this.actualTimer.getFinalTime()) && (this.oldPB == null || this.oldPB.getExactTime() > this.actualTimer.getFinalTime())) {
                 this.successPersonalBest();
             }else {
@@ -129,7 +179,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
             this.plugin.getGame().getSession().add(this.player, this.actualTimer.toFinalDuration());
 
             IHyriPlayer hyriPlayer = HyriAPI.get().getPlayerManager().getPlayer(this.player.getUniqueId());
-            hyriPlayer.getHyris().add(50, false);
+            hyriPlayer.getHyris().add(50).exec();
             hyriPlayer.getNetworkLeveling().addExperience(75);
 
             hyriPlayer.update();
@@ -143,6 +193,11 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         this.deletePlacedBlocks();
         this.refreshHologram();
         this.spawnPlayer();
+    }
+
+    private void endTimer() {
+        this.actualTimer.getLinkedTask().cancel();
+        this.actualTimer.end();
     }
 
     private void successPersonalBest() {
@@ -183,9 +238,12 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     private void deletePlacedBlocks() {
         if(placedBlocks.size() < 30) {
             for (Location placedBlock : placedBlocks) {
-                Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, () -> {
-                    if(placedBlock.getBlock().getType() != Material.AIR) {
-                        placedBlock.getBlock().setType(Material.AIR);
+                Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        if(!placedBlock.getBlock().getType().equals(Material.AIR)) {
+                            placedBlock.getBlock().setType(Material.AIR);
+                        }
                     }
                 }, this.placedBlocks.indexOf(placedBlock));
             }
@@ -198,54 +256,6 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         }
     }
 
-    public void sendPlayerStats() {
-        HyriBridgerPlayer account = this.plugin.getApi().getPlayerManager().getPlayer(this.getUUID());
-
-        if(this.actualPB != null) {
-            if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.SHORT.getName())) {
-                account.setPersonalShortBest(this.actualPB);
-            }else if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.NORMAL.getName())) {
-                account.setPersonalNormalBest(this.actualPB);
-            }else if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.DIAGONAL.getName())) {
-                account.setPersonalDiagonalBest(this.actualPB);
-            }
-        }
-
-        if(this.actualMedal != null) {
-            if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.SHORT.getName())) {
-                account.setHighestAcquiredShortMedal(this.actualMedal);
-            }else if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.NORMAL.getName())) {
-                account.setHighestAcquiredNormalMedal(this.actualMedal);
-            }else if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.DIAGONAL.getName())) {
-                account.setHighestAcquiredDiagonalMedal(this.actualMedal);
-            }
-        }
-
-        account.addBlocksPlaced(this.actualPlacedBlocks);
-        account.addBridgesMade(this.actualMadeBridges);
-        account.addBridgeFailed(this.actualFailedBridges);
-        account.addPlayedTimeInMs(System.currentTimeMillis() - this.connexionTime);
-
-        this.plugin.getApi().getPlayerManager().sendPlayer(account);
-    }
-
-    private void startTimer() {
-        BukkitTask bukkitTask = Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, () -> {
-            if(actualTimer.getActualTime() > 1000000-1) {
-                this.endBridging(false);
-            }else {
-                new ActionBar(ChatColor.DARK_AQUA + actualTimer.getFormattedActualTime()).send(player);
-            }
-        }, 1, 0);
-        this.actualTimer = new BridgerTimer(bukkitTask);
-        this.actualTimer.start();
-    }
-
-    private void endTimer() {
-        this.actualTimer.getLinkedTask().cancel();
-        this.actualTimer.end();
-    }
-
     private void setupScoreboard() {
         if(this.scoreboard != null) {
             this.scoreboard.hide();
@@ -254,29 +264,36 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         this.scoreboard.show();
     }
 
-    private void refreshHologram() {
+    public void deleteHologram() {
         if(this.hologram != null) {
             this.hologram.removeReceiver(player);
             this.hologram.destroy();
         }
+    }
+
+    private void refreshHologram() {
+        this.deleteHologram();
         this.hologram = new Hologram.Builder(this.plugin, this.hologramLocation)
                 .withLine(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + this.getValue("hologram.stats"))
                 .withLine(ChatColor.AQUA + this.getValue("scoreboard.medal.actual") + (this.getMedal() != null ? this.getValue(this.getMedal().getLanguageValue()) : ChatColor.RED + "✘"))
                 .withLine(ChatColor.AQUA + this.getValue("hologram.placed-blocks") + ChatColor.YELLOW + (this.oldPlacedBlocks + this.actualPlacedBlocks))
                 .withLine(ChatColor.AQUA + this.getValue("hologram.made-bridges") + ChatColor.YELLOW + (this.oldMadeBridges + this.actualMadeBridges))
                 .withLine(ChatColor.AQUA + this.getValue("hologram.failed-bridged") + ChatColor.YELLOW + (this.oldFailedBridges + this.actualFailedBridges))
-                .withLine(ChatColor.AQUA + this.getValue("hologram.played-time") + ChatColor.YELLOW + new BridgerPlayedDuration(Duration.ofMillis(this.playedTime + (System.currentTimeMillis() - this.connexionTime)), this.player).toFormattedTime())
+                .withLine(ChatColor.AQUA + this.getValue("hologram.played-time") + ChatColor.YELLOW + new BridgerPlayedDuration(Duration.ofMillis(this.playedTime + (System.currentTimeMillis() - this.connectionTime)), this.player).toFormattedTime())
                 .build();
         this.hologram.setLocation(this.hologramLocation);
         this.hologram.addReceiver(this.player);
         this.hologram.sendLines();
     }
 
-    public void setupNPC() {
+    public void deleteNPC() {
         if(this.npc != null) {
             NPCManager.removeNPC(this.npc);
         }
+    }
 
+    private void setupNPC() {
+        this.deleteNPC();
         List<String> npcHolo = new ArrayList<>();
         npcHolo.add(this.getValue("npc.name"));
         npcHolo.add(this.getValue("npc.lore"));
@@ -289,7 +306,39 @@ public class BridgerGamePlayer extends HyriGamePlayer {
                 .setInteractCallback((rightClick, clicker) -> {
                     if (rightClick) new ChangeModeGUI(this.plugin, clicker).open();
                 });
+
         NPCManager.sendNPC(this.npc);
+    }
+
+    public void sendPlayerStats() {
+        HyriBridgerStats account = HyriBridgerStats.get(this.player.getUniqueId());
+
+        if(this.actualPB != null) {
+            if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.SHORT.getName())) {
+                account.setPersonalShortBest(this.actualPB);
+            }else if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.NORMAL.getName())) {
+                account.setPersonalNormalBest(this.actualPB);
+            }/*else if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.DIAGONAL.getName())) {
+                account.setPersonalDiagonalBest(this.actualPB);
+            }*/
+        }
+
+        if(this.actualMedal != null) {
+            if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.SHORT.getName())) {
+                account.setHighestAcquiredShortMedal(this.actualMedal);
+            }else if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.NORMAL.getName())) {
+                account.setHighestAcquiredNormalMedal(this.actualMedal);
+            }/*else if(this.game.getType().getName().equalsIgnoreCase(BridgerGameType.DIAGONAL.getName())) {
+                account.setHighestAcquiredDiagonalMedal(this.actualMedal);
+            }*/
+        }
+
+        account.addBlocksPlaced(this.actualPlacedBlocks);
+        account.addBridgesMade(this.actualMadeBridges);
+        account.addBridgeFailed(this.actualFailedBridges);
+        account.addPlayedTimeInMs(System.currentTimeMillis() - this.connectionTime);
+
+        account.update(this.player.getUniqueId());
     }
 
     private Location calculateLocationForThisPlayer(Location location) {
@@ -299,69 +348,9 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         return forFirstIsland.add(diff.getX() * playerNumber, diff.getY() * playerNumber, diff.getZ() * playerNumber);
     }
 
-    private HyriBridgerDuration getOldPB() {
-        if(this.game.getType().equals(BridgerGameType.SHORT)) {
-            return this.accountSupplier.get().getPersonalShortBest();
-        }
-        if(this.game.getType().equals(BridgerGameType.NORMAL)) {
-            return this.accountSupplier.get().getPersonalNormalBest();
-        }
-        return this.accountSupplier.get().getPersonalDiagonalBest();
-    }
-
-    private Medal getOldMedal() {
-        if(this.game.getType().equals(BridgerGameType.SHORT)) {
-            return this.accountSupplier.get().getHighestAcquiredShortMedal();
-        }
-        if(this.game.getType().equals(BridgerGameType.NORMAL)) {
-            return this.accountSupplier.get().getHighestAcquiredNormalMedal();
-        }
-        return this.accountSupplier.get().getHighestAcquiredDiagonalMedal();
-    }
-
-    public int getPlayerNumber() {
-        return playerNumber;
-    }
-
-    public BridgerTimer getActualTimer() {
-        return actualTimer;
-    }
-
-    public boolean isBridging() {
-        return isBridging;
-    }
-
-    public void addActualPlacedBlocks(long actualPlacedBlocks) {
-        this.actualPlacedBlocks += actualPlacedBlocks;
-    }
-
-    public void addActualMadeBridges(long actualMadeBridges) {
-        this.actualMadeBridges += actualMadeBridges;
-    }
-
-    public void addActualFailedBridges(long actualFailedBridges) {
-        this.actualFailedBridges += actualFailedBridges;
-    }
-
-    public List<Location> getPlacedBlocks() {
-        return placedBlocks;
-    }
-
-    public Area getGameArea() {
-        return gameArea;
-    }
-
-    private String getValue(String key) {
-        return Bridger.getLanguageManager().getValue(this.player, key);
-    }
-
     public void setPlayerNumber(int playerNumber) {
         this.plugin.getGame().getEmplacements().set(playerNumber, true);
         this.init(this.plugin, playerNumber);
-    }
-
-    public NPC getNPC() {
-        return this.npc;
     }
 
     public HyriBridgerDuration getPB() {
@@ -383,4 +372,79 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         }
         return null;
     }
+
+    private HyriBridgerDuration getOldPB() {
+        if(this.game.getType().equals(BridgerGameType.SHORT)) {
+            return this.oldAccount.getPersonalShortBest();
+        }
+        if(this.game.getType().equals(BridgerGameType.NORMAL)) {
+            return this.oldAccount.getPersonalNormalBest();
+        }
+        return this.oldAccount.getPersonalDiagonalBest();
+    }
+
+    private Medal getOldMedal() {
+        if(this.game.getType().equals(BridgerGameType.SHORT)) {
+            return this.oldAccount.getHighestAcquiredShortMedal();
+        }
+        if(this.game.getType().equals(BridgerGameType.NORMAL)) {
+            return this.oldAccount.getHighestAcquiredNormalMedal();
+        }
+        return this.oldAccount.getHighestAcquiredDiagonalMedal();
+    }
+
+
+
+    private String getValue(String key) {
+        return Bridger.getLanguageManager().getValue(this.player, key);
+    }
+
+    public boolean isSpec() {
+        return isSpec;
+    }
+
+    public boolean isBridging() {
+        return isBridging;
+    }
+
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
+    public BridgerTimer getActualTimer() {
+        return actualTimer;
+    }
+
+    public NPC getNPC() {
+        return this.npc;
+    }
+
+    public Area getGameArea() {
+        return this.gameArea;
+    }
+
+    public List<Location> getPlacedBlocks() {
+        return placedBlocks;
+    }
+
+    public List<BridgerGamePlayer> getWatchers() {
+        return watchers;
+    }
+
+    public void addWatcher(BridgerGamePlayer gamePlayer) {
+        this.watchers.add(gamePlayer);
+    }
+
+    public void addActualPlacedBlocks(long actualPlacedBlocks) {
+        this.actualPlacedBlocks += actualPlacedBlocks;
+    }
+
+    public void addActualMadeBridges(long actualMadeBridges) {
+        this.actualMadeBridges += actualMadeBridges;
+    }
+
+    public void addActualFailedBridges(long actualFailedBridges) {
+        this.actualFailedBridges += actualFailedBridges;
+    }
+
 }

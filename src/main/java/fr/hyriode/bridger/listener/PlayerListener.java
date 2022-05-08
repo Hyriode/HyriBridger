@@ -1,6 +1,8 @@
 package fr.hyriode.bridger.listener;
 
+import fr.hyriode.api.HyriAPI;
 import fr.hyriode.bridger.game.BridgerGamePlayer;
+import fr.hyriode.hyrame.actionbar.ActionBar;
 import fr.hyriode.hyrame.listener.HyriListener;
 import fr.hyriode.bridger.Bridger;
 import org.bukkit.ChatColor;
@@ -27,24 +29,27 @@ public class PlayerListener extends HyriListener<Bridger> {
 
     @EventHandler (priority = EventPriority.LOWEST)
     public void onPlaceBlock(BlockPlaceEvent event) {
+
         if(event.getPlayer().getItemInHand().getAmount() < 64) {
             event.getPlayer().getInventory().addItem(new ItemStack(event.getItemInHand().getType(), 1));
         }
 
         BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer(event.getPlayer());
-        if(gamePlayer.getGameArea().isInArea(event.getBlock().getLocation())) {
-            gamePlayer.addActualPlacedBlocks(1);
-            gamePlayer.getPlacedBlocks().add(event.getBlock().getLocation());
-
-            if(!gamePlayer.isBridging()) {
-                gamePlayer.startBridging();
+        if(!gamePlayer.isSpec()) {
+            if(gamePlayer.getGameArea().isInArea(event.getBlock().getLocation())) {
+                gamePlayer.addActualPlacedBlocks(1);
                 gamePlayer.getPlacedBlocks().add(event.getBlock().getLocation());
+
+                if(!gamePlayer.isBridging()) {
+                    gamePlayer.startBridging();
+                    gamePlayer.getPlacedBlocks().add(event.getBlock().getLocation());
+                }
+                event.getBlockPlaced().setMetadata(BREAKABLE_META_DATA_KEY, new FixedMetadataValue(plugin, true));
+                return;
             }
-        event.getBlockPlaced().setMetadata(BREAKABLE_META_DATA_KEY, new FixedMetadataValue(plugin, true));
-        return;
+            event.setCancelled(true);
+            event.getPlayer().sendMessage(ChatColor.RED + Bridger.getLanguageManager().getValue(event.getPlayer(), "message.player.oob.block"));
         }
-        event.setCancelled(true);
-        event.getPlayer().sendMessage(ChatColor.RED + Bridger.getLanguageManager().getValue(event.getPlayer(), "message.player.oob.block"));
     }
 
     @EventHandler (priority = EventPriority.LOWEST)
@@ -67,21 +72,23 @@ public class PlayerListener extends HyriListener<Bridger> {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer(event.getPlayer());
-        if(event.getTo().getBlock().getType().equals(Material.GOLD_PLATE)) {
-            if(gamePlayer.isBridging()) {
-                this.plugin.getGame().getPlayer(event.getPlayer()).addActualPlacedBlocks(1);
-                gamePlayer.endBridging(true);
-            }
-            return;
-        }
-        if(event.getTo().getY() < this.plugin.getConfiguration().getyPosBeforeTeleport()) {
-            if(gamePlayer.isBridging()) {
-                gamePlayer.endBridging(false);
+        if(!gamePlayer.isSpec()) {
+            if(event.getTo().getBlock().getType().equals(Material.GOLD_PLATE)) {
+                if(gamePlayer.isBridging()) {
+                    this.plugin.getGame().getPlayer(event.getPlayer()).addActualPlacedBlocks(1);
+                    gamePlayer.endBridging(true);
+                }
                 return;
             }
-            gamePlayer.spawnPlayer();
-            gamePlayer.getPlayer().sendMessage(ChatColor.RED + Bridger.getLanguageManager().getValue(event.getPlayer(), "message.player.failed-bridge")
-                    .replace("%block%", "0"));
+            if(event.getTo().getY() < this.plugin.getConfiguration().getyPosBeforeTeleport()) {
+                if(gamePlayer.isBridging()) {
+                    gamePlayer.endBridging(false);
+                }else {
+                    gamePlayer.spawnPlayer();
+                    new ActionBar(ChatColor.RED + Bridger.getLanguageManager().getValue(gamePlayer.getUUID(), "message.player.failed-bridge")
+                            .replace("%block%", "0")).send(gamePlayer.getPlayer());
+                }
+            }
         }
     }
 

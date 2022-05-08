@@ -2,10 +2,8 @@ package fr.hyriode.bridger;
 
 import fr.hyriode.api.HyriAPI;
 import fr.hyriode.api.server.IHyriServer;
-import fr.hyriode.bridger.api.HyriBridgerAPI;
 import fr.hyriode.bridger.config.BridgerConfig;
 import fr.hyriode.bridger.game.BridgerGame;
-import fr.hyriode.bridger.game.BridgerGameType;
 import fr.hyriode.hyrame.HyrameLoader;
 import fr.hyriode.hyrame.IHyrame;
 import fr.hyriode.hyrame.language.IHyriLanguageManager;
@@ -24,7 +22,6 @@ public class Bridger extends JavaPlugin {
 
     private IHyrame hyrame;
     private BridgerGame game;
-    private HyriBridgerAPI api;
 
     private BridgerConfig configuration;
 
@@ -61,7 +58,7 @@ public class Bridger extends JavaPlugin {
 // Y coordinates where the player respawn
                             97.0,
 // Distance between 2 islands
-                            new LocationWrapper(new Location(IHyrame.WORLD.get(), 24, 0.0,0)));
+                            new LocationWrapper(new Location(IHyrame.WORLD.get(), 25.0, 0.0,0.0)));
         } else this.configuration = HyriAPI.get().getServer().getConfig(BridgerConfig.class);
 
 
@@ -77,8 +74,6 @@ public class Bridger extends JavaPlugin {
         //HyriAPI.get().getHystiaAPI().getWorldManager().saveWorld(IHyrame.WORLD.get().getUID(), "bridger", BridgerGameType.DIAGONAL.getName(), "Diagonal").whenComplete((aBoolean, throwable) -> System.out.println(aBoolean + " world d"));
 
         languageManager = this.hyrame.getLanguageManager();
-
-        this.api = new HyriBridgerAPI();
 
         this.game = new BridgerGame(this.hyrame, this);
         this.hyrame.getGameManager().registerGame(() -> this.game);
@@ -125,7 +120,4 @@ public class Bridger extends JavaPlugin {
         return configuration;
     }
 
-    public HyriBridgerAPI getApi() {
-        return api;
-    }
 }

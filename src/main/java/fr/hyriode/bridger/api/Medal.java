@@ -1,5 +1,7 @@
 package fr.hyriode.bridger.api;
 
+import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
+
 public enum Medal {
 
     BRONZE(12000, 44000, 8500, 1, "medal.bronze"),
@@ -28,7 +30,7 @@ public enum Medal {
                 return medal;
             }
         }
-        return null;
+        throw new NotFoundException("not found");
     }
 
     public long getTimeToReach(String gameType) {

@@ -1,12 +1,14 @@
 package fr.hyriode.bridger.api.player;
 
+import fr.hyriode.api.HyriAPI;
 import fr.hyriode.api.player.HyriPlayerData;
+import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.bridger.api.Medal;
 import fr.hyriode.bridger.api.duration.HyriBridgerDuration;
 
 import java.util.UUID;
 
-public class HyriBridgerPlayer extends HyriPlayerData {
+public class HyriBridgerStats extends HyriPlayerData {
 
     private HyriBridgerDuration personalShortBest;
     private HyriBridgerDuration personalNormalBest;
@@ -18,11 +20,6 @@ public class HyriBridgerPlayer extends HyriPlayerData {
     private long bridgesMade;
     private long bridgeFailed;
     private long playedTimeInMs;
-    private final UUID uuid;
-
-    public HyriBridgerPlayer(UUID uuid) {
-        this.uuid = uuid;
-    }
 
     public long getBlocksPlaced() {
         return blocksPlaced;
@@ -104,7 +101,27 @@ public class HyriBridgerPlayer extends HyriPlayerData {
         this.highestAcquiredDiagonalMedal = highestAcquiredDiagonalMedal;
     }
 
-    public UUID getUUID() {
-        return uuid;
+    public void update(IHyriPlayer account) {
+        account.addStatistics("bridger", this);
+        account.update();
+    }
+
+    public void update(UUID player) {
+        this.update(HyriAPI.get().getPlayerManager().getPlayer(player));
+    }
+
+    public static HyriBridgerStats get(IHyriPlayer account) {
+        HyriBridgerStats statistics = account.getStatistics("bridger", HyriBridgerStats.class);
+
+        if (statistics == null) {
+            statistics = new HyriBridgerStats();
+            statistics.update(account);
+        }
+
+        return statistics;
+    }
+
+    public static HyriBridgerStats get(UUID playerId) {
+        return get(HyriAPI.get().getPlayerManager().getPlayer(playerId));
     }
 }
