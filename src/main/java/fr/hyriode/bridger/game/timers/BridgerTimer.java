@@ -35,7 +35,7 @@ public class BridgerTimer {
     }
 
     public HyriBridgerDuration toFinalDuration() {
-        if(this.linkedDuration == null) {
+        if (this.linkedDuration == null) {
            this.linkedDuration = new HyriBridgerDuration(this.getFinalTime());
         }
         return this.linkedDuration;

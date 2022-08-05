@@ -4,16 +4,12 @@ import fr.hyriode.hyrame.game.HyriGameType;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-/**
- * Project: HyriBridger
- * Created by Akkashi
- * on 23/04/2022 at 14:25
- */
+
 public enum BridgerGameType implements HyriGameType {
 
-    SHORT("SHORT","Short", 1, 30, new ItemStack(Material.STONE_SLAB2, 1)),
+    SHORT("SHORT","Short", 1, 30, new ItemStack(Material.STEP, 1, (short)1)),
     NORMAL("NORMAL", "Normal", 1, 30, new ItemStack(Material.SANDSTONE)),
-    //DIAGONAL("DIAGONAL", "Diagonal", 1, 30, new ItemStack(Material.SANDSTONE_STAIRS)),
+    DIAGONAL("DIAGONAL", "Diagonal", 1, 30, new ItemStack(Material.SANDSTONE_STAIRS)),
     ;
 
     private final String name;

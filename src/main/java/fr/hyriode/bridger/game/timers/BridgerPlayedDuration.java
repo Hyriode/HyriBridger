@@ -1,6 +1,7 @@
 package fr.hyriode.bridger.game.timers;
 
-import fr.hyriode.bridger.Bridger;
+import fr.hyriode.api.language.HyriLanguageMessage;
+import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.hyrame.utils.DurationConverter;
 import org.bukkit.entity.Player;
 
@@ -19,6 +20,6 @@ public class BridgerPlayedDuration extends DurationConverter {
     }
 
     private String getValue(String key) {
-        return Bridger.getLanguageManager().getValue(this.player, key);
+        return HyriLanguageMessage.get(key).getValue(this.player);
     }
 }

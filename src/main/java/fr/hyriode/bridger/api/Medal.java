@@ -7,7 +7,7 @@ public enum Medal {
     BRONZE(12000, 44000, 8500, 1, "medal.bronze"),
     IRON(9000, 24000, 6700, 2, "medal.iron"),
     GOLD(6500, 12000, 5300, 3, "medal.gold"),
-    PLATINUM(4300, 8500, 4300, 4, "medal.ultimate")
+    ULTIMATE(4300, 8500, 4300, 4, "medal.ultimate")
     ;
 
     private final long timeToReachShort;
@@ -26,7 +26,7 @@ public enum Medal {
 
     public static Medal getById(int id) {
         for (Medal medal : Medal.values()) {
-            if(medal.getId() == id) {
+            if (medal.getId() == id) {
                 return medal;
             }
         }
@@ -34,11 +34,11 @@ public enum Medal {
     }
 
     public long getTimeToReach(String gameType) {
-        if(gameType.equalsIgnoreCase("short")) {
+        if (gameType.equalsIgnoreCase("short")) {
             return this.timeToReachShort;
-        }else if(gameType.equalsIgnoreCase("normal")) {
+        } else if (gameType.equalsIgnoreCase("normal")) {
             return this.timeToReachNormal;
-        }else {
+        } else {
             return this.timeToReachDiagonal;
         }
     }

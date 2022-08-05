@@ -10,6 +10,7 @@ import java.util.UUID;
 
 public class HyriBridgerStats extends HyriPlayerData {
 
+    private final UUID uuid;
     private HyriBridgerDuration personalShortBest;
     private HyriBridgerDuration personalNormalBest;
     private HyriBridgerDuration personalDiagonalBest;
@@ -20,6 +21,10 @@ public class HyriBridgerStats extends HyriPlayerData {
     private long bridgesMade;
     private long bridgeFailed;
     private long playedTimeInMs;
+
+    public HyriBridgerStats(UUID uuid) {
+        this.uuid = uuid;
+    }
 
     public long getBlocksPlaced() {
         return blocksPlaced;
@@ -101,21 +106,18 @@ public class HyriBridgerStats extends HyriPlayerData {
         this.highestAcquiredDiagonalMedal = highestAcquiredDiagonalMedal;
     }
 
-    public void update(IHyriPlayer account) {
-        account.addStatistics("bridger", this);
-        account.update();
-    }
-
-    public void update(UUID player) {
-        this.update(HyriAPI.get().getPlayerManager().getPlayer(player));
+    public void update() {
+        IHyriPlayer player = IHyriPlayer.get(this.uuid);
+        player.addStatistics("bridger", this);
+        player.update();
     }
 
     public static HyriBridgerStats get(IHyriPlayer account) {
         HyriBridgerStats statistics = account.getStatistics("bridger", HyriBridgerStats.class);
 
         if (statistics == null) {
-            statistics = new HyriBridgerStats();
-            statistics.update(account);
+            statistics = new HyriBridgerStats(account.getUniqueId());
+            statistics.update();
         }
 
         return statistics;

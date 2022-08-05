@@ -7,9 +7,9 @@ public class BridgerProvider implements IPluginProvider {
 
     private static final String PACKAGE = "fr.hyriode.bridger";
 
-    private final Bridger plugin;
+    private final HyriBridger plugin;
 
-    public BridgerProvider(Bridger plugin) {
+    public BridgerProvider(HyriBridger plugin) {
         this.plugin = plugin;
     }
 
