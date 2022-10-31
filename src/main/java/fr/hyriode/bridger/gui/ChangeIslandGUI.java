@@ -42,7 +42,7 @@ public class ChangeIslandGUI extends HyriInventory {
         this.setItem(0, ItemBuilder.asHead()
                 .withHeadTexture(UsefulHead.BACK.getTexture())
                 .withName(DARK_AQUA + this.getValue("gui.item-name.go-back"))
-                .build(), event -> new NPCGUI(this.plugin, this.owner).open());
+                .build(), event -> new MainGUI(this.plugin, this.owner).open());
 
         List<Boolean> emplacements = this.plugin.getGame().getEmplacements();
         for (int i = 0; i < emplacements.size(); i++) {

@@ -7,8 +7,11 @@ import fr.hyriode.bridger.game.BridgerGamePlayer;
 import fr.hyriode.hyrame.command.HyriCommand;
 import fr.hyriode.hyrame.command.HyriCommandContext;
 import fr.hyriode.hyrame.command.HyriCommandInfo;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import java.util.UUID;
+
+import static org.bukkit.ChatColor.RED;
 
 public class SpectateCommand extends HyriCommand<HyriBridger> {
 
@@ -22,39 +25,51 @@ public class SpectateCommand extends HyriCommand<HyriBridger> {
 
     @Override
     public void handle(HyriCommandContext ctx) {
-        handleArgument(ctx, "off", hyriCommandOutput -> {
-            BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer((Player) ctx.getSender());
-            gamePlayer.init(this.plugin, this.plugin.getGame().getFirstEmplacementEmptyAndTakeIt());
+        final BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer((Player) ctx.getSender());
+
+        handleArgument(ctx,"off", hyriCommandOutput -> {
+            gamePlayer.exitSpec();
+            gamePlayer.reset();
         });
 
-        handleArgument(ctx, "leave", hyriCommandOutput -> {
-            BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer((Player) ctx.getSender());
-            gamePlayer.init(this.plugin, this.plugin.getGame().getFirstEmplacementEmptyAndTakeIt());
+        handleArgument(ctx,"leave", hyriCommandOutput -> {
+            gamePlayer.exitSpec();
+            gamePlayer.reset();
         });
 
-        handleArgument(ctx, "reset", hyriCommandOutput -> {
-            BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer((Player) ctx.getSender());
-            gamePlayer.init(this.plugin, this.plugin.getGame().getFirstEmplacementEmptyAndTakeIt());
+        handleArgument(ctx,"reset", hyriCommandOutput -> {
+            gamePlayer.exitSpec();
+            gamePlayer.reset();
         });
 
-        handleArgument(ctx, "%player%", hyriCommandOutput -> {
-            BridgerGamePlayer target = this.plugin.getGame().getPlayer(hyriCommandOutput.get(IHyriPlayer.class).getUniqueId());
-            if (target != null) {
-                BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer((Player) ctx.getSender());
-                if (!target.getUniqueId().equals(gamePlayer.getUniqueId())) {
-                    if (!target.isSpec()) {
-                        if (gamePlayer.isBridging()) {
-                            gamePlayer.endBridging(false);
-                            this.plugin.getGame().getEmplacements().set(gamePlayer.getPlayerNumber(), false);
-                            gamePlayer.initSpec(this.plugin, target);
-                        }
-                    } else {
-                        gamePlayer.getPlayer().sendMessage(ChatColor.RED + HyriLanguageMessage.get("message.player.cant-spectate").getValue(gamePlayer.getUniqueId()));
-                    }
-                } else {
-                    gamePlayer.getPlayer().sendMessage(ChatColor.RED + HyriLanguageMessage.get("message.player.cant-spectate").getValue(gamePlayer.getUniqueId()));
-                }
+        handleArgument(ctx,"%player%", hyriCommandOutput -> {
+            final BridgerGamePlayer target = this.plugin.getGame().getPlayer(hyriCommandOutput.get(IHyriPlayer.class).getUniqueId());
+            final Player sender = (Player) ctx.getSender();
+
+            if (target == null) {
+                sender.sendMessage(RED + this.getValue(sender.getUniqueId(), "message.player.player-does-not-exist"));
+                return;
             }
+
+            if (target.getUniqueId() == sender.getUniqueId()) {
+                sender.sendMessage(RED + this.getValue(sender.getUniqueId(), "message.player.can-not-spectate-himself"));
+                return;
+            }
+
+            if (target.isSpectating()) {
+                sender.sendMessage(RED + this.getValue(sender.getUniqueId(), "message.player.can-not-spectate-spectator"));
+                return;
+            }
+
+            if (gamePlayer.isBridging()) {
+                gamePlayer.endBridging(false);
+                this.plugin.getGame().getEmplacements().set(gamePlayer.getPlayerNumber(), false);
+            }
+            gamePlayer.initSpec(target);
         });
+    }
+
+    private String getValue(UUID uuid, String key) {
+        return HyriLanguageMessage.get(key).getValue(uuid);
     }
 }

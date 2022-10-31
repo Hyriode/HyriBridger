@@ -12,12 +12,12 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class NPCGUI extends HyriInventory {
+public class MainGUI extends HyriInventory {
 
     private final HyriBridger plugin;
     private final BridgerGamePlayer gamePlayer;
 
-    public NPCGUI(HyriBridger plugin, Player owner) {
+    public MainGUI(HyriBridger plugin, Player owner) {
         super(owner, "Settings", 45);
         this.plugin = plugin;
         this.gamePlayer = this.plugin.getGame().getPlayer(owner.getUniqueId());
@@ -54,12 +54,12 @@ public class NPCGUI extends HyriInventory {
             if (HyriAPI.get().getConfig().isDevEnvironment() || !HyriAPI.get().getServer().getType().equalsIgnoreCase(type.getName())) {
                 this.setItem(i, new ItemBuilder(type.getItemstack())
                         .withName(ChatColor.DARK_AQUA + this.getValue("gui.item." + type.getName().toLowerCase()))
-                        .withLore(ChatColor.RESET + this.getValue("gui.lore.bridger-mode"))
+                        .withLore(ChatColor.GRAY + this.getValue("gui.lore.bridger-mode"))
                         .build(), event -> HyriAPI.get().getQueueManager().addPlayerInQueue(event.getWhoClicked().getUniqueId(), "bridger", type.getName(), null));
             } else {
                 this.setItem(i, new ItemBuilder(type.getItemstack())
                         .withName(ChatColor.DARK_AQUA + this.getValue("gui.item." + type.getDisplayName()))
-                        .withLore(ChatColor.RESET + this.getValue("gui.lore.bridger-mode-selected"))
+                        .withLore(ChatColor.GRAY + this.getValue("gui.lore.bridger-mode-selected"))
                         .withGlow()
                         .build());
             }

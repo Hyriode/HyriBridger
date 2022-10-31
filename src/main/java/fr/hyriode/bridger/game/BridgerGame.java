@@ -11,6 +11,7 @@ import fr.hyriode.hyrame.game.HyriGame;
 import fr.hyriode.hyrame.game.HyriGameState;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.hyrame.game.HyriGameType;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -53,7 +54,7 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
         super.handleLogin(player);
 
         final BridgerGamePlayer gamePlayer = this.getPlayer(player);
-        gamePlayer.init(this.plugin, this.getFirstEmplacementEmptyAndTakeIt());
+        gamePlayer.init(this.plugin);
     }
 
     @Override
@@ -71,6 +72,11 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
         HyriBridgerData account = HyriBridgerData.get(player.getUniqueId());
         account.setActualBlockId(gamePlayer.getActualBlock().getId());
         account.update(player.getUniqueId());
+
+        gamePlayer.getWatchers().forEach(watcher -> {
+            watcher.sendMessage(ChatColor.AQUA + "Le joueur que vous regardiez s'est déconnecté");
+            watcher.reset();
+        });
 
         gamePlayer.sendPlayerStats();
         gamePlayer.deleteHologram();

@@ -10,7 +10,7 @@ import fr.hyriode.bridger.api.Medal;
 import fr.hyriode.bridger.config.BridgerConfig;
 import fr.hyriode.bridger.game.blocks.BridgerBlock;
 import fr.hyriode.bridger.game.timers.BridgerPlayedDuration;
-import fr.hyriode.bridger.gui.NPCGUI;
+import fr.hyriode.bridger.gui.MainGUI;
 import fr.hyriode.hyrame.actionbar.ActionBar;
 import fr.hyriode.hyrame.game.HyriGame;
 import fr.hyriode.hyrame.game.HyriGamePlayer;
@@ -45,7 +45,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     private int playerNumber;
 
     private List<BridgerGamePlayer> watchers;
-    private boolean isSpec;
+    private boolean spectating;
     private BridgerGamePlayer watchedPlayer;
 
     private Location spawn;
@@ -79,32 +79,18 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
     public BridgerGamePlayer(HyriGame<?> game, Player player) {
         super(game, player);
+        this.watchers = new ArrayList<>();
     }
 
-    public void initSpec(HyriBridger plugin, BridgerGamePlayer watchedPlayer) {
-        this.plugin = plugin;
-        this.isSpec = true;
-        this.watchedPlayer = watchedPlayer;
-        this.watchers = new ArrayList<>();
-
-        this.oldAccount =  HyriBridgerStats.get(this.player.getUniqueId());
-
-        this.watchedPlayer.addWatcher(watchedPlayer);
-        PlayerUtil.addSpectatorAbilities(this.player);
-        PlayerUtil.hidePlayer(this.player,false);
-
-        this.deleteNPC();
-        this.deleteHologram();
-
-        this.player.setGameMode(GameMode.SPECTATOR);
-        this.player.teleport(this.watchedPlayer.player);
+    public void init(HyriBridger plugin) {
+        this.init(plugin, plugin.getGame().getFirstEmplacementEmptyAndTakeIt());
     }
 
     public void init(HyriBridger plugin, int playerNumber) {
         this.actualBlock = BridgerBlock.getById(HyriBridgerData.get(this.player.getUniqueId()).getActualBlockId());
 
         this.plugin = plugin;
-        this.isSpec = false;
+        this.spectating = false;
         this.playerNumber = playerNumber;
         this.watchers = new ArrayList<>();
         this.isInEndingBridging = false;
@@ -141,6 +127,40 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         this.player.setCanPickupItems(false);
         //Spawn player
         this.spawnPlayer();
+    }
+
+    public void initSpec(BridgerGamePlayer watchedPlayer) {
+        if (this.isSpectating()) {
+            this.exitSpec();
+        }
+
+        this.spectating = true;
+        this.watchedPlayer = watchedPlayer;
+        this.watchers.forEach(gamePlayer -> gamePlayer.initSpec(watchedPlayer));
+        this.watchers.clear();
+
+        this.oldAccount =  HyriBridgerStats.get(this.player.getUniqueId());
+        watchedPlayer.addWatcher(this);
+
+        PlayerUtil.addSpectatorAbilities(this.player);
+        PlayerUtil.hidePlayer(this.player,false);
+
+        this.deleteNPC();
+        this.deleteHologram();
+
+        this.player.setGameMode(GameMode.SPECTATOR);
+        this.player.teleport(watchedPlayer.player);
+        this.player.sendMessage(ChatColor.AQUA + "");
+    }
+
+    public void exitSpec() {
+        this.spectating = false;
+        this.watchedPlayer.getWatchers().remove(this);
+        this.watchedPlayer = null;
+    }
+
+    public void reset() {
+        this.init(this.plugin);
     }
 
     public void spawnPlayer() {
@@ -371,7 +391,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
                 .setShowingToAll(true)
                 .setInteractCallback((rightClick, clicker) -> {
                     if (rightClick) {
-                        new NPCGUI(this.plugin, clicker).open();
+                        new MainGUI(this.plugin, clicker).open();
                     }
                 });
 
@@ -467,8 +487,8 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         return HyriLanguageMessage.get(key).getValue(this.player);
     }
 
-    public boolean isSpec() {
-        return isSpec;
+    public boolean isSpectating() {
+        return spectating;
     }
 
     public boolean isBridging() {
@@ -524,4 +544,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         this.actualFailedBridges += actualFailedBridges;
     }
 
+    public BridgerGamePlayer getWatchedPlayer() {
+        return watchedPlayer;
+    }
 }
