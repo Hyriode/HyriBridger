@@ -5,6 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5d3ddd3-cf5b-4235-ab4f-15b427c6b38e" name="Changes" comment="fix bugs">
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/commands/TestCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/islands/IslandFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HyriBridger" beforeDir="false" afterPath="$PROJECT_DIR$/HyriBridger" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HyriBridger/src/main/java/fr/hyriode/bridger/Bridger.java" beforeDir="false" afterPath="$PROJECT_DIR$/HyriBridger/src/main/java/fr/hyriode/bridger/Bridger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HyriBridger/src/main/java/fr/hyriode/bridger/api/duration/HyriBridgerDuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/HyriBridger/src/main/java/fr/hyriode/bridger/api/duration/HyriBridgerDuration.java" afterDir="false" />
@@ -20,29 +28,11 @@
       <change beforePath="$PROJECT_DIR$/HyriBridger/src/main/java/fr/hyriode/bridger/listener/PlayerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/HyriBridger/src/main/java/fr/hyriode/bridger/listener/PlayerListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HyriBridger/src/main/resources/lang/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/HyriBridger/src/main/resources/lang/en.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HyriBridger/src/main/resources/lang/fr.json" beforeDir="false" afterPath="$PROJECT_DIR$/HyriBridger/src/main/resources/lang/fr.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/commands/SpectateCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/commands/SpectateCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/game/BridgerGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/game/BridgerGame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/game/BridgerGameInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/game/BridgerGameInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/game/BridgerGamePlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/game/BridgerGamePlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/gui/ChangeBlockGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/gui/ChangeBlockGUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/gui/ChangeIslandGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/gui/ChangeIslandGUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/gui/NpcGui.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/listener/PlayerListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/listener/PlayerListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/HyriBridger-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/HyriBridger-1.0.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/lang/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/lang/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/lang/fr.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/lang/fr.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/libs/HyriBridger-1.0.0.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/HyriBridger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/HyriBridger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/commands/SpectateCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/commands/SpectateCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGameInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGameInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGamePlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGamePlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/ChangeBlockGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/ChangeBlockGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/ChangeIslandGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/ChangeIslandGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/NPCGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/MainGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/listener/PlayerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/listener/PlayerListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/lang/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lang/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/lang/fr.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lang/fr.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +43,7 @@
     <option name="done" value="true" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="3480" />
+    <option name="totalTimeSeconds" value="21484" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
@@ -117,26 +107,29 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/MainGUI.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/HyriBridger.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/scoreboard/HyriBridgerScoreboard.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/api/player/HyriBridgerData.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/api/duration/HyriBridgerDuration.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/api/player/HyriBridgerStats.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/api/BlockTransaction.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/listener/PlayerListener.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/lang/fr.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/islands/IslandFile.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/ChangeIslandGUI.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/MainGUI.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HyriBridger/src/main/java/fr/hyriode/bridger/game/BridgerGamePlayer.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/lang/en.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/BridgerProvider.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGameInfo.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGame.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/ValidateBuyGUI.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGameType.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGamePlayer.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/build.gradle" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/ChangeBlockGUI.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/blocks/BridgerBlock.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/resources/lang/fr.json" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/resources/lang/en.json" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/build.gradle" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGame.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGamePlayer.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/HyriBridger.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/listener/PlayerListener.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/api/BlockTransaction.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/scoreboard/HyriBridgerScoreboard.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/api/player/HyriBridgerStats.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/api/duration/HyriBridgerDuration.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/ValidateBuyGUI.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/timers/BridgerPlayedDuration.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/api/player/HyriBridgerData.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGameInfo.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
