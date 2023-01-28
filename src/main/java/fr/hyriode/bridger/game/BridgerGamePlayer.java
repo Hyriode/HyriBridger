@@ -11,8 +11,8 @@ import fr.hyriode.bridger.config.BridgerConfig;
 import fr.hyriode.bridger.game.blocks.BridgerBlock;
 import fr.hyriode.bridger.game.timers.BridgerPlayedDuration;
 import fr.hyriode.bridger.gui.MainGUI;
+import fr.hyriode.hyrame.IHyrame;
 import fr.hyriode.hyrame.actionbar.ActionBar;
-import fr.hyriode.hyrame.game.HyriGame;
 import fr.hyriode.hyrame.game.HyriGamePlayer;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.game.scoreboard.HyriBridgerScoreboard;
@@ -77,8 +77,8 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     private long actualFailedBridges;
     private long connectionTime;
 
-    public BridgerGamePlayer(HyriGame<?> game, Player player) {
-        super(game, player);
+    public BridgerGamePlayer(Player player) {
+        super(player);
         this.watchers = new ArrayList<>();
     }
 
@@ -270,7 +270,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         if (this.getMedal() != null) {
             if (!this.getMedal().equals(Medal.ULTIMATE)) {
                 for(int i = this.getMedal().getId()+1;i <= 4;i++) {
-                    final long medalTimeToReach = Medal.getById(i).getTimeToReach(this.game.getType().getName());
+                    final long medalTimeToReach = Medal.getById(i).getTimeToReach(IHyrame.get().getGameManager().getCurrentGame().getType().getName());
 
                     if (this.actualTimer.toFinalDuration().getExactTime() < medalTimeToReach) {
                         this.successMedal(Medal.getById(i));
@@ -279,7 +279,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
             }
         } else {
             for(int i = 1;i <= 4;i++) {
-                final long medalTimeToReach = Medal.getById(i).getTimeToReach(this.game.getType().getName());
+                final long medalTimeToReach = Medal.getById(i).getTimeToReach(IHyrame.get().getGameManager().getCurrentGame().getType().getName());
 
                 if (this.actualTimer.toFinalDuration().getExactTime() < medalTimeToReach) {
                     this.successMedal(Medal.getById(i));
@@ -402,21 +402,21 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         HyriBridgerStats account = HyriBridgerStats.get(this.player.getUniqueId());
 
         if (this.actualPB != null) {
-            if (this.game.getType().getName().equalsIgnoreCase(BridgerGameType.SHORT.getName())) {
+            if (IHyrame.get().getGameManager().getCurrentGame().getType().getName().equalsIgnoreCase(BridgerGameType.SHORT.getName())) {
                 account.setPersonalShortBest(this.actualPB);
-            } else if (this.game.getType().getName().equalsIgnoreCase(BridgerGameType.NORMAL.getName())) {
+            } else if (IHyrame.get().getGameManager().getCurrentGame().getType().getName().equalsIgnoreCase(BridgerGameType.NORMAL.getName())) {
                 account.setPersonalNormalBest(this.actualPB);
-            } else if (this.game.getType().getName().equalsIgnoreCase(BridgerGameType.DIAGONAL.getName())) {
+            } else if (IHyrame.get().getGameManager().getCurrentGame().getType().getName().equalsIgnoreCase(BridgerGameType.DIAGONAL.getName())) {
                 account.setPersonalDiagonalBest(this.actualPB);
             }
         }
 
         if (this.actualMedal != null) {
-            if (this.game.getType().getName().equalsIgnoreCase(BridgerGameType.SHORT.getName())) {
+            if (IHyrame.get().getGameManager().getCurrentGame().getType().getName().equalsIgnoreCase(BridgerGameType.SHORT.getName())) {
                 account.setHighestAcquiredShortMedal(this.actualMedal);
-            } else if (this.game.getType().getName().equalsIgnoreCase(BridgerGameType.NORMAL.getName())) {
+            } else if (IHyrame.get().getGameManager().getCurrentGame().getType().getName().equalsIgnoreCase(BridgerGameType.NORMAL.getName())) {
                 account.setHighestAcquiredNormalMedal(this.actualMedal);
-            } else if (this.game.getType().getName().equalsIgnoreCase(BridgerGameType.DIAGONAL.getName())) {
+            } else if (IHyrame.get().getGameManager().getCurrentGame().getType().getName().equalsIgnoreCase(BridgerGameType.DIAGONAL.getName())) {
                 account.setHighestAcquiredDiagonalMedal(this.actualMedal);
             }
         }
@@ -462,20 +462,20 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     private HyriBridgerDuration getOldPB() {
-        if (this.game.getType().equals(BridgerGameType.SHORT)) {
+        if (IHyrame.get().getGameManager().getCurrentGame().getType().equals(BridgerGameType.SHORT)) {
             return this.oldAccount.getPersonalShortBest();
         }
-        if (this.game.getType().equals(BridgerGameType.NORMAL)) {
+        if (IHyrame.get().getGameManager().getCurrentGame().getType().equals(BridgerGameType.NORMAL)) {
             return this.oldAccount.getPersonalNormalBest();
         }
         return this.oldAccount.getPersonalDiagonalBest();
     }
 
     private Medal getOldMedal() {
-        if (this.game.getType().equals(BridgerGameType.SHORT)) {
+        if (IHyrame.get().getGameManager().getCurrentGame().getType().equals(BridgerGameType.SHORT)) {
             return this.oldAccount.getHighestAcquiredShortMedal();
         }
-        if (this.game.getType().equals(BridgerGameType.NORMAL)) {
+        if (IHyrame.get().getGameManager().getCurrentGame().getType().equals(BridgerGameType.NORMAL)) {
             return this.oldAccount.getHighestAcquiredNormalMedal();
         }
         return this.oldAccount.getHighestAcquiredDiagonalMedal();

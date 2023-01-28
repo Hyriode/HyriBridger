@@ -2,6 +2,7 @@ package fr.hyriode.bridger.game;
 
 import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
 import fr.hyriode.api.HyriAPI;
+import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.api.util.Skin;
 import fr.hyriode.bridger.api.duration.HyriBridgerDuration;
@@ -74,7 +75,7 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
         account.update(player.getUniqueId());
 
         gamePlayer.getWatchers().forEach(watcher -> {
-            watcher.sendMessage(ChatColor.AQUA + "Le joueur que vous regardiez s'est déconnecté");
+            watcher.getPlayer().sendMessage(ChatColor.AQUA + HyriLanguageMessage.get("message.player.watched-player-disconnected").getValue(watcher.getUniqueId()));
             watcher.reset();
         });
 

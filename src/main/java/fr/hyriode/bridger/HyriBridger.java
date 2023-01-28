@@ -6,6 +6,7 @@ import fr.hyriode.bridger.config.BridgerConfig;
 import fr.hyriode.bridger.game.BridgerGame;
 import fr.hyriode.bridger.game.BridgerGameType;
 import fr.hyriode.bridger.utils.MessageHelper;
+import fr.hyriode.hyggdrasil.api.server.HyggServer;
 import fr.hyriode.hyrame.HyrameLoader;
 import fr.hyriode.hyrame.IHyrame;
 import fr.hyriode.hyrame.utils.LocationWrapper;
@@ -15,7 +16,6 @@ import org.bukkit.Location;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import javax.xml.ws.Provider;
 import java.util.logging.Level;
 
 public class HyriBridger extends JavaPlugin {
@@ -77,7 +77,7 @@ public class HyriBridger extends JavaPlugin {
         this.game = new BridgerGame(this.hyrame, this);
         this.hyrame.getGameManager().registerGame(() -> this.game);
 
-        HyriAPI.get().getServer().setState(IHyriServer.State.READY);
+        HyriAPI.get().getServer().setState(HyggServer.State.READY);
     }
 
     @Override

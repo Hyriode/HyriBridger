@@ -25,6 +25,7 @@
   "gui.item-name.next-page": "Page Suivante",
   "gui.item-name.previous-page": "Page Précédente",
   "gui.item-name.buy-block": "Voulez vous acheter %block%&3 pour %cost% &d⛃ &3?",
+  "message.player.watched-player-disconnected": "Le player que vous regardiez s'est déconnecté",
 
   "gui.lore.status.occupied":"Occupée",
   "gui.lore.status.self-occupied":"C'est votre île",
