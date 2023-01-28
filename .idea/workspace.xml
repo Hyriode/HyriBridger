@@ -4,29 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f5d3ddd3-cf5b-4235-ab4f-15b427c6b38e" name="Changes" comment="fix bugs">
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/commands/SpectateCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/commands/SpectateCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/game/BridgerGamePlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/game/BridgerGamePlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/gui/ChangeIslandGUI$IslandStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/gui/ChangeIslandGUI$IslandStatus.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/HyriBridger-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/HyriBridger-1.0.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/lang/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/lang/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/lang/fr.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/lang/fr.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/commands/SpectateCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/commands/SpectateCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGamePlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGamePlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/ChangeIslandGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/ChangeIslandGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/lang/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lang/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/lang/fr.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lang/fr.json" afterDir="false" />
-    </list>
+    <list default="true" id="f5d3ddd3-cf5b-4235-ab4f-15b427c6b38e" name="Changes" comment="fix bugs" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,7 +14,7 @@
     <option name="done" value="true" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="25418" />
+    <option name="totalTimeSeconds" value="25785" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
