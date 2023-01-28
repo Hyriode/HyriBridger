@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f5d3ddd3-cf5b-4235-ab4f-15b427c6b38e" name="Changes" comment="fix bugs" />
+    <list default="true" id="f5d3ddd3-cf5b-4235-ab4f-15b427c6b38e" name="Changes" comment="fix bugs">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +16,7 @@
     <option name="done" value="true" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="25785" />
+    <option name="totalTimeSeconds" value="26105" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
