@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5d3ddd3-cf5b-4235-ab4f-15b427c6b38e" name="Changes" comment="fix bugs">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/HyriBridger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/HyriBridger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/api/duration/HyriBridgerDuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/api/duration/HyriBridgerDuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGamePlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGamePlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/blocks/BridgerBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/blocks/BridgerBlock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/scoreboard/HyriBridgerScoreboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/scoreboard/HyriBridgerScoreboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/timers/BridgerPlayedDuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/timers/BridgerPlayedDuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/ChangeIslandGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/ChangeIslandGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/listener/PlayerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/listener/PlayerListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/utils/MessageHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/utils/MessageHelper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,7 +25,7 @@
     <option name="done" value="true" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="26105" />
+    <option name="totalTimeSeconds" value="26344" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">

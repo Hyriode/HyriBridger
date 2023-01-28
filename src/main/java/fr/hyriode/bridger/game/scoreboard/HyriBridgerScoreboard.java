@@ -1,11 +1,11 @@
 package fr.hyriode.bridger.game.scoreboard;
 
 import fr.hyriode.api.language.HyriLanguageMessage;
+import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.api.Medal;
+import fr.hyriode.bridger.game.BridgerGame;
 import fr.hyriode.bridger.game.BridgerGamePlayer;
 import fr.hyriode.hyrame.game.scoreboard.HyriGameScoreboard;
-import fr.hyriode.bridger.HyriBridger;
-import fr.hyriode.bridger.game.BridgerGame;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 

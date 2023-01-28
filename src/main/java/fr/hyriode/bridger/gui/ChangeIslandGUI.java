@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fr.hyriode.hyrame.utils.Symbols.*;
+import static fr.hyriode.hyrame.utils.Symbols.DOT_BOLD;
 import static org.bukkit.ChatColor.*;
 
 public class ChangeIslandGUI extends HyriInventory {

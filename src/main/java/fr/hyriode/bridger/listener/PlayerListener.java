@@ -1,9 +1,9 @@
 package fr.hyriode.bridger.listener;
 
 import fr.hyriode.api.language.HyriLanguageMessage;
+import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.game.BridgerGamePlayer;
 import fr.hyriode.hyrame.listener.HyriListener;
-import fr.hyriode.bridger.HyriBridger;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;

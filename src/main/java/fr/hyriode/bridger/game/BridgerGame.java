@@ -1,21 +1,19 @@
 package fr.hyriode.bridger.game;
 
 import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
-import fr.hyriode.api.HyriAPI;
 import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.api.util.Skin;
-import fr.hyriode.bridger.api.duration.HyriBridgerDuration;
+import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.api.player.HyriBridgerData;
 import fr.hyriode.hyrame.IHyrame;
 import fr.hyriode.hyrame.game.HyriGame;
 import fr.hyriode.hyrame.game.HyriGameState;
-import fr.hyriode.bridger.HyriBridger;
-import fr.hyriode.hyrame.game.HyriGameType;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BridgerGame extends HyriGame<BridgerGamePlayer> {
 

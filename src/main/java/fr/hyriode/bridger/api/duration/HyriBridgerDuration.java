@@ -1,7 +1,6 @@
 package fr.hyriode.bridger.api.duration;
 
 import java.text.DecimalFormat;
-import java.util.Random;
 
 public class HyriBridgerDuration {
 

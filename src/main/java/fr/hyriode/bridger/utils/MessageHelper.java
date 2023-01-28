@@ -5,7 +5,8 @@ import fr.hyriode.bridger.api.duration.HyriBridgerDuration;
 import org.bukkit.entity.Player;
 
 import static fr.hyriode.hyrame.utils.Symbols.HYPHENS_LINE;
-import static org.bukkit.ChatColor.*;
+import static org.bukkit.ChatColor.AQUA;
+import static org.bukkit.ChatColor.STRIKETHROUGH;
 
 public class MessageHelper {
 
