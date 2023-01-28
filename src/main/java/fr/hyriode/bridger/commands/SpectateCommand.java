@@ -2,6 +2,7 @@ package fr.hyriode.bridger.commands;
 
 import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.api.player.IHyriPlayer;
+import fr.hyriode.api.rank.type.HyriPlayerRankType;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.game.BridgerGamePlayer;
 import fr.hyriode.hyrame.command.HyriCommand;
@@ -18,8 +19,8 @@ public class SpectateCommand extends HyriCommand<HyriBridger> {
     public SpectateCommand(HyriBridger plugin) {
         super(plugin, new HyriCommandInfo("spectate")
                 .withAliases("spec", "sp", "spect")
-                .withPermission(iHyriPlayer -> iHyriPlayer.getRank().isStaff())
-                .withUsage("/spectate <player>/<island number>")
+                .withPermission(iHyriPlayer -> iHyriPlayer.getRank().isSuperior(HyriPlayerRankType.VIP_PLUS))
+                .withUsage("/spectate <player>")
                 .withDescription("permit to teleport a player to an other in spectator"));
     }
 
@@ -27,20 +28,9 @@ public class SpectateCommand extends HyriCommand<HyriBridger> {
     public void handle(HyriCommandContext ctx) {
         final BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer((Player) ctx.getSender());
 
-        handleArgument(ctx,"off", hyriCommandOutput -> {
+        if (gamePlayer.isSpectating()) {
             gamePlayer.exitSpec();
-            gamePlayer.reset();
-        });
-
-        handleArgument(ctx,"leave", hyriCommandOutput -> {
-            gamePlayer.exitSpec();
-            gamePlayer.reset();
-        });
-
-        handleArgument(ctx,"reset", hyriCommandOutput -> {
-            gamePlayer.exitSpec();
-            gamePlayer.reset();
-        });
+        }
 
         handleArgument(ctx,"%player%", hyriCommandOutput -> {
             final BridgerGamePlayer target = this.plugin.getGame().getPlayer(hyriCommandOutput.get(IHyriPlayer.class).getUniqueId());
@@ -61,10 +51,6 @@ public class SpectateCommand extends HyriCommand<HyriBridger> {
                 return;
             }
 
-            if (gamePlayer.isBridging()) {
-                gamePlayer.endBridging(false);
-                this.plugin.getGame().getEmplacements().set(gamePlayer.getPlayerNumber(), false);
-            }
             gamePlayer.initSpec(target);
         });
     }

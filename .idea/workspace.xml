@@ -10,19 +10,20 @@
       <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/HyriBridger.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/HyriBridger.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/game/BridgerGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/game/BridgerGame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/commands/SpectateCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/commands/SpectateCommand.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/game/BridgerGamePlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/game/BridgerGamePlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/gui/MainGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/gui/MainGUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/listener/PlayerListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/listener/PlayerListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/gui/ChangeIslandGUI$IslandStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/fr/hyriode/bridger/gui/ChangeIslandGUI$IslandStatus.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/libs/HyriBridger-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/HyriBridger-1.0.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/lang/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/lang/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/lang/fr.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/lang/fr.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/HyriBridger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/HyriBridger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/commands/SpectateCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/commands/SpectateCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGamePlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/game/BridgerGamePlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/listener/PlayerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/listener/PlayerListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/ChangeIslandGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/hyriode/bridger/gui/ChangeIslandGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/lang/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lang/en.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/lang/fr.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lang/fr.json" afterDir="false" />
     </list>
@@ -35,7 +36,7 @@
     <option name="done" value="true" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="22249" />
+    <option name="totalTimeSeconds" value="25418" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
@@ -138,6 +139,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="ToolWindowRun.ShowToolbar" value="false" />
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Serveurs/Dev HyriRTF/HyriSpigot.jar" />
     <property name="project.structure.last.edited" value="Project" />

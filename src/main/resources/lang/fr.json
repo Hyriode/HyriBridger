@@ -25,7 +25,6 @@
   "gui.item-name.next-page": "Page Suivante",
   "gui.item-name.previous-page": "Page Précédente",
   "gui.item-name.buy-block": "Voulez vous acheter %block%&3 pour %cost% &d⛃ &3?",
-  "message.player.watched-player-disconnected": "Le player que vous regardiez s'est déconnecté",
 
   "gui.lore.status.occupied":"Occupée",
   "gui.lore.status.self-occupied":"C'est votre île",
@@ -70,8 +69,10 @@
   "message.player.player-does-not-exist": "Ce joueur n'est pas sur le serveur",
   "message.player.can-not-spectate-himself": "Vous ne pouvez pas vous spectate vous même",
   "message.player.can-not-spectate-spectator": "Vous ne pouvez pas spectate un spectateur",
-  "message.player.is-spectating": "Vous regardez %player%, cliquez pour vous téléporter à sa position",
+  "message.player.is-spectating": "Vous regardez %player%, clic gauche pour vous téléporter à sa position",
   "message.player.bought": "Vous avez acheté %block% pour %cost% §d⛃",
+  "message.player.watched-player-disconnected": "Le joueur que vous regardiez s'est déconnecté",
+  "message.player.watched-player-changed": "Le joueur que vous regardiez regarde maintenant %player%",
 
   "block.not-found": "Ce bloc n'existe pas",
   "block.sandstone": "Sandstone",
