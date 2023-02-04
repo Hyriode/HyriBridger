@@ -1,5 +1,0 @@
-main: fr.hyriode.bridger.HyriBridger
-version: 1.0.0
-name: Bridger
-author: Calyx
-depend: [Hyrame]
