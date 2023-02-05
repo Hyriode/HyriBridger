@@ -44,12 +44,6 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
 
     @Override
     public void handleLogin(Player player) {
-        final IHyriPlayer account = IHyriPlayer.get(player.getUniqueId());
-
-        if(account.isInModerationMode()) {
-            return;
-        }
-
         super.handleLogin(player);
 
         final BridgerGamePlayer gamePlayer = this.getPlayer(player);
