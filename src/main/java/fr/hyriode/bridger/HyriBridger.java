@@ -3,6 +3,8 @@ package fr.hyriode.bridger;
 import fr.hyriode.api.HyriAPI;
 import fr.hyriode.bridger.config.BridgerConfig;
 import fr.hyriode.bridger.game.BridgerGame;
+import fr.hyriode.bridger.game.BridgerGameType;
+import fr.hyriode.bridger.game.IBridgerTypeHandler;
 import fr.hyriode.bridger.utils.MessageHelper;
 import fr.hyriode.hyggdrasil.api.server.HyggServer;
 import fr.hyriode.hyrame.HyrameLoader;
@@ -116,4 +118,5 @@ public class HyriBridger extends JavaPlugin {
     public MessageHelper getMessageHelper() {
         return messageHelper;
     }
+
 }

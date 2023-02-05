@@ -240,8 +240,8 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
                 final IHyriPlayer account = HyriAPI.get().getPlayerManager().getPlayer(this.player.getUniqueId());
                 account.getHyris().add(5).exec();
-                //TODO: remettre quand newton aura arrêter de me baisé
-                //account.getNetworkLeveling().addExperience(10);
+                //TODO: remettre quand newton aura arrêter de me baiser
+                //account.getNetworkLeveling().addExperience(10);*
                 account.update();
 
                 this.addActualMadeBridges(1);
@@ -414,26 +414,15 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     public void sendPlayerStats() {
-        HyriBridgerStats account = HyriBridgerStats.get(this.player.getUniqueId());
+        final HyriBridgerStats account = HyriBridgerStats.get(this.player.getUniqueId());
+        final IBridgerTypeHandler handler = ((BridgerGameType) this.plugin.getGame().getType()).getHandler();
 
         if (this.actualPB != null) {
-            if (this.plugin.getGame().getType().getName().equalsIgnoreCase(BridgerGameType.SHORT.getName())) {
-                account.setPersonalShortBest(this.actualPB);
-            } else if (this.plugin.getGame().getType().getName().equalsIgnoreCase(BridgerGameType.NORMAL.getName())) {
-                account.setPersonalNormalBest(this.actualPB);
-            } else if (this.plugin.getGame().getType().getName().equalsIgnoreCase(BridgerGameType.DIAGONAL.getName())) {
-                account.setPersonalDiagonalBest(this.actualPB);
-            }
+            handler.sendNewPB(account, this.actualPB);
         }
 
         if (this.actualMedal != null) {
-            if (this.plugin.getGame().getType().getName().equalsIgnoreCase(BridgerGameType.SHORT.getName())) {
-                account.setHighestAcquiredShortMedal(this.actualMedal);
-            } else if (this.plugin.getGame().getType().getName().equalsIgnoreCase(BridgerGameType.NORMAL.getName())) {
-                account.setHighestAcquiredNormalMedal(this.actualMedal);
-            } else if (this.plugin.getGame().getType().getName().equalsIgnoreCase(BridgerGameType.DIAGONAL.getName())) {
-                account.setHighestAcquiredDiagonalMedal(this.actualMedal);
-            }
+            handler.sendNewMedal(account, this.actualMedal);
         }
 
         account.addBlocksPlaced(this.actualPlacedBlocks);
