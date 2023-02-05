@@ -415,14 +415,13 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
     public void sendPlayerStats() {
         final HyriBridgerStats account = HyriBridgerStats.get(this.player.getUniqueId());
-        final IBridgerTypeHandler handler = ((BridgerGameType) this.plugin.getGame().getType()).getHandlerSupplier().get();
 
         if (this.actualPB != null) {
-            handler.sendNewPB(account, this.actualPB);
+            this.plugin.getTypeHandler().sendNewPB(account, this.actualPB);
         }
 
         if (this.actualMedal != null) {
-            handler.sendNewMedal(account, this.actualMedal);
+            this.plugin.getTypeHandler().sendNewMedal(account, this.actualMedal);
         }
 
         account.addBlocksPlaced(this.actualPlacedBlocks);

@@ -27,6 +27,7 @@ public class HyriBridger extends JavaPlugin {
 
     private MessageHelper messageHelper;
     private BridgerConfig configuration;
+    private IBridgerTypeHandler typeHandler;
 
     @Override
     public void onEnable() {
@@ -78,6 +79,8 @@ public class HyriBridger extends JavaPlugin {
         this.hyrame.getGameManager().registerGame(() -> this.game);
 
         HyriAPI.get().getServer().setState(HyggServer.State.READY);
+
+        this.typeHandler = ((BridgerGameType) this.getGame().getType()).getHandlerSupplier().get();
     }
 
     @Override
@@ -119,4 +122,7 @@ public class HyriBridger extends JavaPlugin {
         return messageHelper;
     }
 
+    public IBridgerTypeHandler getTypeHandler() {
+        return this.typeHandler;
+    }
 }
