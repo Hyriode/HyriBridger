@@ -1,7 +1,6 @@
 package fr.hyriode.bridger.game.timers;
 
 import fr.hyriode.api.language.HyriLanguageMessage;
-import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.hyrame.utils.DurationConverter;
 import org.bukkit.entity.Player;
 

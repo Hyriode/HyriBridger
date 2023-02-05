@@ -7,8 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BridgerGameInfo implements IHyriGameInfo {
+
     private final String name;
-    private final String displayName;
+    private String displayName;
     private final Map<String, HyriGameType> types;
 
     public BridgerGameInfo(String name, String displayName) {
@@ -25,6 +26,11 @@ public class BridgerGameInfo implements IHyriGameInfo {
     @Override
     public String getDisplayName() {
         return this.displayName;
+    }
+
+    @Override
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     @Override
@@ -45,5 +51,10 @@ public class BridgerGameInfo implements IHyriGameInfo {
     @Override
     public Map<String, HyriGameType> getTypes() {
         return this.types;
+    }
+
+    @Override
+    public void update() {
+        IHyriGameInfo.super.update();
     }
 }

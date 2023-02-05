@@ -6,7 +6,6 @@ import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.api.player.HyriBridgerData;
 import fr.hyriode.bridger.game.BridgerGamePlayer;
 import fr.hyriode.bridger.game.blocks.BridgerBlock;
-import fr.hyriode.bridger.game.blocks.Specification;
 import fr.hyriode.bridger.utils.UsefulHead;
 import fr.hyriode.hyrame.inventory.HyriInventory;
 import fr.hyriode.hyrame.item.ItemBuilder;
@@ -49,7 +48,7 @@ public class ChangeBlockGUI extends HyriInventory {
         this.setItem(0, ItemBuilder.asHead()
                 .withHeadTexture(UsefulHead.BACK.getTexture())
                 .withName(DARK_AQUA + this.getValue("gui.item-name.go-back"))
-                .build(), event -> new NPCGUI(this.plugin, this.owner).open());
+                .build(), event -> new MainGUI(this.plugin, this.owner).open());
 
         final int freeSpace = 14;
         final int actualShowedBlocksSize = (Math.min((this.page * freeSpace) + freeSpace, BridgerBlock.values().length));

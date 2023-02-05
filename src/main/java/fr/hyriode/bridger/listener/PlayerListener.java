@@ -1,10 +1,9 @@
 package fr.hyriode.bridger.listener;
 
 import fr.hyriode.api.language.HyriLanguageMessage;
+import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.game.BridgerGamePlayer;
 import fr.hyriode.hyrame.listener.HyriListener;
-import fr.hyriode.bridger.HyriBridger;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -82,7 +81,7 @@ public class PlayerListener extends HyriListener<HyriBridger> {
             return;
         }
 
-        if (gamePlayer.isSpec()) {
+        if (gamePlayer.isSpectating()) {
             return;
         }
 
@@ -94,12 +93,12 @@ public class PlayerListener extends HyriListener<HyriBridger> {
 
         if (gamePlayer.getGameArea().getMax().getX()+5 < event.getTo().getX()) {
             gamePlayer.getPlayer().teleport(gamePlayer.getPlayer().getLocation().clone().subtract(2, 0, 0));
-            gamePlayer.sendMessage(ChatColor.RED + HyriLanguageMessage.get("message.player.oob").getValue(event.getPlayer()));
+            gamePlayer.getPlayer().sendMessage(ChatColor.RED + HyriLanguageMessage.get("message.player.oob").getValue(event.getPlayer()));
             return;
         }
         if (gamePlayer.getGameArea().getMin().getX()-5 > event.getTo().getX()) {
             gamePlayer.getPlayer().teleport(gamePlayer.getPlayer().getLocation().clone().add(2, 0, 0));
-            gamePlayer.sendMessage(ChatColor.RED + HyriLanguageMessage.get("message.player.oob").getValue(event.getPlayer()));
+            gamePlayer.getPlayer().sendMessage(ChatColor.RED + HyriLanguageMessage.get("message.player.oob").getValue(event.getPlayer()));
 
             return;
         }
@@ -117,14 +116,15 @@ public class PlayerListener extends HyriListener<HyriBridger> {
     }
 
     @EventHandler
-    public void onPlayerLeftClick(PlayerInteractEvent event) {
+    public void onPlayerClick(PlayerInteractEvent event) {
         BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer(event.getPlayer());
 
         if (gamePlayer == null) {
             return;
         }
 
-        if (gamePlayer.isSpec()) {
+        if (gamePlayer.isSpectating()) {
+            gamePlayer.getPlayer().teleport(gamePlayer.getWatchedPlayer().getPlayer());
             return;
         }
 
