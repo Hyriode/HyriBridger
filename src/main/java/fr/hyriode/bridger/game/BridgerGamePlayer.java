@@ -415,7 +415,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
     public void sendPlayerStats() {
         final HyriBridgerStats account = HyriBridgerStats.get(this.player.getUniqueId());
-        final IBridgerTypeHandler handler = ((BridgerGameType) this.plugin.getGame().getType()).getHandler();
+        final IBridgerTypeHandler handler = ((BridgerGameType) this.plugin.getGame().getType()).getHandlerSupplier().get();
 
         if (this.actualPB != null) {
             handler.sendNewPB(account, this.actualPB);
