@@ -5,9 +5,7 @@ import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.api.player.IHyriPlayer;
 import org.bukkit.Material;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static fr.hyriode.bridger.game.blocks.Specification.*;
 import static org.bukkit.Material.*;
@@ -85,6 +83,13 @@ public enum BridgerBlock {
     DIAMOND_BLOCK(68, Material.DIAMOND_BLOCK, MEDAL_ULTIMATE),
     BRIDGER_TNT(69, TNT, STAFF),
     ;
+
+    public static final Map<Integer, BridgerBlock> BY_ID = new HashMap<>();
+    static {
+        for (BridgerBlock bridgerBlock : values()) {
+            BY_ID.put(bridgerBlock.id, bridgerBlock);
+        }
+    }
 
     private final int id;
     private final String nameKey;
@@ -172,11 +177,6 @@ public enum BridgerBlock {
     }
 
     public static BridgerBlock getById(int id) {
-        for (BridgerBlock bridgerBlock : BridgerBlock.values()) {
-            if (bridgerBlock.getId() == id) {
-                return bridgerBlock;
-            }
-        }
-        throw new NotFoundException("Not found");
+        return BY_ID.get(id);
     }
 }
