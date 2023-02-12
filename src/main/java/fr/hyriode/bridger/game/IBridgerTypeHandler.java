@@ -8,6 +8,7 @@ public interface IBridgerTypeHandler {
 
     void sendNewMedal(HyriBridgerStats account, Medal medal);
     void sendNewPB(HyriBridgerStats account, HyriBridgerDuration duration);
+    long getMedalTime(Medal medal);
 
     class NormalHandler implements IBridgerTypeHandler {
 
@@ -22,6 +23,11 @@ public interface IBridgerTypeHandler {
             account.setPersonalNormalBest(duration);
             account.update();
         }
+
+        @Override
+        public long getMedalTime(Medal medal) {
+            return medal.getTimeToReachNormal();
+        }
     }
     class ShortHandler implements IBridgerTypeHandler {
         @Override
@@ -34,6 +40,11 @@ public interface IBridgerTypeHandler {
         public void sendNewPB(HyriBridgerStats account, HyriBridgerDuration duration) {
             account.setPersonalShortBest(duration);
             account.update();
+        }
+
+        @Override
+        public long getMedalTime(Medal medal) {
+            return medal.getTimeToReachShort();
         }
     }
 
@@ -48,6 +59,11 @@ public interface IBridgerTypeHandler {
         public void sendNewPB(HyriBridgerStats account, HyriBridgerDuration duration) {
             account.setPersonalDiagonalBest(duration);
             account.update();
+        }
+
+        @Override
+        public long getMedalTime(Medal medal) {
+            return medal.getTimeToReachDiagonal();
         }
     }
 }
