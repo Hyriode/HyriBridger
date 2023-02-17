@@ -277,22 +277,10 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     private void successPersonalBest() {
-        if (this.getMedal() != null) {
-            if (!this.getMedal().equals(Medal.ULTIMATE)) {
-                for(int i = this.getMedal().getId()+1;i <= 4;i++) {
-                    final long medalTimeToReach = Medal.getById(i).getTimeToReach(this.plugin.getGame().getType().getName());
-
-                    if (this.actualTimer.toFinalDuration().getExactTime() < medalTimeToReach) {
-                        this.successMedal(Medal.getById(i));
-                    }
-                }
-            }
-        } else {
-            for(int i = 1;i <= 4;i++) {
-                final long medalTimeToReach = Medal.getById(i).getTimeToReach(this.plugin.getGame().getType().getName());
-
-                if (this.actualTimer.toFinalDuration().getExactTime() < medalTimeToReach) {
-                    this.successMedal(Medal.getById(i));
+        if (this.getMedal() == null || !this.getMedal().equals(Medal.ULTIMATE)) {
+            for (Medal medal : Medal.values()) {
+                if (this.actualTimer.toFinalDuration().getExactTime() < this.plugin.getTypeHandler().getMedalTime(medal)) {
+                    this.successMedal(medal);
                 }
             }
         }
