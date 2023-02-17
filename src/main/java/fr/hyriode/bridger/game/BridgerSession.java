@@ -5,145 +5,47 @@ import fr.hyriode.bridger.game.timers.BridgerScore;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class BridgerSession {
 
-    private BridgerScore scoreFirst;
-    private BridgerScore scoreSecond;
-    private BridgerScore scoreThird;
+    private final List<BridgerScore> scores = new ArrayList<>();
 
     public void add(Player player, HyriBridgerDuration duration) {
-        if (this.scoreFirst == null) {
-            this.scoreFirst = new BridgerScore(duration, player);
-            return;
+        if (scores.stream().anyMatch(bridgerScore -> bridgerScore.getPlayer() == player)) {
+            scores.remove(scores.stream().filter(bridgerScore -> bridgerScore.getPlayer() == player).findFirst().orElse(null));
+        } else {
+            scores.add(new BridgerScore(duration, player));
         }
-
-        if (this.scoreSecond == null) {
-            if (duration.getExactTime() < this.scoreFirst.getDuration().getExactTime()) {
-                if (this.scoreFirst.getPlayer().equals(player)) {
-                    this.scoreFirst.setDuration(duration);
-                } else {
-                    this.scoreSecond = new BridgerScore(duration, player);
-                }
-            } else {
-                this.scoreSecond = this.scoreFirst;
-                this.scoreFirst = new BridgerScore(duration, player);
-            }
-            return;
-        }
-
-        if (this.scoreThird == null) {
-            if (duration.getExactTime() < this.scoreSecond.getDuration().getExactTime()) {
-                if (duration.getExactTime() < this.scoreFirst.getDuration().getExactTime()) {
-                    if (this.scoreFirst.getPlayer().equals(player)) {
-                        this.scoreFirst.setDuration(duration);
-                        return;
-                    }
-                    this.scoreThird = this.scoreSecond;
-                    this.scoreSecond = this.scoreFirst;
-                    this.scoreFirst  = new BridgerScore(duration, player);
-                    return;
-                }
-
-                if (this.scoreSecond.getPlayer().equals(player)) {
-                    this.scoreSecond.setDuration(duration);
-                    return;
-                }
-                if (!this.scoreFirst.getPlayer().equals(player)) {
-                    this.scoreThird = this.scoreSecond;
-                    this.scoreSecond = new BridgerScore(duration, player);
-                }
-                return;
-            }
-
-            if (!this.scoreFirst.getPlayer().equals(player) && !this.scoreSecond.getPlayer().equals(player)) {
-                this.scoreThird = new BridgerScore(duration, player);
-            }
-            return;
-        }
-        if (duration.getExactTime() < this.scoreThird.getDuration().getExactTime()) {
-            if (this.scoreThird.getPlayer().equals(player)) {
-                this.scoreThird = null;
-            }
-
-            if (duration.getExactTime() < this.scoreSecond.getDuration().getExactTime()) {
-                if (this.scoreSecond.getPlayer().equals(player)) {
-                    this.scoreSecond = this.scoreThird;
-                    this.scoreThird = null;
-                }
-
-                if (duration.getExactTime() < this.scoreFirst.getDuration().getExactTime()) {
-                    if (this.scoreFirst.getPlayer().equals(player)) {
-                        this.scoreFirst.setDuration(duration);
-                        return;
-                    }
-                    this.scoreThird = this.scoreSecond;
-                    this.scoreSecond = this.scoreFirst;
-                    this.scoreFirst  = new BridgerScore(duration, player);
-                    return;
-                }
-
-                if (this.scoreSecond.getPlayer().equals(player)) {
-                    this.scoreSecond.setDuration(duration);
-                    return;
-                }
-                if (!this.scoreFirst.getPlayer().equals(player)) {
-                    this.scoreThird = this.scoreSecond;
-                    this.scoreSecond = new BridgerScore(duration, player);
-                }
-                return;
-            }
-
-            if (this.scoreThird.getPlayer().equals(player)) {
-                this.scoreThird.setDuration(duration);
-                return;
-            }
-            if (!this.scoreFirst.getPlayer().equals(player) && !this.scoreSecond.getPlayer().equals(player)) {
-                this.scoreThird = new BridgerScore(duration, player);
-            }
-        }
+        scores.sort(Comparator.comparing(bridgerScore -> bridgerScore.getDuration().getExactTime()));
+        if (scores.size() > 3) scores.remove(3);
     }
 
     public void removeScoresOf(Player player) {
-        if (this.scoreFirst != null) {
-            if (this.scoreFirst.getPlayer().equals(player)) {
-                this.scoreFirst = this.scoreSecond;
-                this.scoreSecond = this.scoreThird;
-                this.scoreThird = null;
-            }
-        }
-        if (this.scoreSecond != null) {
-            if (this.scoreSecond.getPlayer().equals(player)) {
-                this.scoreSecond = this.scoreThird;
-                this.scoreThird = null;
-            }
-        }
-        if (this.scoreThird != null) {
-            if (this.scoreThird.getPlayer().equals(player)) {
-                this.scoreThird = null;
-            }
-        }
+        scores.removeIf(score -> score.getPlayer().equals(player));
     }
 
     public String getFormattedTop(int i) {
-        StringBuilder returnString = new StringBuilder(ChatColor.GRAY + "*****:" + ChatColor.YELLOW + " -.---");
-        for (int i1 = 0; i1 < i; i1++) {
-            returnString.append(" ");
+        if (i < 1 || i > 3) {
+            return ChatColor.GRAY + "*****:" + ChatColor.YELLOW + " -.---";
         }
-        if (i == 1) {
-            if (this.scoreFirst != null) {
-                return ChatColor.GRAY + this.scoreFirst.getPlayer().getDisplayName() + ": " + ChatColor.YELLOW + this.scoreFirst.getDuration().toFormattedTime();
-            }
-            return returnString.toString();
+        if (scores.size() < i) {
+            return ChatColor.GRAY + "*****:" + ChatColor.YELLOW + " -.---";
         }
-        if (i == 2) {
-            if (this.scoreSecond != null) {
-                return ChatColor.GRAY + this.scoreSecond.getPlayer().getDisplayName() + ": " + ChatColor.YELLOW + this.scoreSecond.getDuration().toFormattedTime();
-            }
-            return returnString.toString();
-        }
-        if (this.scoreThird != null) {
-            return ChatColor.GRAY + this.scoreThird.getPlayer().getDisplayName() + ": " + ChatColor.YELLOW + this.scoreThird.getDuration().toFormattedTime();
-        }
-        return returnString.toString();
+        BridgerScore score = scores.get(i - 1);
+        return ChatColor.GRAY + score.getPlayer().getDisplayName() + ": " + ChatColor.YELLOW + score.getDuration().toFormattedTime();
+    }
+
+    public List<BridgerScore> getScores() {
+        return scores;
+    }
+
+    public List<String> getFormattedTopScores() {
+        return scores.stream()
+                .map(score -> ChatColor.GRAY + score.getPlayer().getDisplayName() + ": " + ChatColor.YELLOW + score.getDuration().toFormattedTime())
+                .collect(Collectors.toList());
     }
 }

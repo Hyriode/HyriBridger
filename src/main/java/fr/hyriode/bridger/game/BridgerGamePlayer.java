@@ -115,7 +115,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         this.hologramLocation = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getHologramLocationOnFirstIsland().asBukkit());
         this.npcLocation = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getNpcLocationOnFirstIsland().asBukkit());
         this.gameArea = new Area(this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getGameAreaOnFirstIslandFirst().asBukkit()),this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getGameAreaOnFirstIslandSecond().asBukkit()));
-         //Setup game
+        //Setup game
         this.setupScoreboard();
         this.setupNPC();
         this.refreshHologram();
@@ -291,7 +291,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
         Title.sendTitle(this.player, new Title(ChatColor.AQUA + this.getActualTimer().toFinalDuration().toFormattedTime(), ChatColor.DARK_AQUA + this.getValue("title.sub.player.pb")
                 .replace("%pb%", ChatColor.AQUA + this.actualTimer.toFinalDuration().toFormattedTime())
-        , 5, 40, 15));
+                , 5, 40, 15));
         this.plugin.getMessageHelper().sendSuccessPBMessage(this.player, this.actualTimer.toFinalDuration());
     }
 
