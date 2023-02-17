@@ -1,7 +1,5 @@
 package fr.hyriode.bridger.api;
 
-import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
-
 public enum Medal {
 
     BRONZE(12000, 44000, "medal.bronze"),
