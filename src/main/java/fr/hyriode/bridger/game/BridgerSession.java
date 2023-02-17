@@ -15,7 +15,11 @@ public class BridgerSession {
     private final List<BridgerScore> scores = new ArrayList<>();
 
     public void add(Player player, HyriBridgerDuration duration) {
-        scores.add(new BridgerScore(duration, player));
+        if (scores.stream().anyMatch(bridgerScore -> bridgerScore.getPlayer() == player)) {
+            scores.remove(scores.stream().filter(bridgerScore -> bridgerScore.getPlayer() == player).findFirst().orElse(null));
+        } else {
+            scores.add(new BridgerScore(duration, player));
+        }
         scores.sort(Comparator.comparing(bridgerScore -> bridgerScore.getDuration().getExactTime()));
         if (scores.size() > 3) scores.remove(3);
     }
