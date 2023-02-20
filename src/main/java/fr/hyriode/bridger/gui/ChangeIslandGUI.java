@@ -13,7 +13,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static fr.hyriode.hyrame.utils.Symbols.DOT_BOLD;
 import static org.bukkit.ChatColor.*;
@@ -21,107 +23,100 @@ import static org.bukkit.ChatColor.*;
 public class ChangeIslandGUI extends HyriInventory {
 
     //Maximum number of island in this configuration -> 36
-    private int[] islandsSlots = new int[30];
+    private final int[] islandsSlots = IntStream.range(0, 30).map(i -> i+9).toArray();
 
     private final HyriBridger plugin;
     private final BridgerGamePlayer gamePlayer;
+    private final ItemStack glassPane = new ItemBuilder(Material.STAINED_GLASS_PANE, 1, (short) 9).withName(" ").build();;
 
     public ChangeIslandGUI(HyriBridger plugin, Player owner) {
         super(owner, "Change island", 9*6);
         this.plugin = plugin;
         this.gamePlayer = this.plugin.getGame().getPlayer(this.owner);
 
-        for (int i = 0; i < islandsSlots.length; i++) {
-            islandsSlots[i] = i+9;
-        }
-
-        this.newUpdate(40L);
-
         this.init();
     }
 
     public void init() {
-        ItemStack glassPane = new ItemBuilder(Material.STAINED_GLASS_PANE, 1, (short) 9)
-                .withName(" ")
-                .build();
-
-        this.setHorizontalLine(0, 8, glassPane);
-        this.setHorizontalLine(45, 53, glassPane);
-
-        this.setItem(0, ItemBuilder.asHead()
+        setHorizontalLine(0, 8, glassPane);
+        setHorizontalLine(45, 53, glassPane);
+        setItem(0, ItemBuilder.asHead()
                 .withHeadTexture(UsefulHead.BACK.getTexture())
-                .withName(DARK_AQUA + this.getValue("gui.item-name.go-back"))
-                .build(), event -> new MainGUI(this.plugin, this.owner).open());
-
-        this.update();
+                .withName(DARK_AQUA + getValue("gui.item-name.go-back"))
+                .build(), event -> new MainGUI(plugin, owner).open());
+        update();
     }
 
     @Override
     public void update() {
-        List<Boolean> emplacements = this.plugin.getGame().getEmplacements();
+        List<Boolean> emplacements = plugin.getGame().getEmplacements();
         for (int i = 0; i < emplacements.size(); i++) {
             boolean emplacement = emplacements.get(i);
+            int slot = islandsSlots[i];
+            IslandStatus status;
+            ItemBuilder itemBuilder = new ItemBuilder(Material.STAINED_CLAY, i+1);
 
-            if (i == this.gamePlayer.getPlayerNumber()) {
-                this.setItem(this.islandsSlots[i], new ItemBuilder(Material.STAINED_CLAY, i+1, (short)1)
-                        .withName(this.getIslandName(i))
-                        .withLore(getIslandLore(IslandStatus.SELF_OCCUPIED))
-                        .build());
+            if (i == gamePlayer.getPlayerNumber()) {
+                status = IslandStatus.SELF_OCCUPIED;
             } else if (emplacement) {
-                this.setItem(this.islandsSlots[i], new ItemBuilder(Material.STAINED_CLAY, i+1, (short)14)
-                        .withName(this.getIslandName(i))
-                        .withLore(this.getIslandLore(IslandStatus.OCCUPIED))
-                        .build());
+                status = IslandStatus.OCCUPIED;
             } else {
-                int finalI = i;
-                this.setItem(this.islandsSlots[i], new ItemBuilder(Material.STAINED_CLAY, i+1, (short)5)
-                        .withName(this.getIslandName(i))
-                        .withLore(this.getIslandLore(IslandStatus.FREE))
-                        .build(), event -> this.warpToIsland(finalI));
+                status = IslandStatus.FREE;
             }
+
+            itemBuilder.withData(status.getColorData())
+                    .withName(getIslandName(i))
+                    .withLore(getIslandLore(status));
+            if (status == IslandStatus.FREE) {
+                int finalI = i;
+                setItem(slot, itemBuilder.build(), event -> warpToIsland(finalI));
+            } else {
+                setItem(slot, itemBuilder.build());
+            }
+
         }
     }
 
     private String getIslandName(int islandNumber) {
-        return GRAY + this.getValue("gui.item.island") + " " + new DecimalFormat("00").format(islandNumber+1);
+        return GRAY + getValue("gui.item.island") + " " + new DecimalFormat("00").format(islandNumber+1);
     }
 
-    private List<String> getIslandLore(ChangeIslandGUI.IslandStatus status) {
-        final ArrayList<String> lore = new ArrayList<>();
-        lore.add(DARK_GRAY + DOT_BOLD + " " + GRAY + this.getValue("gui.lore.status") + ": " + status.getChatColor() + this.getValue(status.getKey()));
-        lore.add(" ");
-        lore.add(this.getValue("gui.lore.click-to-teleport"));
-
-        return lore;
+    private List<String> getIslandLore(IslandStatus status) {
+        return Arrays.asList(
+                DARK_GRAY + DOT_BOLD + " " + GRAY + getValue("gui.lore.status") + ": " + status.getChatColor() + getValue(status.getKey()),
+                "",
+                getValue("gui.lore.click-to-teleport")
+        );
     }
 
     private void warpToIsland(int islandIndex) {
-        if (!this.plugin.getGame().getEmplacements().get(islandIndex)) {
-            this.owner.closeInventory();
-
-            if (this.gamePlayer.isBridging()) {
-                this.gamePlayer.endBridging(false);
+        if (!plugin.getGame().getEmplacements().get(islandIndex)) {
+            owner.closeInventory();
+            if (gamePlayer.isBridging()) {
+                gamePlayer.endBridging(false);
             }
-            this.plugin.getGame().getEmplacements().set(gamePlayer.getPlayerNumber(), false);
-            this.gamePlayer.setIslandNumber(islandIndex);
+            plugin.getGame().getEmplacements().set(gamePlayer.getPlayerNumber(), false);
+            gamePlayer.setIslandNumber(islandIndex);
         }
     }
 
     private String getValue(String key) {
-        return HyriLanguageMessage.get(key).getValue(this.owner);
+        return HyriLanguageMessage.get(key).getValue(owner);
     }
 
     private enum IslandStatus {
-        FREE(GREEN, "gui.lore.status.free"),
-        OCCUPIED(RED, "gui.lore.status.occupied"),
-        SELF_OCCUPIED(GOLD, "gui.lore.status.self-occupied");
+        FREE(GREEN, "gui.lore.status.free", (short) 5),
+        OCCUPIED(RED, "gui.lore.status.occupied", (short) 14),
+        SELF_OCCUPIED(GOLD, "gui.lore.status.self-occupied", (short) 1);
 
         private final ChatColor chatColor;
         private final String key;
+        private final Short colorData;
 
-        IslandStatus(ChatColor chatColor, String key) {
+        IslandStatus(ChatColor chatColor, String key, Short colorData) {
             this.chatColor = chatColor;
             this.key = key;
+            this.colorData = colorData;
         }
 
         public ChatColor getChatColor() {
@@ -130,6 +125,10 @@ public class ChangeIslandGUI extends HyriInventory {
 
         public String getKey() {
             return key;
+        }
+
+        public Short getColorData() {
+            return colorData;
         }
     }
 }
