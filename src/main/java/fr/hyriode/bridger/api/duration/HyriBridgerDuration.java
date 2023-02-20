@@ -19,8 +19,7 @@ public class HyriBridgerDuration {
     }
 
     public String toFormattedTime() {
-        DecimalFormat format = new DecimalFormat("000");
-        return this.toSecondsPart() + "." + format.format(this.toMillisPart());
+        return this.toSecondsPart() + "." + new DecimalFormat("000").format(this.toMillisPart());
     }
 
     public long getExactTime() {
