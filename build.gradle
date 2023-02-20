@@ -28,7 +28,7 @@ repositories {
 
         credentials {
             username System.getenv("GITHUB_USERNAME")
-            password System.getenv("LANDCUBE_TOKEN")
+            password System.getenv("GITHUB_TOKEN")
         }
     }
 }
