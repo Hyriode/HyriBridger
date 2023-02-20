@@ -84,10 +84,10 @@ public enum BridgerBlock {
     BRIDGER_TNT(69, TNT, STAFF),
     ;
 
-    public static final Map<Integer, BridgerBlock> BY_ID = new HashMap<>();
+    private static final Map<Integer, BridgerBlock> BY_ID = new HashMap<>();
     static {
         for (BridgerBlock bridgerBlock : values()) {
-            BY_ID.put(bridgerBlock.id, bridgerBlock);
+            BY_ID.put(bridgerBlock.getId(), bridgerBlock);
         }
     }
 
@@ -105,7 +105,7 @@ public enum BridgerBlock {
     BridgerBlock(int id, Material material, Specification specificationNeeded) {
         this(id, material, 0, 0, specificationNeeded);
     }
-    
+
     BridgerBlock(int id, Material material, int cost) {
         this(id, material, 0, cost, DEFAULT);
     }
