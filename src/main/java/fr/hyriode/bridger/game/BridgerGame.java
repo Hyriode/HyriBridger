@@ -2,7 +2,6 @@ package fr.hyriode.bridger.game;
 
 import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
 import fr.hyriode.api.language.HyriLanguageMessage;
-import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.api.util.Skin;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.api.player.HyriBridgerData;

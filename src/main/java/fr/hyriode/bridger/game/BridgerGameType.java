@@ -4,8 +4,6 @@ import fr.hyriode.hyrame.game.HyriGameType;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.function.Supplier;
-
 
 public enum BridgerGameType implements HyriGameType {
 

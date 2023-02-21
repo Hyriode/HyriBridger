@@ -1,6 +1,5 @@
 package fr.hyriode.bridger.game.blocks;
 
-import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
 import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.api.player.IHyriPlayer;
 import org.bukkit.Material;
