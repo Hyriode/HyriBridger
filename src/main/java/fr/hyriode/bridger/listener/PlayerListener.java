@@ -6,7 +6,10 @@ import fr.hyriode.bridger.game.BridgerGamePlayer;
 import fr.hyriode.hyrame.listener.HyriListener;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
@@ -20,6 +23,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.util.Vector;
 
 public class PlayerListener extends HyriListener<HyriBridger> {
 
@@ -77,40 +81,40 @@ public class PlayerListener extends HyriListener<HyriBridger> {
     public void onPlayerMove(PlayerMoveEvent event) {
         BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer(event.getPlayer());
 
-        if (gamePlayer == null) {
+        if (gamePlayer == null || gamePlayer.isSpectating()) {
             return;
         }
 
-        if (gamePlayer.isSpectating()) {
-            return;
-        }
+        Location to = event.getTo();
 
-        if (event.getTo().getY() < this.plugin.getConfiguration().getyPosBeforeTeleport()) {
+        if (to.getY() < this.plugin.getConfiguration().getyPosBeforeTeleport()) {
             event.getPlayer().setGameMode(GameMode.ADVENTURE);
             gamePlayer.resetPlayerBridge();
             return;
         }
 
-        if (gamePlayer.getGameArea().getMax().getX()+5 < event.getTo().getX()) {
-            gamePlayer.getPlayer().teleport(gamePlayer.getPlayer().getLocation().clone().subtract(2, 0, 0));
+        Location max = gamePlayer.getGameArea().getMax();
+        Location min = gamePlayer.getGameArea().getMin();
+
+        if (max.getX() + 5 < to.getX()) {
+            gamePlayer.getPlayer().teleport(max.clone().subtract(2, 0, 0));
             gamePlayer.getPlayer().sendMessage(ChatColor.RED + HyriLanguageMessage.get("message.player.oob").getValue(event.getPlayer()));
             return;
-        }
-        if (gamePlayer.getGameArea().getMin().getX()-5 > event.getTo().getX()) {
-            gamePlayer.getPlayer().teleport(gamePlayer.getPlayer().getLocation().clone().add(2, 0, 0));
+        } else if (min.getX() - 5 > to.getX()) {
+            gamePlayer.getPlayer().teleport(min.clone().add(2, 0, 0));
             gamePlayer.getPlayer().sendMessage(ChatColor.RED + HyriLanguageMessage.get("message.player.oob").getValue(event.getPlayer()));
-
             return;
         }
 
         if (gamePlayer.isBridging()) {
-            if (event.getTo().getBlock().getType().equals(Material.GOLD_PLATE)) {
-                this.plugin.getGame().getPlayer(event.getPlayer()).addActualPlacedBlocks(1);
+            if (to.getBlock().getType().equals(Material.GOLD_PLATE)) {
+                gamePlayer.addActualPlacedBlocks(1);
                 gamePlayer.endBridging(true);
             }
         } else {
-            if (event.getTo().clone().subtract(0, 1, 0).getBlock().hasMetadata(BREAKABLE_META_DATA_KEY)) {
-                event.getTo().clone().subtract(0, 1, 0).getBlock().setType(Material.AIR);
+            Block block = to.clone().subtract(0, 1, 0).getBlock();
+            if (block.hasMetadata(BREAKABLE_META_DATA_KEY)) {
+                block.setType(Material.AIR);
             }
         }
     }
