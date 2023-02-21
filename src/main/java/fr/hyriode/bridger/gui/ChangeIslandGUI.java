@@ -3,9 +3,9 @@ package fr.hyriode.bridger.gui;
 import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.game.BridgerGamePlayer;
-import fr.hyriode.bridger.utils.UsefulHead;
 import fr.hyriode.hyrame.inventory.HyriInventory;
 import fr.hyriode.hyrame.item.ItemBuilder;
+import fr.hyriode.hyrame.language.HyrameMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -39,9 +39,8 @@ public class ChangeIslandGUI extends HyriInventory {
     public void init() {
         setHorizontalLine(0, 8, glassPane);
         setHorizontalLine(45, 53, glassPane);
-        setItem(0, ItemBuilder.asHead()
-                .withHeadTexture(UsefulHead.BACK.getTexture())
-                .withName(DARK_AQUA + getValue("gui.item-name.go-back"))
+        setItem(0, new ItemBuilder(Material.ARROW)
+                .withName(HyrameMessage.GO_BACK.asString(this.owner))
                 .build(), event -> new MainGUI(plugin, owner).open());
         update();
     }

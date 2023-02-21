@@ -6,9 +6,9 @@ import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.api.player.HyriBridgerData;
 import fr.hyriode.bridger.game.BridgerGamePlayer;
 import fr.hyriode.bridger.game.blocks.BridgerBlock;
-import fr.hyriode.bridger.utils.UsefulHead;
 import fr.hyriode.hyrame.inventory.HyriInventory;
 import fr.hyriode.hyrame.item.ItemBuilder;
+import fr.hyriode.hyrame.language.HyrameMessage;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -45,9 +45,8 @@ public class ChangeBlockGUI extends HyriInventory {
         this.setHorizontalLine(0, 8, glassPane);
         this.setHorizontalLine(45, 53, glassPane);
 
-        this.setItem(0, ItemBuilder.asHead()
-                .withHeadTexture(UsefulHead.BACK.getTexture())
-                .withName(DARK_AQUA + this.getValue("gui.item-name.go-back"))
+        this.setItem(0, new ItemBuilder(Material.ARROW)
+                .withName(HyrameMessage.GO_BACK.asString(this.owner))
                 .build(), event -> new MainGUI(this.plugin, this.owner).open());
 
         final int freeSpace = 14;
