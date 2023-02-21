@@ -279,7 +279,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     private void successPersonalBest() {
         if (this.getMedal() == null || !this.getMedal().equals(Medal.ULTIMATE)) {
             for (Medal medal : Medal.values()) {
-                if (this.actualTimer.toFinalDuration().getExactTime() < this.plugin.getTypeHandler().getMedalTime(medal)) {
+                if (this.actualTimer.toFinalDuration().getExactTime() < medal.getTimeToReach((BridgerGameType) this.plugin.getGame().getType())) {
                     this.successMedal(medal);
                 }
             }

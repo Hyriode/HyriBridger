@@ -1,31 +1,43 @@
 package fr.hyriode.bridger.api;
 
+import fr.hyriode.bridger.game.BridgerGameType;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public enum Medal {
 
-    BRONZE(12000, 44000, "medal.bronze"),
-    IRON(9000, 24000, "medal.iron"),
-    GOLD(6000, "medal.gold"),
-    ULTIMATE(4500, "medal.ultimate")
-    ;
+    BRONZE("medal.bronze", new HashMap<BridgerGameType, Long>(){{
+        put(BridgerGameType.SHORT, 12000L);
+        put(BridgerGameType.NORMAL, 44000L);
+        put(BridgerGameType.DIAGONAL, 8500L);
+    }}),
+    IRON("medal.iron", new HashMap<BridgerGameType, Long>(){{
+        put(BridgerGameType.SHORT, 9000L);
+        put(BridgerGameType.NORMAL, 24000L);
+        put(BridgerGameType.DIAGONAL, 7000L);
+    }}),
+    GOLD("medal.gold", new HashMap<BridgerGameType, Long>(){{
+        put(BridgerGameType.SHORT, 6000L);
+        put(BridgerGameType.NORMAL, 12000L);
+        put(BridgerGameType.DIAGONAL, 5500L);
+    }}),
+    ULTIMATE("medal.ultimate", new HashMap<BridgerGameType, Long>(){{
+        put(BridgerGameType.SHORT, 4500L);
+        put(BridgerGameType.NORMAL, 9000L);
+        put(BridgerGameType.DIAGONAL, 7000L);
+    }});
 
-    private final long timeToReachShort;
-    private final long timeToReachNormal;
-    private final long timeToReachDiagonal;
+    private final Map<BridgerGameType, Long> timeToReach;
     private final String languageValue;
 
-    Medal(long timeToReachShort, long timeToReachLong, long timeToReachDiagonal, String languageValue) {
-        this.timeToReachShort = timeToReachShort;
-        this.timeToReachNormal = timeToReachLong;
-        this.timeToReachDiagonal = timeToReachDiagonal;
+    Medal(String languageValue, Map<BridgerGameType, Long> timeToReach) {
+        this.timeToReach = timeToReach;
         this.languageValue = languageValue;
     }
 
-    Medal(long timeToReachShort, String languageValue) {
-        this(timeToReachShort, timeToReachShort*2, languageValue);
-    }
-
-    Medal(long timeToReachShort, long timeToReachLong, String languageValue) {
-        this(timeToReachShort, timeToReachLong, (timeToReachShort/2)+2500, languageValue);
+    public long getTimeToReach(BridgerGameType gameType) {
+        return this.timeToReach.get(gameType);
     }
 
     public long getTimeToReachShort() {
