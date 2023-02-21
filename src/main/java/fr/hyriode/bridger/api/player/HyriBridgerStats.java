@@ -5,18 +5,17 @@ import fr.hyriode.api.player.HyriPlayerData;
 import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.bridger.api.Medal;
 import fr.hyriode.bridger.api.duration.HyriBridgerDuration;
+import fr.hyriode.bridger.game.BridgerGameType;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class HyriBridgerStats extends HyriPlayerData {
 
     private final UUID uuid;
-    private HyriBridgerDuration personalShortBest;
-    private HyriBridgerDuration personalNormalBest;
-    private HyriBridgerDuration personalDiagonalBest;
-    private Medal highestAcquiredShortMedal;
-    private Medal highestAcquiredNormalMedal;
-    private Medal highestAcquiredDiagonalMedal;
+    private Map<BridgerGameType, HyriBridgerDuration> personalBests;
+    private Map<BridgerGameType, Medal> highestAcquiredMedals;
     private long blocksPlaced;
     private long bridgesMade;
     private long bridgeFailed;
@@ -24,6 +23,34 @@ public class HyriBridgerStats extends HyriPlayerData {
 
     public HyriBridgerStats(UUID uuid) {
         this.uuid = uuid;
+        this.personalBests = new HashMap<>();
+        this.highestAcquiredMedals = new HashMap<>();
+    }
+
+    public void setPersonalBest(BridgerGameType gameType, HyriBridgerDuration duration) {
+        this.personalBests.remove(gameType);
+        this.personalBests.put(gameType, duration);
+    }
+
+    public HyriBridgerDuration getPersonalBest(BridgerGameType gameType) {
+        return this.personalBests.get(gameType);
+    }
+
+    public Map<BridgerGameType, HyriBridgerDuration> getPersonalBests() {
+        return personalBests;
+    }
+
+    public void setHighestAcquiredMedal(BridgerGameType gameType, Medal medal) {
+        this.highestAcquiredMedals.remove(gameType);
+        this.highestAcquiredMedals.put(gameType, medal);
+    }
+
+    public Medal getHighestAcquiredMedal(BridgerGameType gameType) {
+        return this.highestAcquiredMedals.get(gameType);
+    }
+
+    public Map<BridgerGameType, Medal> getHighestAcquiredMedals() {
+        return highestAcquiredMedals;
     }
 
     public long getBlocksPlaced() {
@@ -56,54 +83,6 @@ public class HyriBridgerStats extends HyriPlayerData {
 
     public void addPlayedTimeInMs(long playedTimeInMs) {
         this.playedTimeInMs += playedTimeInMs;
-    }
-
-    public HyriBridgerDuration getPersonalShortBest() {
-        return personalShortBest;
-    }
-
-    public void setPersonalShortBest(HyriBridgerDuration personalShortBest) {
-        this.personalShortBest = personalShortBest;
-    }
-
-    public HyriBridgerDuration getPersonalNormalBest() {
-        return personalNormalBest;
-    }
-
-    public void setPersonalNormalBest(HyriBridgerDuration personalNormalBest) {
-        this.personalNormalBest = personalNormalBest;
-    }
-
-    public HyriBridgerDuration getPersonalDiagonalBest() {
-        return personalDiagonalBest;
-    }
-
-    public void setPersonalDiagonalBest(HyriBridgerDuration personalDiagonalBest) {
-        this.personalDiagonalBest = personalDiagonalBest;
-    }
-
-    public Medal getHighestAcquiredShortMedal() {
-        return highestAcquiredShortMedal;
-    }
-
-    public void setHighestAcquiredShortMedal(Medal highestAcquiredShortMedal) {
-        this.highestAcquiredShortMedal = highestAcquiredShortMedal;
-    }
-
-    public Medal getHighestAcquiredNormalMedal() {
-        return highestAcquiredNormalMedal;
-    }
-
-    public void setHighestAcquiredNormalMedal(Medal highestAcquiredNormalMedal) {
-        this.highestAcquiredNormalMedal = highestAcquiredNormalMedal;
-    }
-
-    public Medal getHighestAcquiredDiagonalMedal() {
-        return highestAcquiredDiagonalMedal;
-    }
-
-    public void setHighestAcquiredDiagonalMedal(Medal highestAcquiredDiagonalMedal) {
-        this.highestAcquiredDiagonalMedal = highestAcquiredDiagonalMedal;
     }
 
     public void update() {

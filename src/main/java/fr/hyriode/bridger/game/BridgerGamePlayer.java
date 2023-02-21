@@ -405,11 +405,11 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         final HyriBridgerStats account = HyriBridgerStats.get(this.player.getUniqueId());
 
         if (this.actualPB != null) {
-            this.plugin.getTypeHandler().sendNewPB(account, this.actualPB);
+            account.setPersonalBest((BridgerGameType) this.plugin.getGame().getType(), this.actualPB);
         }
 
         if (this.actualMedal != null) {
-            this.plugin.getTypeHandler().sendNewMedal(account, this.actualMedal);
+            account.setHighestAcquiredMedal((BridgerGameType) this.plugin.getGame().getType(), this.actualMedal);
         }
 
         account.addBlocksPlaced(this.actualPlacedBlocks);
@@ -453,23 +453,11 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     private HyriBridgerDuration getOldPB() {
-        if (this.plugin.getGame().getType().equals(BridgerGameType.SHORT)) {
-            return this.oldAccount.getPersonalShortBest();
-        }
-        if (this.plugin.getGame().getType().equals(BridgerGameType.NORMAL)) {
-            return this.oldAccount.getPersonalNormalBest();
-        }
-        return this.oldAccount.getPersonalDiagonalBest();
+        return this.oldAccount.getPersonalBest((BridgerGameType) this.plugin.getGame().getType());
     }
 
     private Medal getOldMedal() {
-        if (this.plugin.getGame().getType().equals(BridgerGameType.SHORT)) {
-            return this.oldAccount.getHighestAcquiredShortMedal();
-        }
-        if (this.plugin.getGame().getType().equals(BridgerGameType.NORMAL)) {
-            return this.oldAccount.getHighestAcquiredNormalMedal();
-        }
-        return this.oldAccount.getHighestAcquiredDiagonalMedal();
+        return this.oldAccount.getHighestAcquiredMedal((BridgerGameType) this.plugin.getGame().getType());
     }
 
 
