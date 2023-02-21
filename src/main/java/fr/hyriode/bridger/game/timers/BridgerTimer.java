@@ -5,10 +5,10 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class BridgerTimer {
 
-    private long startTime;
-    private long endTime;
     private final BukkitTask linkedTask;
-    private HyriBridgerDuration linkedDuration;
+    private long startTime = 0;
+    private long endTime = 0;
+    private HyriBridgerDuration linkedDuration = null;
 
     public BridgerTimer(BukkitTask linkedTask) {
         this.linkedTask = linkedTask;
@@ -16,14 +16,21 @@ public class BridgerTimer {
 
     public void start() {
         this.startTime = System.currentTimeMillis();
+        this.endTime = 0;
+        this.linkedDuration = null;
     }
 
     public void end() {
-        this.endTime = System.currentTimeMillis();
+        if (this.startTime != 0) {
+            this.endTime = System.currentTimeMillis();
+        }
     }
 
     public long getActualTime() {
-        return System.currentTimeMillis() - this.startTime;
+        if (this.startTime != 0) {
+            return System.currentTimeMillis() - this.startTime;
+        }
+        return 0;
     }
 
     public String getFormattedActualTime() {
@@ -31,12 +38,15 @@ public class BridgerTimer {
     }
 
     public long getFinalTime() {
-        return this.endTime - this.startTime;
+        if (this.endTime != 0 && this.startTime != 0) {
+            return this.endTime - this.startTime;
+        }
+        return 0;
     }
 
     public HyriBridgerDuration toFinalDuration() {
-        if (this.linkedDuration == null) {
-           this.linkedDuration = new HyriBridgerDuration(this.getFinalTime());
+        if (this.linkedDuration == null && this.startTime != 0 && this.endTime != 0) {
+            this.linkedDuration = new HyriBridgerDuration(this.getFinalTime());
         }
         return this.linkedDuration;
     }
