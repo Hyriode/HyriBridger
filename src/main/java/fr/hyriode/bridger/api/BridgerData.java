@@ -1,14 +1,19 @@
 package fr.hyriode.bridger.api;
 
+import com.google.gson.annotations.Expose;
 import fr.hyriode.api.HyriAPI;
 import fr.hyriode.api.mongodb.MongoDocument;
 import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.api.player.model.IHyriPlayerData;
+import fr.hyriode.bridger.game.blocks.BridgerBlock;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class BridgerData implements IHyriPlayerData {
 
+    @Expose private final List<BridgerBlock> unlockedBlocks = new ArrayList<>();
     private int selectedBlockId;
 
     public BridgerData(int selectedBlockId) {
@@ -26,6 +31,10 @@ public class BridgerData implements IHyriPlayerData {
     @Override
     public void load(MongoDocument document) {
         this.selectedBlockId = document.getInteger("selectedBlockId");
+    }
+
+    public boolean hasUnlocked(BridgerBlock block) {
+        return this.unlockedBlocks.contains(block);
     }
 
     public int getSelectedBlockId() {
