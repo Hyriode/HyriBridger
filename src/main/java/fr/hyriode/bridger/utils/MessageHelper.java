@@ -1,7 +1,7 @@
 package fr.hyriode.bridger.utils;
 
 import fr.hyriode.api.HyriAPI;
-import fr.hyriode.bridger.api.duration.HyriBridgerDuration;
+import fr.hyriode.bridger.api.BridgerDuration;
 import org.bukkit.entity.Player;
 
 import static fr.hyriode.hyrame.utils.Symbols.HYPHENS_LINE;
@@ -10,14 +10,14 @@ import static org.bukkit.ChatColor.STRIKETHROUGH;
 
 public class MessageHelper {
 
-    public void sendSuccessPBMessage(Player player, HyriBridgerDuration pbTime) {
+    public void sendSuccessPBMessage(Player player, BridgerDuration pbTime) {
         sendHeader(player);
         player.sendMessage(MessageUtil.getCentredMultiLinesMessage(HyriAPI.get().getLanguageManager().getMessage("message.player.succeed-pb").getValue(player)
                .replace("%pb%", pbTime.toFormattedTime())));
         sendFooter(player);
     }
 
-    public void sendFailedPBMessage(Player player, HyriBridgerDuration pbTime, HyriBridgerDuration actualTime) {
+    public void sendFailedPBMessage(Player player, BridgerDuration pbTime, BridgerDuration actualTime) {
         sendHeader(player);
         player.sendMessage(MessageUtil.getCentredMultiLinesMessage(HyriAPI.get().getLanguageManager().getMessage("message.player.failed-pb").getValue(player)
                 .replace("%pb%", pbTime.toFormattedTime())

@@ -1,12 +1,12 @@
-package fr.hyriode.bridger.api.duration;
+package fr.hyriode.bridger.api;
 
 import java.text.DecimalFormat;
 
-public class HyriBridgerDuration {
+public class BridgerDuration {
 
     private final long ms;
 
-    public HyriBridgerDuration(long timeInMs) {
+    public BridgerDuration(long timeInMs) {
         this.ms = timeInMs;
     }
 

@@ -5,7 +5,7 @@ import fr.hyriode.bridger.game.BridgerGameType;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum Medal {
+public enum BridgerMedal {
 
     BRONZE("medal.bronze", new HashMap<BridgerGameType, Long>(){{
         put(BridgerGameType.SHORT, 12000L);
@@ -31,25 +31,13 @@ public enum Medal {
     private final Map<BridgerGameType, Long> timeToReach;
     private final String languageValue;
 
-    Medal(String languageValue, Map<BridgerGameType, Long> timeToReach) {
+    BridgerMedal(String languageValue, Map<BridgerGameType, Long> timeToReach) {
         this.timeToReach = timeToReach;
         this.languageValue = languageValue;
     }
 
     public long getTimeToReach(BridgerGameType gameType) {
         return this.timeToReach.get(gameType);
-    }
-
-    public long getTimeToReachShort() {
-        return this.timeToReachShort;
-    }
-
-    public long getTimeToReachNormal() {
-        return this.timeToReachNormal;
-    }
-
-    public long getTimeToReachDiagonal() {
-        return this.timeToReachDiagonal;
     }
 
     public String getLanguageValue() {
