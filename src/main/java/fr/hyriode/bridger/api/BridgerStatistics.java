@@ -2,6 +2,7 @@ package fr.hyriode.bridger.api;
 
 import fr.hyriode.api.HyriAPI;
 import fr.hyriode.api.mongodb.MongoDocument;
+import fr.hyriode.api.mongodb.MongoSerializable;
 import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.api.player.model.IHyriStatistics;
 import fr.hyriode.bridger.game.BridgerGameType;
@@ -21,18 +22,23 @@ public class BridgerStatistics implements IHyriStatistics {
 
     @Override
     public void save(MongoDocument document) {
-        final Document dataDocument = new Document();
         for (Map.Entry<BridgerGameType, Data> entry : this.data.entrySet()) {
-            dataDocument.append(entry.getKey().name(), entry.getValue().toDocument());
+            final Document dataDocument = new Document();
+
+            entry.getValue().save(MongoDocument.of(dataDocument));
+
+            document.append(entry.getKey().name(), dataDocument);
         }
-        document.append("data", dataDocument);
     }
 
     @Override
     public void load(MongoDocument document) {
-        this.data.clear();
-        for (Map.Entry<String, Object> entry : document.get("data", Document.class).entrySet()) {
-            this.data.put(BridgerGameType.valueOf(entry.getKey()), Data.fromDocument((Document) entry.getValue()));
+        for (Map.Entry<String, Object> entry : document.entrySet()) {
+            final Data data = new Data();
+
+            data.load(MongoDocument.of((Document) entry.getValue()));
+
+            this.data.put(BridgerGameType.valueOf(entry.getKey()), data);
         }
     }
 
@@ -71,7 +77,7 @@ public class BridgerStatistics implements IHyriStatistics {
         return get(IHyriPlayer.get(playerId));
     }
 
-    public static class Data {
+    public static class Data implements MongoSerializable {
 
         private BridgerDuration personalBest;
         private BridgerMedal highestAcquiredBridgerMedal;
@@ -143,26 +149,24 @@ public class BridgerStatistics implements IHyriStatistics {
             this.playedTime = playedTime;
         }
 
-        public Document toDocument() {
-            final Document document = new Document();
+        @Override
+        public void save(MongoDocument document) {
             document.append("personalBest", this.personalBest != null ? this.personalBest.getExactTime() : 0);
             document.append("highestAcquiredMedal", this.highestAcquiredBridgerMedal != null ? this.highestAcquiredBridgerMedal.name() : null);
             document.append("blocksPlaced", this.blocksPlaced);
             document.append("bridgesMade", this.bridgesMade);
             document.append("bridgeFailed", this.bridgeFailed);
             document.append("playedTime", this.playedTime);
-            return document;
         }
 
-        public static Data fromDocument(Document document) {
-            final Data data = new Data();
-            data.personalBest = new BridgerDuration(document.getLong("personalBest"));
-            data.highestAcquiredBridgerMedal = document.getString("highestAcquiredMedal") != null ? BridgerMedal.valueOf(document.getString("highestAcquiredMedal")) : null;
-            data.blocksPlaced = document.getInteger("blocksPlaced");
-            data.bridgesMade = document.getInteger("bridgesMade");
-            data.bridgeFailed = document.getInteger("bridgeFailed");
-            data.playedTime = document.getLong("playedTime");
-            return data;
+        @Override
+        public void load(MongoDocument document) {
+            this.personalBest = new BridgerDuration(document.getLong("personalBest"));
+            this.highestAcquiredBridgerMedal = document.getString("highestAcquiredMedal") != null ? BridgerMedal.valueOf(document.getString("highestAcquiredMedal")) : null;
+            this.blocksPlaced = document.getInteger("blocksPlaced");
+            this.bridgesMade = document.getInteger("bridgesMade");
+            this.bridgeFailed = document.getInteger("bridgeFailed");
+            this.playedTime = document.getLong("playedTime");
         }
     }
 }

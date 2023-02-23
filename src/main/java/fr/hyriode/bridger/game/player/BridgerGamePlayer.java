@@ -74,53 +74,12 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         super(player);
     }
 
-    /*public void initSpec(BridgerGamePlayer watchedPlayer) {
-        if (this.isSpectating()) {
-            this.exitSpec();
-        }
-
-        if (this.isBridging()) {
-            this.endBridging(false);
-        }
-        game.getEmplacements().set(this.playerNumber, false);
-
-        this.spectating = true;
-        this.watchedPlayer = watchedPlayer;
-
-        this.watchers.forEach(gamePlayer -> {
-            gamePlayer.initSpec(watchedPlayer);
-            gamePlayer.getPlayer().sendMessage(ChatColor.AQUA + HyriLanguageMessage.get("message.player.watched-player-changed").getValue(gamePlayer.getUniqueId()));
-        });
-        this.watchers.clear();
-
-        this.oldAccount =  HyriBridgerStats.get(this.player.getUniqueId());
-        watchedPlayer.addWatcher(this);
-
-        PlayerUtil.addSpectatorAbilities(this.player);
-        PlayerUtil.hidePlayer(this.player,false);
-
-        this.deleteNPC();
-        this.deleteHologram();
-
-        this.player.setGameMode(GameMode.SPECTATOR);
-        this.player.teleport(watchedPlayer.player);
-        this.player.sendMessage(ChatColor.AQUA + HyriLanguageMessage.get("message.player.is-spectating").getValue(this.player.getUniqueId())
-                .replace("%player%", watchedPlayer.player.getName()));
-    }*/
-
-    /*public void exitSpec() {
-        this.spectating = false;
-        this.watchedPlayer.getWatchers().remove(this);
-        this.watchedPlayer = null;
-    }*/
-
     public void spawnPlayer() {
         this.player.teleport(this.spawn);
-        this.player.getInventory().clear();
-        this.giveBlocks();
         this.player.setGameMode(GameMode.SURVIVAL);
+        this.player.getInventory().clear();
 
-        this.deletePlacedBlocks();
+        this.giveBlocks();
         this.placedBlocks.clear();
     }
 
@@ -168,7 +127,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
     public void endBridging(boolean success) {
         this.state = BridgerPlayerState.SPAWN;
-        this.endTimer();
+        this.bridgeTask.getTimer().end();
 
         if (success && this.placedBlocks.size() > 20 && this.getActualTimer().getActualTime() > 3700) {
             if (this.isPB()) {
@@ -208,11 +167,6 @@ public class BridgerGamePlayer extends HyriGamePlayer {
             }
         }
         return false;
-    }
-
-    private void endTimer() {
-        this.actualTimer.getLinkedTask().cancel();
-        this.actualTimer.end();
     }
 
     private void successPersonalBest() {
@@ -390,7 +344,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         this.giveBlocks();
     }
 
-    private void deletePlacedBlocks() {
+    public void deletePlacedBlocks() {
         //TODO animation
         for (Location placedBlock : placedBlocks) {
             placedBlock.getBlock().setType(Material.AIR);
