@@ -2,7 +2,7 @@ package fr.hyriode.bridger.listener;
 
 import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.bridger.HyriBridger;
-import fr.hyriode.bridger.game.BridgerGamePlayer;
+import fr.hyriode.bridger.game.player.BridgerGamePlayer;
 import fr.hyriode.hyrame.listener.HyriListener;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -33,7 +33,7 @@ public class PlayerListener extends HyriListener<HyriBridger> {
 
     @EventHandler (priority = EventPriority.LOWEST)
     public void onPlaceBlock(BlockPlaceEvent event) {
-        BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer(event.getPlayer());
+        final BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer(event.getPlayer());
 
         if (!gamePlayer.isBridging() && event.getBlockAgainst().hasMetadata(BREAKABLE_META_DATA_KEY)) {
             event.setCancelled(true);
@@ -106,7 +106,6 @@ public class PlayerListener extends HyriListener<HyriBridger> {
 
         if (gamePlayer.isBridging()) {
             if (to.getBlock().getType().equals(Material.GOLD_PLATE)) {
-                gamePlayer.addActualPlacedBlocks(1);
                 gamePlayer.endBridging(true);
             }
         } else {
@@ -126,7 +125,7 @@ public class PlayerListener extends HyriListener<HyriBridger> {
         }
 
         if (gamePlayer.isSpectating()) {
-            gamePlayer.getPlayer().teleport(gamePlayer.getWatchedPlayer().getPlayer());
+            //TODO gamePlayer.getPlayer().teleport(gamePlayer.getWatchedPlayer().getPlayer());
             return;
         }
 

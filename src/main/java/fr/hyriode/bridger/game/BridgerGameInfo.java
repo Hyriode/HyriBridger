@@ -1,21 +1,21 @@
 package fr.hyriode.bridger.game;
 
-import fr.hyriode.api.game.HyriGameType;
 import fr.hyriode.api.game.IHyriGameInfo;
+import fr.hyriode.api.game.IHyriGameType;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BridgerGameInfo implements IHyriGameInfo {
 
     private final String name;
     private String displayName;
-    private final Map<String, HyriGameType> types;
+    private final List<IHyriGameType> types;
 
     public BridgerGameInfo(String name, String displayName) {
         this.name = name;
         this.displayName = displayName;
-        this.types = new HashMap<>();
+        this.types = new ArrayList<>();
     }
 
     @Override
@@ -34,13 +34,13 @@ public class BridgerGameInfo implements IHyriGameInfo {
     }
 
     @Override
-    public HyriGameType getType(String name) {
-        return this.types.get(name);
+    public IHyriGameType getType(String name) {
+        return this.types.stream().filter(iHyriGameType -> iHyriGameType.getName().equals(name)).findFirst().orElse(null);
     }
 
     @Override
-    public void addType(String name, HyriGameType type) {
-        this.types.put(name, type);
+    public void addType(int id, String name, String displayName) {
+
     }
 
     @Override
@@ -49,7 +49,7 @@ public class BridgerGameInfo implements IHyriGameInfo {
     }
 
     @Override
-    public Map<String, HyriGameType> getTypes() {
+    public List<IHyriGameType> getTypes() {
         return this.types;
     }
 

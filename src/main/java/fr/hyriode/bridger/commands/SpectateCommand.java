@@ -2,9 +2,9 @@ package fr.hyriode.bridger.commands;
 
 import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.api.player.IHyriPlayer;
-import fr.hyriode.api.rank.type.HyriPlayerRankType;
+import fr.hyriode.api.rank.PlayerRank;
 import fr.hyriode.bridger.HyriBridger;
-import fr.hyriode.bridger.game.BridgerGamePlayer;
+import fr.hyriode.bridger.game.player.BridgerGamePlayer;
 import fr.hyriode.hyrame.command.HyriCommand;
 import fr.hyriode.hyrame.command.HyriCommandContext;
 import fr.hyriode.hyrame.command.HyriCommandInfo;
@@ -19,7 +19,7 @@ public class SpectateCommand extends HyriCommand<HyriBridger> {
     public SpectateCommand(HyriBridger plugin) {
         super(plugin, new HyriCommandInfo("spectate")
                 .withAliases("spec", "sp", "spect")
-                .withPermission(iHyriPlayer -> iHyriPlayer.getRank().isSuperior(HyriPlayerRankType.VIP_PLUS))
+                .withPermission(iHyriPlayer -> iHyriPlayer.getRank().isSuperior(PlayerRank.VIP_PLUS))
                 .withUsage("/spectate <player>")
                 .withDescription("permit to teleport a player to an other in spectator"));
     }
@@ -29,7 +29,7 @@ public class SpectateCommand extends HyriCommand<HyriBridger> {
         final BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer((Player) ctx.getSender());
 
         if (gamePlayer.isSpectating()) {
-            gamePlayer.exitSpec();
+            gamePlayer.quitSpectators();
         }
 
         handleArgument(ctx,"%player%", hyriCommandOutput -> {
@@ -51,8 +51,10 @@ public class SpectateCommand extends HyriCommand<HyriBridger> {
                 return;
             }
 
-            gamePlayer.initSpec(target);
+            gamePlayer.joinSpectators(target);
         });
+
+        gamePlayer.joinSpectators(null);
     }
 
     private String getValue(UUID uuid, String key) {

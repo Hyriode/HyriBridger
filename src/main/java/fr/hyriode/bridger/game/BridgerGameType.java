@@ -4,7 +4,6 @@ import fr.hyriode.hyrame.game.HyriGameType;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-
 public enum BridgerGameType implements HyriGameType {
 
     SHORT("SHORT","Short", 1, 30, new ItemStack(Material.STEP, 1, (short)1)),

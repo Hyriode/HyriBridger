@@ -1,6 +1,6 @@
 package fr.hyriode.bridger.game.timers;
 
-import fr.hyriode.bridger.api.duration.HyriBridgerDuration;
+import fr.hyriode.bridger.api.BridgerDuration;
 import org.bukkit.scheduler.BukkitTask;
 
 public class BridgerTimer {
@@ -8,7 +8,7 @@ public class BridgerTimer {
     private final BukkitTask linkedTask;
     private long startTime = 0;
     private long endTime = 0;
-    private HyriBridgerDuration linkedDuration = null;
+    private BridgerDuration linkedDuration = null;
 
     public BridgerTimer(BukkitTask linkedTask) {
         this.linkedTask = linkedTask;
@@ -34,7 +34,7 @@ public class BridgerTimer {
     }
 
     public String getFormattedActualTime() {
-        return new HyriBridgerDuration(this.getActualTime()).toFormattedTime();
+        return new BridgerDuration(this.getActualTime()).toFormattedTime();
     }
 
     public long getFinalTime() {
@@ -44,9 +44,9 @@ public class BridgerTimer {
         return 0;
     }
 
-    public HyriBridgerDuration toFinalDuration() {
+    public BridgerDuration toFinalDuration() {
         if (this.linkedDuration == null && this.startTime != 0 && this.endTime != 0) {
-            this.linkedDuration = new HyriBridgerDuration(this.getFinalTime());
+            this.linkedDuration = new BridgerDuration(this.getFinalTime());
         }
         return this.linkedDuration;
     }

@@ -2,9 +2,9 @@ package fr.hyriode.bridger.game.scoreboard;
 
 import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.bridger.HyriBridger;
-import fr.hyriode.bridger.api.Medal;
+import fr.hyriode.bridger.api.BridgerMedal;
 import fr.hyriode.bridger.game.BridgerGame;
-import fr.hyriode.bridger.game.BridgerGamePlayer;
+import fr.hyriode.bridger.game.player.BridgerGamePlayer;
 import fr.hyriode.hyrame.game.scoreboard.HyriGameScoreboard;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -61,8 +61,8 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
     }
 
     private String getMedalLine() {
-        final Medal medal = this.gamePlayer.getMedal();
-        return ChatColor.GOLD + getValue("scoreboard.medal.actual") + ((medal != null) ? getValue(medal.getLanguageValue()) : ChatColor.RED + "✘");
+        final BridgerMedal bridgerMedal = this.gamePlayer.getMedal();
+        return ChatColor.GOLD + getValue("scoreboard.medal.actual") + ((bridgerMedal != null) ? getValue(bridgerMedal.getLanguageValue()) : ChatColor.RED + "✘");
     }
 
     private String getValue(String key) {

@@ -1,6 +1,6 @@
 package fr.hyriode.bridger.game;
 
-import fr.hyriode.bridger.api.duration.HyriBridgerDuration;
+import fr.hyriode.bridger.api.BridgerDuration;
 import fr.hyriode.bridger.game.timers.BridgerScore;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -14,12 +14,11 @@ public class BridgerSession {
 
     private final List<BridgerScore> scores = new ArrayList<>();
 
-    public void add(Player player, HyriBridgerDuration duration) {
+    public void add(Player player, BridgerDuration duration) {
         if (scores.stream().anyMatch(bridgerScore -> bridgerScore.getPlayer() == player)) {
             scores.remove(scores.stream().filter(bridgerScore -> bridgerScore.getPlayer() == player).findFirst().orElse(null));
-        } else {
-            scores.add(new BridgerScore(duration, player));
         }
+        scores.add(new BridgerScore(duration, player));
         scores.sort(Comparator.comparing(bridgerScore -> bridgerScore.getDuration().getExactTime()));
         if (scores.size() > 3) scores.remove(3);
     }

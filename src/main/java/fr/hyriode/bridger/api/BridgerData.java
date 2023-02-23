@@ -37,6 +37,10 @@ public class BridgerData implements IHyriPlayerData {
         return this.unlockedBlocks.contains(block);
     }
 
+    public void addUnlockedBlock(BridgerBlock block) {
+        this.unlockedBlocks.add(block);
+    }
+
     public int getSelectedBlockId() {
         return selectedBlockId;
     }

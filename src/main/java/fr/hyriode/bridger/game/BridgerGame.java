@@ -1,7 +1,6 @@
 package fr.hyriode.bridger.game;
 
 import fr.hyriode.api.HyriAPI;
-import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.api.util.Skin;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.api.BridgerData;
@@ -12,7 +11,6 @@ import fr.hyriode.hyrame.IHyrame;
 import fr.hyriode.hyrame.game.HyriGame;
 import fr.hyriode.hyrame.game.HyriGameState;
 import fr.hyriode.hyrame.game.HyriGameType;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
