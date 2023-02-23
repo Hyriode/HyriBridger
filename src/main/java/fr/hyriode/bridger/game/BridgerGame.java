@@ -59,7 +59,6 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
         this.getPlayer(player).onJoin();
     }
 
-    //TODO save player data
     @Override
     public void handleLogout(Player player) {
         final BridgerGamePlayer gamePlayer = this.getPlayer(player);
@@ -74,12 +73,13 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
         if (!HyriAPI.get().getServer().getAccessibility().equals(HyggServer.Accessibility.HOST)) {
             statistics.update(player.getUniqueId());
         }
+        data.update(player.getUniqueId());
 
         super.handleLogout(player);
     }
 
     public int getAvailableEmplacement() {
-        int size = emplacements.size();
+        final int size = emplacements.size();
         for (int i = 0; i < size; i++) {
             if (!emplacements.get(i)) {
                 emplacements.set(i, true);
