@@ -46,13 +46,11 @@ public class PlayerListener extends HyriListener<HyriBridger> {
         }
 
         if (gamePlayer.getGameArea().isInArea(event.getBlock().getLocation())) {
-            gamePlayer.addActualPlacedBlocks(1);
-            gamePlayer.getPlacedBlocks().add(event.getBlock().getLocation());
-
             if (!gamePlayer.isBridging()) {
                 gamePlayer.startBridging();
-                gamePlayer.getPlacedBlocks().add(event.getBlock().getLocation());
             }
+
+            gamePlayer.getPlacedBlocks().add(event.getBlock().getLocation());
             event.getBlockPlaced().setMetadata(BREAKABLE_META_DATA_KEY, new FixedMetadataValue(plugin, true));
             return;
         }

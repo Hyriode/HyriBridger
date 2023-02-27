@@ -94,7 +94,8 @@ public class ChangeIslandGUI extends HyriInventory {
                 gamePlayer.endBridging(false);
             }
             plugin.getGame().getEmplacements().set(gamePlayer.getPlayerNumber(), false);
-            gamePlayer.setIslandNumber(islandIndex);
+            gamePlayer.setPlayerNumber(islandIndex);
+            gamePlayer.onJoin();
         }
     }
 

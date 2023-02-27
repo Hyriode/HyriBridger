@@ -5,14 +5,9 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class BridgerTimer {
 
-    private final BukkitTask linkedTask;
     private long startTime = 0;
     private long endTime = 0;
     private BridgerDuration linkedDuration = null;
-
-    public BridgerTimer(BukkitTask linkedTask) {
-        this.linkedTask = linkedTask;
-    }
 
     public void start() {
         this.startTime = System.currentTimeMillis();
@@ -49,9 +44,5 @@ public class BridgerTimer {
             this.linkedDuration = new BridgerDuration(this.getFinalTime());
         }
         return this.linkedDuration;
-    }
-
-    public BukkitTask getLinkedTask() {
-        return linkedTask;
     }
 }

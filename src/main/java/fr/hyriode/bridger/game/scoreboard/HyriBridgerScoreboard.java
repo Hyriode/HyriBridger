@@ -48,12 +48,13 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
     }
 
     private String getBestTime() {
-        return (this.gamePlayer.getPB() != null) ? ChatColor.YELLOW + this.gamePlayer.getPB().toFormattedTime() : ChatColor.GRAY + "-.---";
+        return (this.gamePlayer.getPersonalBest() != null) ? ChatColor.YELLOW + this.gamePlayer.getPersonalBest().toFormattedTime() : ChatColor.GRAY + "-.---";
     }
 
     private String getActualTime() {
         String startString = ChatColor.WHITE + getValue("scoreboard.actual-time") + " " + ChatColor.YELLOW;
-        return (this.gamePlayer.isBridging() && this.gamePlayer.getActualTimer() != null && this.gamePlayer.getActualTimer().getFormattedActualTime() != null) ? startString + this.gamePlayer.getActualTimer().getFormattedActualTime() : startString + "0.000";
+        return (this.gamePlayer.isBridging() && this.gamePlayer.getBridgeTask().getTimer() != null && this.gamePlayer.getBridgeTask().getTimer().getFormattedActualTime() != null) ?
+                startString + this.gamePlayer.getBridgeTask().getTimer().getFormattedActualTime() : startString + "0.000";
     }
 
     private String getBestTimes(int i) {

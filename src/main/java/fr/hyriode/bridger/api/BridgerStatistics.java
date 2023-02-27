@@ -1,10 +1,12 @@
 package fr.hyriode.bridger.api;
 
+import com.google.gson.Gson;
 import fr.hyriode.api.HyriAPI;
 import fr.hyriode.api.mongodb.MongoDocument;
 import fr.hyriode.api.mongodb.MongoSerializable;
 import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.api.player.model.IHyriStatistics;
+import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.game.BridgerGameType;
 import org.bson.Document;
 
@@ -23,12 +25,13 @@ public class BridgerStatistics implements IHyriStatistics {
     @Override
     public void save(MongoDocument document) {
         for (Map.Entry<BridgerGameType, Data> entry : this.data.entrySet()) {
-            final Document dataDocument = new Document();
+            final MongoDocument dataDocument = new MongoDocument();
 
-            entry.getValue().save(MongoDocument.of(dataDocument));
+            entry.getValue().save(dataDocument);
 
             document.append(entry.getKey().name(), dataDocument);
         }
+        HyriBridger.log("saved data : " + document.toJson());
     }
 
     @Override
@@ -40,13 +43,15 @@ public class BridgerStatistics implements IHyriStatistics {
 
             this.data.put(BridgerGameType.valueOf(entry.getKey()), data);
         }
+
+        HyriBridger.log("et putain de merde |" + new Gson().toJson(this.data));
     }
 
     public Data getData(BridgerGameType gameType) {
         Data data = this.data.get(gameType);
 
         if (data == null) {
-            data = new Data();
+            data = new Data(null, null, 0, 0, 0, 0);
             this.data.put(gameType, data);
         }
 
@@ -63,14 +68,13 @@ public class BridgerStatistics implements IHyriStatistics {
     }
 
     public static BridgerStatistics get(IHyriPlayer account) {
-        BridgerStatistics statistics = account.getStatistics().get("bridger");
-
-        if (statistics == null) {
-            statistics = new BridgerStatistics();
+        if (!account.getStatistics().has("bridger")) {
+            BridgerStatistics statistics = new BridgerStatistics();
             statistics.update(account);
         }
 
-        return statistics;
+        HyriBridger.log("get data : " + new Gson().toJson(account.getStatistics().get("bridger")));
+        return account.getStatistics().read("bridger", new BridgerStatistics());
     }
 
     public static BridgerStatistics get(UUID playerId) {
@@ -87,6 +91,15 @@ public class BridgerStatistics implements IHyriStatistics {
         private long playedTime;
 
         public Data() {
+        }
+
+        public Data(BridgerDuration personalBest, BridgerMedal highestAcquiredBridgerMedal, int blocksPlaced, int bridgesMade, int bridgeFailed, long playedTime) {
+            this.personalBest = personalBest;
+            this.highestAcquiredBridgerMedal = highestAcquiredBridgerMedal;
+            this.blocksPlaced = blocksPlaced;
+            this.bridgesMade = bridgesMade;
+            this.bridgeFailed = bridgeFailed;
+            this.playedTime = playedTime;
         }
 
         public BridgerDuration getPersonalBest() {
@@ -161,12 +174,14 @@ public class BridgerStatistics implements IHyriStatistics {
 
         @Override
         public void load(MongoDocument document) {
-            this.personalBest = new BridgerDuration(document.getLong("personalBest"));
+            this.personalBest = document.containsKey("personalBest") ? new BridgerDuration(document.getLong("personalBest")) : null;
             this.highestAcquiredBridgerMedal = document.getString("highestAcquiredMedal") != null ? BridgerMedal.valueOf(document.getString("highestAcquiredMedal")) : null;
-            this.blocksPlaced = document.getInteger("blocksPlaced");
-            this.bridgesMade = document.getInteger("bridgesMade");
-            this.bridgeFailed = document.getInteger("bridgeFailed");
-            this.playedTime = document.getLong("playedTime");
+            this.blocksPlaced = document.containsKey("blocksPlaced") ? document.getInteger("blocksPlaced") : 0;
+            this.bridgesMade = document.containsKey("bridgesMade") ? document.getInteger("bridgesMade") : 0;
+            this.bridgeFailed = document.containsKey("bridgeFailed") ? document.getInteger("bridgeFailed") : 0;
+            this.playedTime = document.containsKey("playedTime") ? document.getLong("playedTime") : 0;
+
+            HyriBridger.log("Loaded data: " + new Gson().toJson(this));
         }
     }
 }

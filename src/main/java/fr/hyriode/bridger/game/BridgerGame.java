@@ -70,9 +70,7 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
 
         statisticsData.setPlayedTime(statisticsData.getPlayedTime() + gamePlayer.getPlayTime());
 
-        if (!HyriAPI.get().getServer().getAccessibility().equals(HyggServer.Accessibility.HOST)) {
-            statistics.update(player.getUniqueId());
-        }
+        statistics.update(player.getUniqueId());
         data.update(player.getUniqueId());
 
         super.handleLogout(player);

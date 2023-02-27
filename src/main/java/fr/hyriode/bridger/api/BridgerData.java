@@ -45,8 +45,16 @@ public class BridgerData implements IHyriPlayerData {
         return selectedBlockId;
     }
 
+    public BridgerBlock getSelectedBlock() {
+        return BridgerBlock.getById(this.selectedBlockId);
+    }
+
     public void setSelectedBlockId(int selectedBlockId) {
         this.selectedBlockId = selectedBlockId;
+    }
+
+    public void setSelectedBlock(BridgerBlock block) {
+        this.selectedBlockId = block.getId();
     }
 
     public void update(IHyriPlayer account) {
@@ -71,5 +79,9 @@ public class BridgerData implements IHyriPlayerData {
 
     public static BridgerData get(UUID playerId) {
         return get(IHyriPlayer.get(playerId));
+    }
+
+    public List<BridgerBlock> getUnlockedBlocks() {
+        return unlockedBlocks;
     }
 }
