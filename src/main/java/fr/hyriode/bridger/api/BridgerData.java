@@ -67,14 +67,11 @@ public class BridgerData implements IHyriPlayerData {
     }
 
     public static BridgerData get(IHyriPlayer account) {
-        BridgerData data = account.getData().get("bridger");
-
-        if (data == null) {
-            data = new BridgerData();
+        if (!account.getData().has("bridger")) {
+            BridgerData data = new BridgerData();
             data.update(account);
         }
-
-        return data;
+        return account.getData().read("bridger", new BridgerData());
     }
 
     public static BridgerData get(UUID playerId) {
