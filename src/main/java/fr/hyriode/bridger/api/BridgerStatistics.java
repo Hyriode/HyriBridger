@@ -31,7 +31,6 @@ public class BridgerStatistics implements IHyriStatistics {
 
             document.append(entry.getKey().name(), dataDocument);
         }
-        HyriBridger.log("saved data : " + document.toJson());
     }
 
     @Override
@@ -43,8 +42,6 @@ public class BridgerStatistics implements IHyriStatistics {
 
             this.data.put(BridgerGameType.valueOf(entry.getKey()), data);
         }
-
-        HyriBridger.log("et putain de merde |" + new Gson().toJson(this.data));
     }
 
     public Data getData(BridgerGameType gameType) {
@@ -73,7 +70,6 @@ public class BridgerStatistics implements IHyriStatistics {
             statistics.update(account);
         }
 
-        HyriBridger.log("get data : " + new Gson().toJson(account.getStatistics().get("bridger")));
         return account.getStatistics().read("bridger", new BridgerStatistics());
     }
 
@@ -180,8 +176,6 @@ public class BridgerStatistics implements IHyriStatistics {
             this.bridgesMade = document.containsKey("bridgesMade") ? document.getInteger("bridgesMade") : 0;
             this.bridgeFailed = document.containsKey("bridgeFailed") ? document.getInteger("bridgeFailed") : 0;
             this.playedTime = document.containsKey("playedTime") ? document.getLong("playedTime") : 0;
-
-            HyriBridger.log("Loaded data: " + new Gson().toJson(this));
         }
     }
 }

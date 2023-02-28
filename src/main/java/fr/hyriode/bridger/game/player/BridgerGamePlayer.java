@@ -260,6 +260,11 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         NPCManager.sendNPC(this.npc);
     }
 
+    private void initBlocks() {
+        IHyriPlayer hyriPlayer = IHyriPlayer.get(this.uniqueId);
+        hyriPlayer.getTransactions().
+    }
+
     private Location calculateLocationForThisPlayer(Location location) {
         BridgerConfig config = this.plugin.getConfiguration();
         Location diff = config.getDiffBetweenIslands().asBukkit();
