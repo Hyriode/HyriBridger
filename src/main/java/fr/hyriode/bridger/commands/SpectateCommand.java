@@ -54,7 +54,7 @@ public class SpectateCommand extends HyriCommand<HyriBridger> {
             gamePlayer.joinSpectators(target);
         });
 
-        gamePlayer.joinSpectators(null);
+        gamePlayer.joinSpectators();
     }
 
     private String getValue(UUID uuid, String key) {

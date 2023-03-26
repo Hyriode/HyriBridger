@@ -57,6 +57,7 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
         gamePlayer.setData(BridgerData.get(player.getUniqueId()));
 
         this.getPlayer(player).onJoin();
+        this.getPlayer(player).initBlocks();
     }
 
     @Override

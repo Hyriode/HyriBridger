@@ -4,6 +4,8 @@ import fr.hyriode.bridger.game.BridgerGameType;
 import fr.hyriode.bridger.game.blocks.BridgerBlock;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static fr.hyriode.bridger.game.blocks.BridgerBlock.*;
 
@@ -55,5 +57,18 @@ public enum BridgerMedal {
 
     public BridgerBlock getRewardBlock() {
         return rewardBlock;
+    }
+
+    public static BridgerMedal getMedalByTime(long time, BridgerGameType gameType) {
+        for(BridgerMedal medal : BridgerMedal.values()) {
+            if(medal.getTimeToReach(gameType) > time) return medal;
+        }
+        return null;
+    }
+
+    public static List<BridgerMedal> getMedalsBefore(BridgerMedal medal) {
+        if (medal == null) return Collections.emptyList();
+        if (medal == BridgerMedal.ULTIMATE) return Collections.singletonList(BridgerMedal.ULTIMATE);
+        return Stream.of(BridgerMedal.values()).filter(m -> m.ordinal() <= medal.ordinal()).collect(Collectors.toList());
     }
 }

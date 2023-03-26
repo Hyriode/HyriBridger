@@ -3,11 +3,9 @@ package fr.hyriode.bridger.game.player;
 import fr.hyriode.api.HyriAPI;
 import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.api.player.IHyriPlayer;
+import fr.hyriode.api.player.model.IHyriTransaction;
 import fr.hyriode.bridger.HyriBridger;
-import fr.hyriode.bridger.api.BridgerData;
-import fr.hyriode.bridger.api.BridgerDuration;
-import fr.hyriode.bridger.api.BridgerMedal;
-import fr.hyriode.bridger.api.BridgerStatistics;
+import fr.hyriode.bridger.api.*;
 import fr.hyriode.bridger.config.BridgerConfig;
 import fr.hyriode.bridger.game.BridgerGame;
 import fr.hyriode.bridger.game.blocks.BridgerBlock;
@@ -37,8 +35,8 @@ import org.bukkit.inventory.PlayerInventory;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class BridgerGamePlayer extends HyriGamePlayer {
 
@@ -73,10 +71,10 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     public void onJoin() {
-        this.spawn = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getSpawnLocationOnFirstIsland().asBukkit());
-        this.hologramLocation = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getHologramLocationOnFirstIsland().asBukkit());
-        this.npcLocation = this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getNpcLocationOnFirstIsland().asBukkit());
-        this.gameArea = new Area(this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getGameAreaOnFirstIslandFirst().asBukkit()),this.calculateLocationForThisPlayer(this.plugin.getConfiguration().getGameAreaOnFirstIslandSecond().asBukkit()));
+        this.spawn = this.calculateLocation(this.plugin.getConfiguration().getSpawnLocationOnFirstIsland().asBukkit());
+        this.hologramLocation = this.calculateLocation(this.plugin.getConfiguration().getHologramLocationOnFirstIsland().asBukkit());
+        this.npcLocation = this.calculateLocation(this.plugin.getConfiguration().getNpcLocationOnFirstIsland().asBukkit());
+        this.gameArea = new Area(this.calculateLocation(this.plugin.getConfiguration().getGameAreaOnFirstIslandFirst().asBukkit()),this.calculateLocation(this.plugin.getConfiguration().getGameAreaOnFirstIslandSecond().asBukkit()));
 
         this.setupScoreboard();
         this.setupNPC();
@@ -260,26 +258,45 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         NPCManager.sendNPC(this.npc);
     }
 
-    private void initBlocks() {
-        IHyriPlayer hyriPlayer = IHyriPlayer.get(this.uniqueId);
-        hyriPlayer.getTransactions().
+    public void initBlocks() {
+        final List<IHyriTransaction> transactions = this.asHyriPlayer().getTransactions().getAll("bridgerBlocks");
+        if (transactions != null) {
+            for (IHyriTransaction transaction : transactions)
+                this.data.addUnlockedBlock(transaction.loadContent(new BridgerBlockTransaction()).getBlock());
+        }
+        for (BridgerMedal medal : BridgerMedal.getMedalsBefore(statisticsData.getHighestAcquiredMedal()))
+            this.data.addUnlockedBlock(medal.getRewardBlock());
+        Stream.of(BridgerBlock.values())
+                .filter(block -> block.getCost() == 0)
+                .filter(block -> block.getSpecificationNeeded().getOptionalRankType()
+                        .filter(rankType -> rankType.getPriority() >= asHyriPlayer().getRank().getPriority())
+                        .isPresent())
+                .forEach(this.data::addUnlockedBlock);
     }
 
-    private Location calculateLocationForThisPlayer(Location location) {
+    private Location calculateLocation(Location location) {
         BridgerConfig config = this.plugin.getConfiguration();
         Location diff = config.getDiffBetweenIslands().asBukkit();
         Location forFirstIsland = location.clone();
         return forFirstIsland.add(diff.getX() * playerNumber, diff.getY() * playerNumber, diff.getZ() * playerNumber);
     }
 
-    //TODO complete
-    public void joinSpectators(BridgerGamePlayer target) {
-
+    public void joinSpectators() {
+        this.joinSpectators(null);
     }
 
-    //TODO complete
-    public void quitSpectators() {
+    public void joinSpectators(BridgerGamePlayer target) {
+        this.state = BridgerPlayerState.SPECTATING;
+        this.setSpectator(true);
+        if (target != null) {
+            this.player.teleport(target.player.getLocation());
+        }
+    }
 
+    public void quitSpectators() {
+        this.state = BridgerPlayerState.SPAWN;
+        this.setSpectator(false);
+        this.onJoin();
     }
 
     private void deletePlacedBlocks() {

@@ -1,7 +1,9 @@
 package fr.hyriode.bridger.gui;
 
 import fr.hyriode.api.language.HyriLanguageMessage;
+import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.bridger.HyriBridger;
+import fr.hyriode.bridger.api.BridgerBlockTransaction;
 import fr.hyriode.bridger.api.BridgerData;
 import fr.hyriode.bridger.game.blocks.BridgerBlock;
 import fr.hyriode.bridger.game.player.BridgerGamePlayer;
@@ -51,7 +53,10 @@ public class ValidateBuyGUI extends HyriInventory {
 
             final BridgerData data = gamePlayer.getData();
             data.addUnlockedBlock(block);
-            data.update(this.owner.getUniqueId());
+
+            final IHyriPlayer hyriPlayer = gamePlayer.asHyriPlayer();
+            hyriPlayer.getTransactions().add("bridgerBlocks", new BridgerBlockTransaction(this.block));
+            hyriPlayer.update();
 
             this.plugin.getGame().getPlayer(this.owner.getUniqueId()).setActualBlock(block);
 
