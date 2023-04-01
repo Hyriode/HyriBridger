@@ -4,14 +4,11 @@ import fr.hyriode.hyrame.game.HyriGameType;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.function.Supplier;
-
-
 public enum BridgerGameType implements HyriGameType {
 
-    SHORT("SHORT","Short", 1, 30, new ItemStack(Material.STEP, 1, (short)1), IBridgerTypeHandler.ShortHandler::new),
-    NORMAL("NORMAL", "Normal", 1, 30, new ItemStack(Material.SANDSTONE), IBridgerTypeHandler.NormalHandler::new),
-    DIAGONAL("DIAGONAL", "Diagonal", 1, 30, new ItemStack(Material.SANDSTONE_STAIRS), IBridgerTypeHandler.DiagonalHandler::new),
+    SHORT("SHORT","Short", 1, 30, new ItemStack(Material.STEP, 1, (short)1)),
+    NORMAL("NORMAL", "Normal", 1, 30, new ItemStack(Material.SANDSTONE)),
+    DIAGONAL("DIAGONAL", "Diagonal", 1, 30, new ItemStack(Material.SANDSTONE_STAIRS)),
     ;
 
     private final String name;
@@ -19,15 +16,13 @@ public enum BridgerGameType implements HyriGameType {
     private final int minPlayers;
     private final int maxPlayers;
     private final ItemStack itemstack;
-    private final Supplier<IBridgerTypeHandler> handlerSupplier;
 
-    BridgerGameType(String name, String displayName, int minPlayers, int maxPlayers, ItemStack itemstack, Supplier<IBridgerTypeHandler> handlerSupplier) {
+    BridgerGameType(String name, String displayName, int minPlayers, int maxPlayers, ItemStack itemstack) {
         this.name = name;
         this.displayName = displayName;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
         this.itemstack = itemstack;
-        this.handlerSupplier = handlerSupplier;
     }
 
     @Override
@@ -52,9 +47,5 @@ public enum BridgerGameType implements HyriGameType {
 
     public ItemStack getItemstack() {
         return itemstack;
-    }
-
-    public Supplier<IBridgerTypeHandler> getHandlerSupplier() {
-        return this.handlerSupplier;
     }
 }

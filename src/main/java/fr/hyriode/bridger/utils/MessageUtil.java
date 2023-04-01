@@ -1,6 +1,12 @@
 package fr.hyriode.bridger.utils;
 
-public enum DefaultFontInfo{
+import org.bukkit.ChatColor;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public enum MessageUtil {
     A('A', 5),
     a('a', 5),
     B('B', 5),
@@ -101,7 +107,7 @@ public enum DefaultFontInfo{
     private char character;
     private int length;
 
-    DefaultFontInfo(char character, int length) {
+    MessageUtil(char character, int length) {
         this.character = character;
         this.length = length;
     }
@@ -115,14 +121,61 @@ public enum DefaultFontInfo{
     }
 
     public int getBoldLength(){
-        if(this == DefaultFontInfo.SPACE) return this.getLength();
+        if(this == MessageUtil.SPACE) return this.getLength();
         return this.length + 1;
     }
 
-    public static DefaultFontInfo getDefaultFontInfo(char c){
-        for(DefaultFontInfo dFI : DefaultFontInfo.values()){
+    public static MessageUtil getDefaultFontInfo(char c){
+        for(MessageUtil dFI : MessageUtil.values()){
             if(dFI.getCharacter() == c) return dFI;
         }
-        return DefaultFontInfo.DEFAULT;
+        return MessageUtil.DEFAULT;
+    }
+
+    public static String getCentredMultiLinesMessage(String message) {
+        final List<String> lines = Arrays.asList(message.split("\n"));
+        final List<String> returnLines = new ArrayList<>();
+
+        lines.forEach(line -> returnLines.add(MessageUtil.getCentredMessage(line)));
+        StringBuilder returnMessage = new StringBuilder();
+        returnLines.forEach(line -> returnMessage.append(line).append("\n"));
+
+        return returnMessage.toString();
+
+    }
+
+    public static String getCentredMessage(String message) {
+        if(message == null || message.equals("")) {
+            return "";
+        }
+        message = ChatColor.translateAlternateColorCodes('&', message);
+
+        int messagePxSize = 0;
+        boolean previousCode = false;
+        boolean isBold = false;
+
+        for(char c : message.toCharArray()){
+            if(c == '§'){
+                previousCode = true;
+            }else if(previousCode){
+                previousCode = false;
+                isBold = c == 'l' || c == 'L';
+            }else{
+                MessageUtil dFI = MessageUtil.getDefaultFontInfo(c);
+                messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
+                messagePxSize++;
+            }
+        }
+        int CENTER_PX = 154;
+        int halvedMessageSize = messagePxSize / 2;
+        int toCompensate = CENTER_PX - halvedMessageSize;
+        int spaceLength = MessageUtil.SPACE.getLength() + 1;
+        int compensated = 0;
+        StringBuilder sb = new StringBuilder();
+        while(compensated < toCompensate){
+            sb.append(" ");
+            compensated += spaceLength;
+        }
+        return sb + message;
     }
 }

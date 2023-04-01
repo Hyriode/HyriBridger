@@ -22,8 +22,6 @@
   "gui.item.change-mode": "Change mode",
   "gui.item.change-block": "Change block",
   "gui.item-name.go-back": "Go back",
-  "gui.item-name.next-page": "Next page",
-  "gui.item-name.previous-page": "Previous Page",
   "gui.item-name.buy-block": "Do you want to buy %block%&3 for %cost% §d⛃ &3?",
 
   "gui.lore.status.occupied":"Taken",

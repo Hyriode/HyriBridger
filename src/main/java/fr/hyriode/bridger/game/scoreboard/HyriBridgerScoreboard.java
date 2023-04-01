@@ -2,9 +2,9 @@ package fr.hyriode.bridger.game.scoreboard;
 
 import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.bridger.HyriBridger;
-import fr.hyriode.bridger.api.Medal;
+import fr.hyriode.bridger.api.BridgerMedal;
 import fr.hyriode.bridger.game.BridgerGame;
-import fr.hyriode.bridger.game.BridgerGamePlayer;
+import fr.hyriode.bridger.game.player.BridgerGamePlayer;
 import fr.hyriode.hyrame.game.scoreboard.HyriGameScoreboard;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -48,12 +48,13 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
     }
 
     private String getBestTime() {
-        return (this.gamePlayer.getPB() != null) ? ChatColor.YELLOW + this.gamePlayer.getPB().toFormattedTime() : ChatColor.GRAY + "-.---";
+        return (this.gamePlayer.getPersonalBest() != null) ? ChatColor.YELLOW + this.gamePlayer.getPersonalBest().toFormattedTime() : ChatColor.GRAY + "-.---";
     }
 
     private String getActualTime() {
         String startString = ChatColor.WHITE + getValue("scoreboard.actual-time") + " " + ChatColor.YELLOW;
-        return (this.gamePlayer.isBridging() && this.gamePlayer.getActualTimer() != null && this.gamePlayer.getActualTimer().getFormattedActualTime() != null) ? startString + this.gamePlayer.getActualTimer().getFormattedActualTime() : startString + "0.000";
+        return (this.gamePlayer.isBridging() && this.gamePlayer.getBridgeTask().getTimer() != null && this.gamePlayer.getBridgeTask().getTimer().getFormattedActualTime() != null) ?
+                startString + this.gamePlayer.getBridgeTask().getTimer().getFormattedActualTime() : startString + "0.000";
     }
 
     private String getBestTimes(int i) {
@@ -61,8 +62,8 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
     }
 
     private String getMedalLine() {
-        final Medal medal = this.gamePlayer.getMedal();
-        return ChatColor.GOLD + getValue("scoreboard.medal.actual") + ((medal != null) ? getValue(medal.getLanguageValue()) : ChatColor.RED + "✘");
+        final BridgerMedal bridgerMedal = this.gamePlayer.getMedal();
+        return ChatColor.GOLD + getValue("scoreboard.medal.actual") + ((bridgerMedal != null) ? getValue(bridgerMedal.getLanguageValue()) : ChatColor.RED + "✘");
     }
 
     private String getValue(String key) {

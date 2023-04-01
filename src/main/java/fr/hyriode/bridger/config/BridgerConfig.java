@@ -1,14 +1,14 @@
 package fr.hyriode.bridger.config;
 
+import fr.hyriode.api.config.IHyriConfig;
 import fr.hyriode.hyrame.utils.LocationWrapper;
-import fr.hyriode.hystia.api.config.IConfig;
 
 /**
  * Project: HyriBridger
  * Created by Akkashi
  * on 23/04/2022 at 15:21
  */
-public class BridgerConfig implements IConfig {
+public class BridgerConfig implements IHyriConfig {
 
     private final LocationWrapper spawnLocationOnFirstIsland;
     private final LocationWrapper npcLocationOnFirstIsland;

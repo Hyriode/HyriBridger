@@ -2,17 +2,16 @@ package fr.hyriode.bridger.gui;
 
 import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.bridger.HyriBridger;
-import fr.hyriode.bridger.game.BridgerGamePlayer;
-import fr.hyriode.bridger.utils.UsefulHead;
+import fr.hyriode.bridger.game.player.BridgerGamePlayer;
 import fr.hyriode.hyrame.inventory.HyriInventory;
 import fr.hyriode.hyrame.item.ItemBuilder;
+import fr.hyriode.hyrame.language.HyrameMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -40,9 +39,8 @@ public class ChangeIslandGUI extends HyriInventory {
     public void init() {
         setHorizontalLine(0, 8, glassPane);
         setHorizontalLine(45, 53, glassPane);
-        setItem(0, ItemBuilder.asHead()
-                .withHeadTexture(UsefulHead.BACK.getTexture())
-                .withName(DARK_AQUA + getValue("gui.item-name.go-back"))
+        setItem(0, new ItemBuilder(Material.ARROW)
+                .withName(HyrameMessage.GO_BACK.asString(this.owner))
                 .build(), event -> new MainGUI(plugin, owner).open());
         update();
     }
@@ -96,7 +94,8 @@ public class ChangeIslandGUI extends HyriInventory {
                 gamePlayer.endBridging(false);
             }
             plugin.getGame().getEmplacements().set(gamePlayer.getPlayerNumber(), false);
-            gamePlayer.setIslandNumber(islandIndex);
+            gamePlayer.setPlayerNumber(islandIndex);
+            gamePlayer.onJoin();
         }
     }
 

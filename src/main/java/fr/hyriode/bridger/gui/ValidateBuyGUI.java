@@ -1,9 +1,12 @@
 package fr.hyriode.bridger.gui;
 
 import fr.hyriode.api.language.HyriLanguageMessage;
+import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.bridger.HyriBridger;
-import fr.hyriode.bridger.api.player.HyriBridgerData;
+import fr.hyriode.bridger.api.BridgerBlockTransaction;
+import fr.hyriode.bridger.api.BridgerData;
 import fr.hyriode.bridger.game.blocks.BridgerBlock;
+import fr.hyriode.bridger.game.player.BridgerGamePlayer;
 import fr.hyriode.hyrame.inventory.HyriInventory;
 import fr.hyriode.hyrame.item.ItemBuilder;
 import org.bukkit.Material;
@@ -25,10 +28,10 @@ public class ValidateBuyGUI extends HyriInventory {
         this.block = block;
         this.blockName = block.getAbsoluteName(owner.getUniqueId());
 
-        this.init();
+        this.init(plugin.getGame().getPlayer(owner));
     }
 
-    private void init() {
+    private void init(final BridgerGamePlayer gamePlayer) {
         ItemStack glassPane = new ItemBuilder(Material.STAINED_GLASS_PANE, 1, (short) 9)
                 .withName(" ")
                 .build();
@@ -47,9 +50,13 @@ public class ValidateBuyGUI extends HyriInventory {
                         .replace("%block%", AQUA + this.blockName)
                         .replace("%cost%", LIGHT_PURPLE + String.valueOf(this.block.getCost())))
                 .build(), event -> {
-            final HyriBridgerData data = HyriBridgerData.get(this.owner.getUniqueId());
-            data.addPossessedBlock(block.getId(), this.owner.getUniqueId());
-            data.update(this.owner.getUniqueId());
+
+            final BridgerData data = gamePlayer.getData();
+            data.addUnlockedBlock(block);
+
+            final IHyriPlayer hyriPlayer = gamePlayer.asHyriPlayer();
+            hyriPlayer.getTransactions().add("bridgerBlocks", new BridgerBlockTransaction(this.block));
+            hyriPlayer.update();
 
             this.plugin.getGame().getPlayer(this.owner.getUniqueId()).setActualBlock(block);
 

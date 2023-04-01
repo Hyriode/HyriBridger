@@ -1,12 +1,12 @@
-package fr.hyriode.bridger.api.duration;
+package fr.hyriode.bridger.api;
 
 import java.text.DecimalFormat;
 
-public class HyriBridgerDuration {
+public class BridgerDuration {
 
     private final long ms;
 
-    public HyriBridgerDuration(long timeInMs) {
+    public BridgerDuration(long timeInMs) {
         this.ms = timeInMs;
     }
 
@@ -19,8 +19,7 @@ public class HyriBridgerDuration {
     }
 
     public String toFormattedTime() {
-        DecimalFormat format = new DecimalFormat("000");
-        return this.toSecondsPart() + "." + format.format(this.toMillisPart());
+        return this.toSecondsPart() + "." + new DecimalFormat("000").format(this.toMillisPart());
     }
 
     public long getExactTime() {

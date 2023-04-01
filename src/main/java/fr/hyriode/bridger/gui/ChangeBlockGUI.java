@@ -3,12 +3,12 @@ package fr.hyriode.bridger.gui;
 import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.bridger.HyriBridger;
-import fr.hyriode.bridger.api.player.HyriBridgerData;
-import fr.hyriode.bridger.game.BridgerGamePlayer;
+import fr.hyriode.bridger.api.BridgerData;
 import fr.hyriode.bridger.game.blocks.BridgerBlock;
-import fr.hyriode.bridger.utils.UsefulHead;
+import fr.hyriode.bridger.game.player.BridgerGamePlayer;
 import fr.hyriode.hyrame.inventory.HyriInventory;
 import fr.hyriode.hyrame.item.ItemBuilder;
+import fr.hyriode.hyrame.language.HyrameMessage;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +23,7 @@ public class ChangeBlockGUI extends HyriInventory {
 
     private final HyriBridger plugin;
     private final BridgerGamePlayer gamePlayer;
-    private final HyriBridgerData playerData;
+    private final BridgerData playerData;
     private final int page;
 
     private final List<Integer> slots = new ArrayList<>(Arrays.asList(19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34));
@@ -32,7 +32,7 @@ public class ChangeBlockGUI extends HyriInventory {
         super(owner, "Change Block", 9*6);
         this.plugin = plugin;
         this.gamePlayer = this.plugin.getGame().getPlayer(owner.getUniqueId());
-        this.playerData = HyriBridgerData.get(owner.getUniqueId());
+        this.playerData = gamePlayer.getData();
         this.page = page;
         this.init();
     }
@@ -45,9 +45,8 @@ public class ChangeBlockGUI extends HyriInventory {
         this.setHorizontalLine(0, 8, glassPane);
         this.setHorizontalLine(45, 53, glassPane);
 
-        this.setItem(0, ItemBuilder.asHead()
-                .withHeadTexture(UsefulHead.BACK.getTexture())
-                .withName(DARK_AQUA + this.getValue("gui.item-name.go-back"))
+        this.setItem(0, new ItemBuilder(Material.ARROW)
+                .withName(HyrameMessage.GO_BACK.asString(this.owner))
                 .build(), event -> new MainGUI(this.plugin, this.owner).open());
 
         final int freeSpace = 14;
@@ -64,7 +63,7 @@ public class ChangeBlockGUI extends HyriInventory {
                         .withLore(this.getLoreValue("gui.lore.block.selected"))
                         .withGlow()
                         .build());
-            } else if (this.playerData.hasBlock(this.owner.getUniqueId(), i)) {
+            } else if (this.playerData.hasUnlocked(block)) {
                 this.setItem(slot, new ItemBuilder(block.getMaterial(), 1, block.getMeta())
                         .withName(GREEN + block.getItemStackName(this.owner.getUniqueId()))
                         .withLore(this.getLoreValue("gui.lore.block.possessed-block"))

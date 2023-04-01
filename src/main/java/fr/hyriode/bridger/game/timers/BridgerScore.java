@@ -1,19 +1,19 @@
 package fr.hyriode.bridger.game.timers;
 
-import fr.hyriode.bridger.api.duration.HyriBridgerDuration;
+import fr.hyriode.bridger.api.BridgerDuration;
 import org.bukkit.entity.Player;
 
 public class BridgerScore {
 
-    private HyriBridgerDuration duration;
+    private BridgerDuration duration;
     private final Player player;
 
-    public BridgerScore(HyriBridgerDuration duration, Player player) {
+    public BridgerScore(BridgerDuration duration, Player player) {
         this.duration = duration;
         this.player = player;
     }
 
-    public HyriBridgerDuration getDuration() {
+    public BridgerDuration getDuration() {
         return duration;
     }
 
@@ -21,7 +21,7 @@ public class BridgerScore {
         return player;
     }
 
-    public void setDuration(HyriBridgerDuration duration) {
+    public void setDuration(BridgerDuration duration) {
         this.duration = duration;
     }
 }
