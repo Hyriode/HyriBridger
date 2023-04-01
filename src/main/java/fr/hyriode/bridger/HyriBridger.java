@@ -7,6 +7,7 @@ import fr.hyriode.bridger.utils.MessageHelper;
 import fr.hyriode.hyggdrasil.api.server.HyggServer;
 import fr.hyriode.hyrame.HyrameLoader;
 import fr.hyriode.hyrame.IHyrame;
+import fr.hyriode.hyrame.utils.AreaWrapper;
 import fr.hyriode.hyrame.utils.LocationWrapper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -47,8 +48,8 @@ public class HyriBridger extends JavaPlugin {
                     new LocationWrapper(new Location(IHyrame.WORLD.get(), 0.5, 100.0, 0.5, 180.0F, 0.0F)),
                     new LocationWrapper(new Location(IHyrame.WORLD.get(), -3.5, 100.0, 1.5, -90.0F, 0.0F)),
                     new LocationWrapper(new Location(IHyrame.WORLD.get(), 2.0, 102.0, 5.0, 0.0F, 0.0F)),
-                    new LocationWrapper(new Location(IHyrame.WORLD.get(), -6, 107.0, -1.0)),
-                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 6.0, 96, -52.0)),
+                    new AreaWrapper(new LocationWrapper(new Location(IHyrame.WORLD.get(), -6, 107.0, -1.0)),
+                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 6.0, 96, -52.0))),
                     97.0,
                     new LocationWrapper(new Location(IHyrame.WORLD.get(), 25, 0.0,0))
             );

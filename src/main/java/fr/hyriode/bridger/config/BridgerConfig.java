@@ -1,6 +1,7 @@
 package fr.hyriode.bridger.config;
 
 import fr.hyriode.api.config.IHyriConfig;
+import fr.hyriode.hyrame.utils.AreaWrapper;
 import fr.hyriode.hyrame.utils.LocationWrapper;
 
 /**
@@ -10,51 +11,45 @@ import fr.hyriode.hyrame.utils.LocationWrapper;
  */
 public class BridgerConfig implements IHyriConfig {
 
-    private final LocationWrapper spawnLocationOnFirstIsland;
-    private final LocationWrapper npcLocationOnFirstIsland;
-    private final LocationWrapper hologramLocationOnFirstIsland;
-    private final LocationWrapper gameAreaOnFirstIslandFirst;
-    private final LocationWrapper gameAreaOnFirstIslandSecond;
+    private final LocationWrapper islandSpawn;
+    private final LocationWrapper islandNpc;
+    private final LocationWrapper islandHologram;
+    private final AreaWrapper islandArea;
 
-    private final double yPosBeforeTeleport;
+    private final double minY;
 
     private final LocationWrapper diffBetweenIslands; // 20 in x for long and short
 
-    public BridgerConfig(LocationWrapper spawnLocationOnFirstIsland, LocationWrapper npcLocationOnFirstIsland, LocationWrapper hologramLocationOnFirstIsland, LocationWrapper gameAreaOnFirstIslandFirst, LocationWrapper gameAreaOnFirstIslandSecond, double yPosBeforeTeleport, LocationWrapper diffBetweenIslands) {
-        this.spawnLocationOnFirstIsland = spawnLocationOnFirstIsland;
-        this.npcLocationOnFirstIsland = npcLocationOnFirstIsland;
-        this.hologramLocationOnFirstIsland = hologramLocationOnFirstIsland;
-        this.gameAreaOnFirstIslandFirst = gameAreaOnFirstIslandFirst;
-        this.gameAreaOnFirstIslandSecond = gameAreaOnFirstIslandSecond;
-        this.yPosBeforeTeleport = yPosBeforeTeleport;
+    public BridgerConfig(LocationWrapper islandSpawn, LocationWrapper islandNpc, LocationWrapper islandHologram, AreaWrapper islandArea, double minY, LocationWrapper diffBetweenIslands) {
+        this.islandSpawn = islandSpawn;
+        this.islandNpc = islandNpc;
+        this.islandHologram = islandHologram;
+        this.islandArea = islandArea;
+        this.minY = minY;
         this.diffBetweenIslands = diffBetweenIslands;
     }
 
-    public LocationWrapper getSpawnLocationOnFirstIsland() {
-        return spawnLocationOnFirstIsland;
+    public LocationWrapper getIslandSpawn() {
+        return this.islandSpawn;
     }
 
-    public LocationWrapper getNpcLocationOnFirstIsland() {
-        return npcLocationOnFirstIsland;
+    public LocationWrapper getIslandNpc() {
+        return this.islandNpc;
     }
 
-    public LocationWrapper getHologramLocationOnFirstIsland() {
-        return hologramLocationOnFirstIsland;
+    public LocationWrapper getIslandHologram() {
+        return this.islandHologram;
     }
 
-    public LocationWrapper getGameAreaOnFirstIslandFirst() {
-        return gameAreaOnFirstIslandFirst;
+    public AreaWrapper getIslandArea() {
+        return this.islandArea;
     }
 
-    public LocationWrapper getGameAreaOnFirstIslandSecond() {
-        return gameAreaOnFirstIslandSecond;
-    }
-
-    public double getyPosBeforeTeleport() {
-        return yPosBeforeTeleport;
+    public double getMinY() {
+        return this.minY;
     }
 
     public LocationWrapper getDiffBetweenIslands() {
-        return diffBetweenIslands;
+        return this.diffBetweenIslands;
     }
 }

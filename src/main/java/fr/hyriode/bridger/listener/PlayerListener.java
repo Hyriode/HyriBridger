@@ -83,7 +83,7 @@ public class PlayerListener extends HyriListener<HyriBridger> {
 
         Location to = event.getTo();
 
-        if (to.getY() < this.plugin.getConfiguration().getyPosBeforeTeleport()) {
+        if (to.getY() < this.plugin.getConfiguration().getMinY()) {
             event.getPlayer().setGameMode(GameMode.ADVENTURE);
             gamePlayer.resetPlayerBridge();
             return;

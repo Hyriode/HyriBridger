@@ -71,10 +71,10 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     public void onJoin() {
-        this.spawn = this.calculateLocation(this.plugin.getConfiguration().getSpawnLocationOnFirstIsland().asBukkit());
-        this.hologramLocation = this.calculateLocation(this.plugin.getConfiguration().getHologramLocationOnFirstIsland().asBukkit());
-        this.npcLocation = this.calculateLocation(this.plugin.getConfiguration().getNpcLocationOnFirstIsland().asBukkit());
-        this.gameArea = new Area(this.calculateLocation(this.plugin.getConfiguration().getGameAreaOnFirstIslandFirst().asBukkit()),this.calculateLocation(this.plugin.getConfiguration().getGameAreaOnFirstIslandSecond().asBukkit()));
+        this.spawn = this.calculateLocation(this.plugin.getConfiguration().getIslandSpawn().asBukkit());
+        this.hologramLocation = this.calculateLocation(this.plugin.getConfiguration().getIslandHologram().asBukkit());
+        this.npcLocation = this.calculateLocation(this.plugin.getConfiguration().getIslandNpc().asBukkit());
+        this.gameArea = this.calculateArea(this.plugin.getConfiguration().getIslandArea().asArea());
 
         this.setupScoreboard();
         this.setupNPC();
@@ -275,10 +275,17 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     private Location calculateLocation(Location location) {
-        BridgerConfig config = this.plugin.getConfiguration();
-        Location diff = config.getDiffBetweenIslands().asBukkit();
-        Location forFirstIsland = location.clone();
-        return forFirstIsland.add(diff.getX() * playerNumber, diff.getY() * playerNumber, diff.getZ() * playerNumber);
+        Location diff = this.plugin.getConfiguration().getDiffBetweenIslands().asBukkit();
+        return location.clone().add(diff.getX() * playerNumber, diff.getY() * playerNumber, diff.getZ() * playerNumber);
+    }
+
+
+    private Area calculateArea(Area area) {
+        Location diff = this.plugin.getConfiguration().getDiffBetweenIslands().asBukkit();
+        diff.setX(diff.getX() * playerNumber);
+        diff.setY(diff.getY() * playerNumber);
+        diff.setZ(diff.getZ() * playerNumber);
+        return new Area(area.getMax().clone().add(diff), area.getMin().clone().add(diff));
     }
 
     public void joinSpectators() {
