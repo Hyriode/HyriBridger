@@ -1,8 +1,10 @@
 package fr.hyriode.bridger.api;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.DecimalFormat;
 
-public class BridgerDuration {
+public class BridgerDuration implements Comparable<BridgerDuration> {
 
     private final long ms;
 
@@ -24,5 +26,10 @@ public class BridgerDuration {
 
     public long getExactTime() {
         return ms;
+    }
+
+    @Override
+    public int compareTo(BridgerDuration other) {
+        return Long.compare(this.getExactTime(), other.getExactTime());
     }
 }
