@@ -21,6 +21,8 @@ import fr.hyriode.hyrame.npc.NPC;
 import fr.hyriode.hyrame.npc.NPCManager;
 import fr.hyriode.hyrame.title.Title;
 import fr.hyriode.hyrame.utils.Area;
+import fr.hyriode.hyrame.utils.AreaWrapper;
+import fr.hyriode.hyrame.utils.LocationWrapper;
 import fr.hyriode.hyrame.utils.PlayerUtil;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.PacketPlayOutBlockChange;
@@ -220,7 +222,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
                 .withLine(ChatColor.AQUA + this.getTranslatedMessage("hologram.placed-blocks") + ChatColor.YELLOW + this.statisticsData.getBlocksPlaced())
                 .withLine(ChatColor.AQUA + this.getTranslatedMessage("hologram.made-bridges") + ChatColor.YELLOW + this.statisticsData.getBridgesMade())
                 .withLine(ChatColor.AQUA + this.getTranslatedMessage("hologram.failed-bridged") + ChatColor.YELLOW + this.statisticsData.getBridgeFailed())
-                .withLine(ChatColor.AQUA + this.getTranslatedMessage("hologram.played-time") + ChatColor.YELLOW + new BridgerPlayedDuration(Duration.ofMillis(this.statisticsData.getPlayedTime() + this.getPlayTime()), this.player).toFormattedTime())
+                .withLine(ChatColor.AQUA + this.getTranslatedMessage("hologram.played-time") + ChatColor.YELLOW + new BridgerPlayedDuration(Duration.ofMillis(asHyriPlayer().getStatistics().getPlayTime(HyriAPI.get().getServer().getType()) + this.getPlayTime()), this.player).toFormattedTime())
                 .build();
         this.hologram.setLocation(this.hologramLocation);
         this.hologram.addReceiver(this.player);
@@ -275,17 +277,20 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     private Location calculateLocation(Location location) {
-        Location diff = this.plugin.getConfiguration().getDiffBetweenIslands().asBukkit();
-        return location.clone().add(diff.getX() * playerNumber, diff.getY() * playerNumber, diff.getZ() * playerNumber);
+        BridgerConfig config = this.plugin.getConfiguration();
+        Location diff = config.getDiffBetweenIslands().asBukkit();
+        Location forFirstIsland = location.clone();
+        return forFirstIsland.add(diff.getX() * playerNumber, diff.getY() * playerNumber, diff.getZ() * playerNumber);
     }
 
 
     private Area calculateArea(Area area) {
-        Location diff = this.plugin.getConfiguration().getDiffBetweenIslands().asBukkit();
-        diff.setX(diff.getX() * playerNumber);
-        diff.setY(diff.getY() * playerNumber);
-        diff.setZ(diff.getZ() * playerNumber);
-        return new Area(area.getMax().clone().add(diff), area.getMin().clone().add(diff));
+        BridgerConfig config = this.plugin.getConfiguration();
+        Location diff = config.getDiffBetweenIslands().asBukkit();
+        return new Area(
+                area.getMax().clone().add(diff.getX() * playerNumber, diff.getY() * playerNumber, diff.getZ() * playerNumber),
+                area.getMin().clone().add(diff.getX() * playerNumber, diff.getY() * playerNumber, diff.getZ() * playerNumber)
+        );
     }
 
     public void joinSpectators() {

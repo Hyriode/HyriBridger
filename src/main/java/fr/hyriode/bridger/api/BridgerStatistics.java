@@ -1,12 +1,10 @@
 package fr.hyriode.bridger.api;
 
-import com.google.gson.Gson;
 import fr.hyriode.api.HyriAPI;
 import fr.hyriode.api.mongodb.MongoDocument;
 import fr.hyriode.api.mongodb.MongoSerializable;
 import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.api.player.model.IHyriStatistics;
-import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.game.BridgerGameType;
 import org.bson.Document;
 
@@ -84,7 +82,6 @@ public class BridgerStatistics implements IHyriStatistics {
         private int blocksPlaced;
         private int bridgesMade;
         private int bridgeFailed;
-        private long playedTime;
 
         public Data() {
         }
@@ -95,7 +92,6 @@ public class BridgerStatistics implements IHyriStatistics {
             this.blocksPlaced = blocksPlaced;
             this.bridgesMade = bridgesMade;
             this.bridgeFailed = bridgeFailed;
-            this.playedTime = playedTime;
         }
 
         public BridgerDuration getPersonalBest() {
@@ -150,14 +146,6 @@ public class BridgerStatistics implements IHyriStatistics {
             this.bridgeFailed += bridgeFailed;
         }
 
-        public long getPlayedTime() {
-            return playedTime;
-        }
-
-        public void setPlayedTime(long playedTime) {
-            this.playedTime = playedTime;
-        }
-
         @Override
         public void save(MongoDocument document) {
             document.append("personalBest", this.personalBest != null ? this.personalBest.getExactTime() : 0);
@@ -165,7 +153,6 @@ public class BridgerStatistics implements IHyriStatistics {
             document.append("blocksPlaced", this.blocksPlaced);
             document.append("bridgesMade", this.bridgesMade);
             document.append("bridgeFailed", this.bridgeFailed);
-            document.append("playedTime", this.playedTime);
         }
 
         @Override
@@ -175,7 +162,6 @@ public class BridgerStatistics implements IHyriStatistics {
             this.blocksPlaced = document.containsKey("blocksPlaced") ? document.getInteger("blocksPlaced") : 0;
             this.bridgesMade = document.containsKey("bridgesMade") ? document.getInteger("bridgesMade") : 0;
             this.bridgeFailed = document.containsKey("bridgeFailed") ? document.getInteger("bridgeFailed") : 0;
-            this.playedTime = document.containsKey("playedTime") ? document.getLong("playedTime") : 0;
         }
     }
 }

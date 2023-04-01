@@ -32,14 +32,14 @@ public class HyriBridger extends JavaPlugin {
         final ChatColor color = ChatColor.BLUE;
         final ConsoleCommandSender sender = Bukkit.getConsoleSender();
 
-        sender.sendMessage(color +  "  _    _               _  _            _      _ ");
-        sender.sendMessage(color +  " | |  | |             (_)| |          (_)    | | ");
-        sender.sendMessage(color +  " | |__| | _   _  _ __  _ | |__   _ __  _   __| |  __ _   ___  _ __ ");
+        sender.sendMessage(color + "  _    _               _  _            _      _ ");
+        sender.sendMessage(color + " | |  | |             (_)| |          (_)    | | ");
+        sender.sendMessage(color + " | |__| | _   _  _ __  _ | |__   _ __  _   __| |  __ _   ___  _ __ ");
         sender.sendMessage(color + "  |  __  || | | || '__|| || '_ \\ | '__|| | / _` | / _` | / _ \\| '__| ");
-        sender.sendMessage(color +  " | |  | || |_| || |   | || |_) || |   | || (_| || (_| ||  __/| | ");
-        sender.sendMessage(color +  " |_|  |_| \\__, ||_|   |_||_.__/ |_|   |_| \\__,_| \\__, | \\___||_| ");
-        sender.sendMessage(color +  "           __/ |                                  __/ | ");
-        sender.sendMessage(color +  "          |___/                                  |___/ ");
+        sender.sendMessage(color + " | |  | || |_| || |   | || |_) || |   | || (_| || (_| ||  __/| | ");
+        sender.sendMessage(color + " |_|  |_| \\__, ||_|   |_||_.__/ |_|   |_| \\__,_| \\__, | \\___||_| ");
+        sender.sendMessage(color + "           __/ |                                  __/ | ");
+        sender.sendMessage(color + "          |___/                                  |___/ ");
 
         log("Starting " + NAME + "...");
 
@@ -48,10 +48,12 @@ public class HyriBridger extends JavaPlugin {
                     new LocationWrapper(new Location(IHyrame.WORLD.get(), 0.5, 100.0, 0.5, 180.0F, 0.0F)),
                     new LocationWrapper(new Location(IHyrame.WORLD.get(), -3.5, 100.0, 1.5, -90.0F, 0.0F)),
                     new LocationWrapper(new Location(IHyrame.WORLD.get(), 2.0, 102.0, 5.0, 0.0F, 0.0F)),
-                    new AreaWrapper(new LocationWrapper(new Location(IHyrame.WORLD.get(), -6, 107.0, -1.0)),
-                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 6.0, 96, -52.0))),
+                    new AreaWrapper(
+                            new LocationWrapper(new Location(IHyrame.WORLD.get(), -6, 107.0, -1.0)),
+                            new LocationWrapper(new Location(IHyrame.WORLD.get(), 6.0, 96, -52.0))
+                    ),
                     97.0,
-                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 25, 0.0,0))
+                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 25, 0.0, 0))
             );
         } else this.configuration = HyriAPI.get().getServer().getConfig(BridgerConfig.class);
 
@@ -103,17 +105,3 @@ public class HyriBridger extends JavaPlugin {
         return messageHelper;
     }
 }
-
-
-
-
-/*
-        //HyriAPI.get().getHystiaAPI().getConfigManager().saveConfig(this.configuration, "bridger", BridgerGameType.NORMAL.getName(), "normal");
-        //HyriAPI.get().getHystiaAPI().getWorldManager().saveWorld(IHyrame.WORLD.get().getUID(), "bridger", BridgerGameType.NORMAL.getName(), "normal");
-
-        //HyriAPI.get().getHystiaAPI().getConfigManager().saveConfig(this.configuration, "bridger", BridgerGameType.SHORT.getName(), "short");
-        //HyriAPI.get().getHystiaAPI().getWorldManager().saveWorld(IHyrame.WORLD.get().getUID(), "bridger", BridgerGameType.SHORT.getName(), "short");
-
-        //HyriAPI.get().getHystiaAPI().getConfigManager().saveConfig(this.configuration, "bridger", BridgerGameType.DIAGONAL.getName(), "Diagonal");
-        //HyriAPI.get().getHystiaAPI().getWorldManager().saveWorld(IHyrame.WORLD.get().getUID(), "bridger", BridgerGameType.DIAGONAL.getName(), "Diagonal");
- */

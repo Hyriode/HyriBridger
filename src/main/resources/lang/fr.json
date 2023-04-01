@@ -33,8 +33,8 @@
   "gui.lore.block.possessed-block": "&eCliquer pour sélectionner",
   "gui.lore.block.buyable-block": "&7Prix: &d%cost% ⛃\n\n&3Cliquer pour acheter",
   "gui.lore.block.not-buyable-block": "&7Prix: &d%cost% ⛃\n\n&cVous n'avez pas assez d'argent (Manque : %missing% ⛃)",
-  "gui.item-lore.change-island": "Clique pour changer d'île",
-  "gui.item-lore.change-block": "Clique pour changer de block",
+  "gui.item-lore.change-island": "Cliquer pour changer d'île",
+  "gui.item-lore.change-block": "Cliquer pour changer de block",
   "gui.lore.status": "&7Statut",
   "gui.lore.click-to-teleport": "&3Cliquez pour vous-y téléporter",
 

@@ -69,8 +69,6 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
 
         gamePlayer.onLeave();
 
-        statisticsData.setPlayedTime(statisticsData.getPlayedTime() + gamePlayer.getPlayTime());
-
         statistics.update(player.getUniqueId());
         data.update(player.getUniqueId());
 
