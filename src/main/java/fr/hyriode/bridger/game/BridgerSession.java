@@ -20,12 +20,10 @@ public class BridgerSession {
     }
 
     public String getFormattedTop(int i) {
-        List<Player> players = scores.keySet().stream().sorted(Comparator.comparing(scores::get)).collect(Collectors.toList());
-        if (i < 1 || i > 3 || players.size() < i) {
+        if (i < 1 || i > scores.size()) {
             return ChatColor.GRAY + "*****:" + ChatColor.YELLOW + " -.---";
         }
-        final Player player = players.get(i - 1);
-        final BridgerDuration duration = scores.get(player);
-        return ChatColor.GRAY + player.getDisplayName() + ": " + ChatColor.YELLOW + duration.toFormattedTime();
+        final Player player = scores.keySet().stream().sorted(Comparator.comparing(scores::get)).collect(Collectors.toList()).get(i - 1);
+        return ChatColor.GRAY + player.getDisplayName() + ": " + ChatColor.YELLOW + scores.get(player).toFormattedTime();
     }
 }
