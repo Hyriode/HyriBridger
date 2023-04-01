@@ -21,6 +21,7 @@ public class BridgeTask extends BukkitRunnable {
     }
 
     public void start() {
+        if (this.isRunning) this.stop();
         this.isRunning = true;
         this.timer = new BridgerTimer();
         this.timer.start();
