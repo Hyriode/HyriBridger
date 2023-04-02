@@ -16,6 +16,8 @@ import fr.hyriode.bridger.game.timers.BridgerTimer;
 import fr.hyriode.bridger.gui.MainGUI;
 import fr.hyriode.hyrame.actionbar.ActionBar;
 import fr.hyriode.hyrame.game.HyriGamePlayer;
+import fr.hyriode.hyrame.game.HyriGameSpectator;
+import fr.hyriode.hyrame.game.util.HyriGameItems;
 import fr.hyriode.hyrame.hologram.Hologram;
 import fr.hyriode.hyrame.item.ItemBuilder;
 import fr.hyriode.hyrame.npc.NPC;
@@ -145,7 +147,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         this.bridgeTask.stop();
 
         if (success && this.placedBlocks.size() > 20 && this.timer.getActualTime() > 3700) {
-            if (statisticsData.getPersonalBest() == null || timer.getActualTime() > statisticsData.getPersonalBest().getExactTime()) {
+            if (statisticsData.getPersonalBest() == null || new BridgerDuration(this.timer.getActualTime()).getExactTime() > statisticsData.getPersonalBest().getExactTime()) {
                 this.successPersonalBest();
             } else {
                 this.failPersonalBest();
@@ -301,16 +303,27 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     public void joinSpectators(BridgerGamePlayer target) {
+        PlayerUtil.resetPlayer(this.player, true);
+        PlayerUtil.addSpectatorAbilities(this.player);
+
+        this.hide();
+        this.player.spigot().setCollidesWithEntities(false);
+
+        HyriGameItems.SPECTATOR_TELEPORTER.give(this.plugin.getHyrame(), this.player, 0);
+        HyriGameItems.SPECTATOR_SETTINGS.give(this.plugin.getHyrame(), this.player, 1);
+        this.plugin.getHyrame().getItemManager().giveItem(player, 8, "leave_spectator_item");
+
         this.state = BridgerPlayerState.SPECTATING;
-        this.setSpectator(true);
         if (target != null) {
             this.player.teleport(target.player.getLocation());
         }
     }
 
     public void quitSpectators() {
+        PlayerUtil.resetPlayer(player, true);
+        this.show();
+        player.spigot().setCollidesWithEntities(true);
         this.state = BridgerPlayerState.SPAWN;
-        this.setSpectator(false);
         this.onJoin();
     }
 

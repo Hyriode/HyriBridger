@@ -21,6 +21,8 @@ public class HyriBridger extends JavaPlugin {
 
     public static final String NAME = "HyriBridger";
 
+    private static HyriBridger instance;
+
     private IHyrame hyrame;
     private BridgerGame game;
 
@@ -29,6 +31,8 @@ public class HyriBridger extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        instance = this;
+
         final ChatColor color = ChatColor.BLUE;
         final ConsoleCommandSender sender = Bukkit.getConsoleSender();
 
@@ -103,5 +107,9 @@ public class HyriBridger extends JavaPlugin {
 
     public MessageHelper getMessageHelper() {
         return messageHelper;
+    }
+
+    public static HyriBridger get() {
+        return instance;
     }
 }
