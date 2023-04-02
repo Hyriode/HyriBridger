@@ -303,6 +303,9 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     public void joinSpectators(BridgerGamePlayer target) {
+        if (isBridging()) {
+            this.endBridging(false);
+        }
         PlayerUtil.resetPlayer(this.player, true);
         PlayerUtil.addSpectatorAbilities(this.player);
 
