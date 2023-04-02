@@ -26,8 +26,7 @@ public class SpectateCommand extends HyriCommand<HyriBridger> {
 
     @Override
     public void handle(HyriCommandContext ctx) {
-        final BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer((Player) ctx.getSender());
-
+        BridgerGamePlayer gamePlayer = plugin.getGame().getPlayer((Player) ctx.getSender());
         if (ctx.getArgs().length == 0) {
             if (gamePlayer.isSpectating()) {
                 gamePlayer.quitSpectators();
@@ -37,28 +36,23 @@ public class SpectateCommand extends HyriCommand<HyriBridger> {
             return;
         }
 
-        handleArgument(ctx,"%player%", hyriCommandOutput -> {
-            final BridgerGamePlayer target = this.plugin.getGame().getPlayer(hyriCommandOutput.get(IHyriPlayer.class).getUniqueId());
-            final Player sender = (Player) ctx.getSender();
-
+        handleArgument(ctx, "%player%", hyriCommandOutput -> {
+            Player sender = (Player) ctx.getSender();
+            BridgerGamePlayer target = plugin.getGame().getPlayer(hyriCommandOutput.get(IHyriPlayer.class).getUniqueId());
             if (target == null) {
-                sender.sendMessage(RED + this.getValue(sender.getUniqueId(), "message.player.player-does-not-exist"));
+                sender.sendMessage(RED + getValue(sender.getUniqueId(), "message.player.player-does-not-exist"));
                 return;
             }
-
-            if (target.getUniqueId() == sender.getUniqueId()) {
+            if (target.getUniqueId().equals(sender.getUniqueId())) {
                 sender.sendMessage(RED + this.getValue(sender.getUniqueId(), "message.player.can-not-spectate-himself"));
                 return;
             }
-
             if (target.isSpectating()) {
                 sender.sendMessage(RED + this.getValue(sender.getUniqueId(), "message.player.can-not-spectate-spectator"));
                 return;
             }
-
             gamePlayer.joinSpectators(target);
         });
-
     }
 
     private String getValue(UUID uuid, String key) {
