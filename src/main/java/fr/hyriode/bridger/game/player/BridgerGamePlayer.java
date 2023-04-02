@@ -146,6 +146,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     public void endBridging(boolean success) {
         this.bridgeTask.stop();
 
+        Bukkit.broadcastMessage("endBridging\nnew BridgerDuration(this.timer.getActualTime()).getExactTime() = " + new BridgerDuration(this.timer.getActualTime()).getExactTime() + "\nstatisticsData.getPersonalBest().getExactTime() = " + statisticsData.getPersonalBest().getExactTime());
         if (success && this.placedBlocks.size() > 20 && this.timer.getActualTime() > 3700) {
             if (statisticsData.getPersonalBest() == null || new BridgerDuration(this.timer.getActualTime()).getExactTime() > statisticsData.getPersonalBest().getExactTime()) {
                 this.successPersonalBest();

@@ -21,7 +21,7 @@ public class MessageHelper {
         sendHeader(player);
         player.sendMessage(MessageUtil.getCentredMultiLinesMessage(HyriAPI.get().getLanguageManager().getMessage("message.player.failed-pb").getValue(player)
                 .replace("%pb%", pbTime.toFormattedTime())
-                .replace("%time%", actualTime.toFormattedTime())));
+                .replace("%time%", actualTime.toFormattedTime())) + "\n§e ");
         sendFooter(player);
     }
 
@@ -31,7 +31,6 @@ public class MessageHelper {
 
     public void sendFooter(Player player) {
         player.sendMessage(
-                "\n" +
                 MessageUtil.getCentredMessage(HyriAPI.get().getLanguageManager().getMessage("message.player.rewards.hyris").getValue(player)) + "\n" +
                 MessageUtil.getCentredMessage(HyriAPI.get().getLanguageManager().getMessage("message.player.rewards.xp").getValue(player)) + "\n" +
                 DARK_AQUA + "" + STRIKETHROUGH + HYPHENS_LINE
