@@ -18,11 +18,9 @@ public class LeaveSpectatorItem extends HyriItem<HyriBridger> {
     @Override
     public void onRightClick(IHyrame hyrame, PlayerInteractEvent event) {
         BridgerGamePlayer bridgerGamePlayer = HyriBridger.get().getGame().getPlayer(event.getPlayer());
-        if (bridgerGamePlayer == null || !bridgerGamePlayer.isSpectating()) {
-            return;
+        if (bridgerGamePlayer != null && bridgerGamePlayer.isSpectating()) {
+            bridgerGamePlayer.quitSpectators();
         }
-
-        bridgerGamePlayer.quitSpectators();
     }
 
 }
