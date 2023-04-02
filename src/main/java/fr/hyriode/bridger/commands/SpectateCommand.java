@@ -28,8 +28,13 @@ public class SpectateCommand extends HyriCommand<HyriBridger> {
     public void handle(HyriCommandContext ctx) {
         final BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer((Player) ctx.getSender());
 
-        if (gamePlayer.isSpectating()) {
-            gamePlayer.quitSpectators();
+        if (ctx.getArgs().length == 0) {
+            if (gamePlayer.isSpectating()) {
+                gamePlayer.quitSpectators();
+            } else {
+                gamePlayer.joinSpectators();
+            }
+            return;
         }
 
         handleArgument(ctx,"%player%", hyriCommandOutput -> {
@@ -54,7 +59,6 @@ public class SpectateCommand extends HyriCommand<HyriBridger> {
             gamePlayer.joinSpectators(target);
         });
 
-        gamePlayer.joinSpectators();
     }
 
     private String getValue(UUID uuid, String key) {
