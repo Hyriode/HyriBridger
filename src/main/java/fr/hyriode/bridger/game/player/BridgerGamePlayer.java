@@ -275,10 +275,17 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         for (BridgerMedal medal : BridgerMedal.getMedalsBefore(statisticsData.getHighestAcquiredMedal()))
             this.data.addUnlockedBlock(medal.getRewardBlock());
         Stream.of(BridgerBlock.values())
-                .filter(block ->  block.getCost() <= 0 || block.getSpecificationNeeded().getOptionalRankType()
-                        .filter(rankType -> rankType.getPriority() >= asHyriPlayer().getRank().getPriority())
-                        .isPresent())
-                .forEach(this.data::addUnlockedBlock);
+                .filter(block ->
+                        // TODO: to be added in the prod version (removed for testing)
+                        // asHyriPlayer().getRank().isStaff() ||
+                        block.getCost() == 0 ||
+                        block.getSpecificationNeeded().getOptionalRankType()
+                                .filter(rankType -> rankType.getPriority() >= asHyriPlayer().getRank().getPriority())
+                                .isPresent() ||
+                        block.getSpecificationNeeded().getOptionalMedal()
+                                .filter(medal -> BridgerMedal.getMedalsBefore(medal).contains(statisticsData.getHighestAcquiredMedal()))
+                                .isPresent()
+                ).forEach(this.data::addUnlockedBlock);
     }
 
     private Location calculateLocation(Location location) {
