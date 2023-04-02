@@ -68,7 +68,7 @@
   "message.player.can-not-spectate-himself": "You can't spectate you yourself",
   "message.player.can-not-spectate-spectator": "You can't spectate a spectator",
   "message.player.is-spectating": "You are watching %player%, left click to teleport you to its position",
-  "message.player.bought": "You bought %block% for %cost% §d⛃",
+  "message.player.bought": "§fYou bought §b%block% for §d%cost% ⛃",
   "message.player.watched-player-disconnected": "The player that you was watching disconnected",
   "message.player.watched-player-changed": "The player that you was watching is now watching %player%",
 
