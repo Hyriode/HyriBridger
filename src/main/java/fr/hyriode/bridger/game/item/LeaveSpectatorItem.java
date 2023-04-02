@@ -22,7 +22,7 @@ public class LeaveSpectatorItem extends HyriItem<HyriBridger> {
             return;
         }
 
-        bridgerGamePlayer.setSpectator(false);
+        bridgerGamePlayer.quitSpectators();
     }
 
 }
