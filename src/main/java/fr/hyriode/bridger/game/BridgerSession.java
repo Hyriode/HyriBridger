@@ -12,6 +12,12 @@ public class BridgerSession {
     private final Map<Player, BridgerDuration> scores = new HashMap<>();
 
     public void add(Player player, BridgerDuration duration) {
+        if (scores.containsKey(player)) {
+            final BridgerDuration currentDuration = scores.get(player);
+            if (currentDuration.compareTo(duration) < 0) {
+                return;
+            }
+        }
         scores.put(player, duration);
     }
 
