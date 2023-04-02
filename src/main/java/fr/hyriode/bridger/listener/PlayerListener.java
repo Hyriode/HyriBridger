@@ -48,6 +48,7 @@ public class PlayerListener extends HyriListener<HyriBridger> {
         if (gamePlayer.getGameArea().isInArea(event.getBlock().getLocation())) {
             if (!gamePlayer.isBridging()) {
                 gamePlayer.startBridging();
+                gamePlayer.getPlacedBlocks().add(event.getBlock().getLocation());
             }
 
             gamePlayer.getPlacedBlocks().add(event.getBlock().getLocation());

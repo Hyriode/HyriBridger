@@ -13,7 +13,6 @@ public class BridgeTask extends BukkitRunnable {
 
     private final BridgerGamePlayer gamePlayer;
     private BukkitTask task;
-    private BridgerTimer timer;
     private boolean isRunning = false;
 
     public BridgeTask(BridgerGamePlayer gamePlayer) {
@@ -21,41 +20,24 @@ public class BridgeTask extends BukkitRunnable {
     }
 
     public void start() {
-        if (this.isRunning) this.stop();
         this.isRunning = true;
-        this.timer = new BridgerTimer();
-        this.timer.start();
+        this.gamePlayer.setTimer(new BridgerTimer());
+        this.gamePlayer.getTimer().start();
         this.task = this.runTaskTimer(gamePlayer.getPlugin(), 1, 0);
     }
 
     public void stop() {
         this.isRunning = false;
         this.task.cancel();
-        this.timer.end();
+        this.gamePlayer.getTimer().end();
     }
 
     @Override
     public void run() {
-        if (timer.getActualTime() > Duration.ofHours(10).toMillis() - 1) {
+        if (this.gamePlayer.getTimer().getActualTime() > Duration.ofHours(10).toMillis() - 1) {
             gamePlayer.endBridging(false);
             return;
         }
-        new ActionBar(ChatColor.DARK_AQUA + timer.getFormattedActualTime()).send(gamePlayer.getPlayer());
-    }
-
-    public BridgerGamePlayer getGamePlayer() {
-        return gamePlayer;
-    }
-
-    public BukkitTask getTask() {
-        return task;
-    }
-
-    public BridgerTimer getTimer() {
-        return timer;
-    }
-
-    public boolean isRunning() {
-        return isRunning;
+        new ActionBar(ChatColor.DARK_AQUA + this.gamePlayer.getTimer().getFormattedActualTime()).send(gamePlayer.getPlayer());
     }
 }

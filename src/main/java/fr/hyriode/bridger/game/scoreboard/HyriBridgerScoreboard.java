@@ -27,16 +27,16 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
     }
 
     public void addLines() {
-        setLine(0, getDateLine(), line -> line.setValue(getDateLine()), 20 * 60);
+        this.addCurrentDateLine(0);
         addBlankLine(1);
         setLine(2, ChatColor.AQUA + "" + ChatColor.BOLD + getValue("scoreboard.best-time"));
         setLine(3, getBestTime(), line -> line.setValue(getBestTime()), 20);
         setLine(4, getActualTime(), line -> line.setValue(getActualTime()), 1);
         addBlankLine(5);
         setLine(6, ChatColor.DARK_AQUA + getValue("scoreboard.top-3"));
-        setLine(7, getBestTimes(1), line -> line.setValue(getBestTimes(1)), 20);
-        setLine(8, getBestTimes(2), line -> line.setValue(getBestTimes(2)), 20);
-        setLine(9, getBestTimes(3), line -> line.setValue(getBestTimes(3)), 20);
+        setLine(7, getBestTimes(1), line -> line.setValue(ChatColor.AQUA + getBestTimes(1)), 20);
+        setLine(8, getBestTimes(2), line -> line.setValue(ChatColor.GOLD + getBestTimes(2)), 20);
+        setLine(9, getBestTimes(3), line -> line.setValue(ChatColor.GRAY + getBestTimes(3)), 20);
         addBlankLine(10);
         setLine(11, getMedalLine(), line -> line.setValue(getMedalLine()), 20);
         addBlankLine(12);
@@ -53,8 +53,8 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
 
     private String getActualTime() {
         String startString = ChatColor.WHITE + getValue("scoreboard.actual-time") + " " + ChatColor.YELLOW;
-        return (this.gamePlayer.isBridging() && this.gamePlayer.getBridgeTask().getTimer() != null && this.gamePlayer.getBridgeTask().getTimer().getFormattedActualTime() != null) ?
-                startString + this.gamePlayer.getBridgeTask().getTimer().getFormattedActualTime() : startString + "0.000";
+        return (this.gamePlayer.isBridging() && this.gamePlayer.getTimer() != null && this.gamePlayer.getTimer().getFormattedActualTime() != null) ?
+                startString + this.gamePlayer.getTimer().getFormattedActualTime() : startString + "0.000";
     }
 
     private String getBestTimes(int i) {

@@ -2,11 +2,11 @@ package fr.hyriode.bridger.utils;
 
 import fr.hyriode.api.HyriAPI;
 import fr.hyriode.bridger.api.BridgerDuration;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import static fr.hyriode.hyrame.utils.Symbols.HYPHENS_LINE;
-import static org.bukkit.ChatColor.AQUA;
-import static org.bukkit.ChatColor.STRIKETHROUGH;
+import static org.bukkit.ChatColor.*;
 
 public class MessageHelper {
 
@@ -26,12 +26,15 @@ public class MessageHelper {
     }
 
     public void sendHeader(Player player) {
-        player.sendMessage(AQUA + "" + STRIKETHROUGH + HYPHENS_LINE);
+        player.sendMessage(DARK_AQUA + "" + STRIKETHROUGH + HYPHENS_LINE);
     }
 
     public void sendFooter(Player player) {
-        player.sendMessage(MessageUtil.getCentredMessage(HyriAPI.get().getLanguageManager().getMessage("message.player.rewards.hyris").getValue(player)));
-        player.sendMessage(MessageUtil.getCentredMessage(HyriAPI.get().getLanguageManager().getMessage("message.player.rewards.xp").getValue(player)));
-        player.sendMessage(AQUA + "" + STRIKETHROUGH + HYPHENS_LINE);
+        player.sendMessage(
+                "\n" +
+                MessageUtil.getCentredMessage(HyriAPI.get().getLanguageManager().getMessage("message.player.rewards.hyris").getValue(player)) + "\n" +
+                MessageUtil.getCentredMessage(HyriAPI.get().getLanguageManager().getMessage("message.player.rewards.xp").getValue(player)) + "\n" +
+                DARK_AQUA + "" + STRIKETHROUGH + HYPHENS_LINE
+        );
     }
 }

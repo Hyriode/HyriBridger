@@ -12,6 +12,7 @@ import fr.hyriode.bridger.game.blocks.BridgerBlock;
 import fr.hyriode.bridger.game.scoreboard.HyriBridgerScoreboard;
 import fr.hyriode.bridger.game.task.BridgeTask;
 import fr.hyriode.bridger.game.timers.BridgerPlayedDuration;
+import fr.hyriode.bridger.game.timers.BridgerTimer;
 import fr.hyriode.bridger.gui.MainGUI;
 import fr.hyriode.hyrame.actionbar.ActionBar;
 import fr.hyriode.hyrame.game.HyriGamePlayer;
@@ -61,7 +62,8 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     //== Temporary data
     private BridgerPlayerState state;
     private final List<Location> placedBlocks = new ArrayList<>();
-    private final BridgeTask bridgeTask = new BridgeTask(this);
+    private BridgeTask bridgeTask;
+    private BridgerTimer timer;
 
     //== Data
     private BridgerStatistics statistics;
@@ -135,20 +137,21 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
     public void startBridging() {
         this.state = BridgerPlayerState.BRIDGING;
+        this.bridgeTask = new BridgeTask(this);
         this.bridgeTask.start();
     }
 
     public void endBridging(boolean success) {
         this.bridgeTask.stop();
 
-        if (success && this.placedBlocks.size() > 20 && this.bridgeTask.getTimer().getActualTime() > 3700) {
-            if (statisticsData.getPersonalBest() == null || bridgeTask.getTimer().getActualTime() > statisticsData.getPersonalBest().getExactTime()) {
+        if (success && this.placedBlocks.size() > 20 && this.timer.getActualTime() > 3700) {
+            if (statisticsData.getPersonalBest() == null || timer.getActualTime() > statisticsData.getPersonalBest().getExactTime()) {
                 this.successPersonalBest();
             } else {
                 this.failPersonalBest();
             }
 
-            game.getSession().add(this.player, this.bridgeTask.getTimer().toFinalDuration());
+            game.getSession().add(this.player, this.timer.toFinalDuration());
 
             final IHyriPlayer account = HyriAPI.get().getPlayerManager().getPlayer(this.player.getUniqueId());
             account.getHyris().add(5).exec();
@@ -173,20 +176,20 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     private void successPersonalBest() {
         if (this.getMedal() == null || !this.getMedal().equals(BridgerMedal.ULTIMATE)) {
             for (BridgerMedal bridgerMedal : BridgerMedal.values()) {
-                if (this.bridgeTask.getTimer().toFinalDuration().getExactTime() < bridgerMedal.getTimeToReach(game.getType())) {
+                if (this.timer.toFinalDuration().getExactTime() < bridgerMedal.getTimeToReach(game.getType())) {
                     this.successMedal(bridgerMedal);
                 }
             }
         }
 
-        this.statisticsData.setPersonalBest(this.bridgeTask.getTimer().toFinalDuration());
+        this.statisticsData.setPersonalBest(this.timer.toFinalDuration());
 
         this.player.playSound(this.spawn, Sound.LEVEL_UP, 10, 1);
 
-        Title.sendTitle(this.player, new Title(ChatColor.AQUA + this.bridgeTask.getTimer().toFinalDuration().toFormattedTime(), ChatColor.DARK_AQUA + this.getTranslatedMessage("title.sub.player.pb")
-                .replace("%pb%", ChatColor.AQUA + this.bridgeTask.getTimer().toFinalDuration().toFormattedTime())
+        Title.sendTitle(this.player, new Title(ChatColor.AQUA + this.timer.toFinalDuration().toFormattedTime(), ChatColor.DARK_AQUA + this.getTranslatedMessage("title.sub.player.pb")
+                .replace("%pb%", ChatColor.AQUA + this.timer.toFinalDuration().toFormattedTime())
                 , 5, 40, 15));
-        this.plugin.getMessageHelper().sendSuccessPBMessage(this.player, this.bridgeTask.getTimer().toFinalDuration());
+        this.plugin.getMessageHelper().sendSuccessPBMessage(this.player, this.timer.toFinalDuration());
     }
 
     private void successMedal(BridgerMedal bridgerMedal) {
@@ -195,8 +198,8 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
     private void failPersonalBest() {
         this.player.playSound(this.spawn, Sound.ORB_PICKUP, 10, 1);
-        Title.sendTitle(this.player, ChatColor.AQUA + this.bridgeTask.getTimer().toFinalDuration().toFormattedTime(), "", 5, 20, 5);
-        this.plugin.getMessageHelper().sendFailedPBMessage(this.player, this.getPersonalBest(), this.bridgeTask.getTimer().toFinalDuration());
+        Title.sendTitle(this.player, ChatColor.AQUA + this.timer.toFinalDuration().toFormattedTime(), "", 5, 20, 5);
+        this.plugin.getMessageHelper().sendFailedPBMessage(this.player, this.getPersonalBest(), this.timer.toFinalDuration());
     }
 
     private void setupScoreboard() {
@@ -247,6 +250,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
                 .setTrackingPlayer(true)
                 .setShowingToAll(true)
                 .setInteractCallback((rightClick, clicker) -> {
+                    if (game.getPlayer(clicker) == null) return;
                     if (!rightClick) {
                         return;
                     }
@@ -269,7 +273,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         for (BridgerMedal medal : BridgerMedal.getMedalsBefore(statisticsData.getHighestAcquiredMedal()))
             this.data.addUnlockedBlock(medal.getRewardBlock());
         Stream.of(BridgerBlock.values())
-                .filter(block -> block.getCost() <= 0 || block.getSpecificationNeeded().getOptionalRankType()
+                .filter(block ->  block.getCost() <= 0 || block.getSpecificationNeeded().getOptionalRankType()
                         .filter(rankType -> rankType.getPriority() >= asHyriPlayer().getRank().getPriority())
                         .isPresent())
                 .forEach(this.data::addUnlockedBlock);
@@ -390,10 +394,6 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         return placedBlocks;
     }
 
-    public BridgeTask getBridgeTask() {
-        return bridgeTask;
-    }
-
     public BridgerData getData() {
         return data;
     }
@@ -412,5 +412,13 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
     public Area getGameArea() {
         return gameArea;
+    }
+
+    public BridgerTimer getTimer() {
+        return timer;
+    }
+
+    public void setTimer(BridgerTimer timer) {
+        this.timer = timer;
     }
 }
