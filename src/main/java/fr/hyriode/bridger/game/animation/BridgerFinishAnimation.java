@@ -1,4 +1,4 @@
-package fr.hyriode.bridger.api;
+package fr.hyriode.bridger.game.animation;
 
 import fr.hyriode.bridger.game.blocks.Specification;
 import org.bukkit.Location;
