@@ -21,7 +21,7 @@ public class MessageHelper {
         sendHeader(player);
         player.sendMessage(MessageUtil.getCentredMultiLinesMessage(HyriAPI.get().getLanguageManager().getMessage("message.player.failed-pb").getValue(player)
                 .replace("%pb%", pbTime.toFormattedTime())
-                .replace("%time%", actualTime.toFormattedTime())) + "\n§e ");
+                .replace("%time%", actualTime.toFormattedTime())));
         sendFooter(player);
     }
 
