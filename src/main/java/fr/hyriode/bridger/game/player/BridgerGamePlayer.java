@@ -269,8 +269,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         for (BridgerMedal medal : BridgerMedal.getMedalsBefore(statisticsData.getHighestAcquiredMedal()))
             this.data.addUnlockedBlock(medal.getRewardBlock());
         Stream.of(BridgerBlock.values())
-                .filter(block -> block.getCost() == 0)
-                .filter(block -> block.getSpecificationNeeded().getOptionalRankType()
+                .filter(block -> block.getCost() <= 0 || block.getSpecificationNeeded().getOptionalRankType()
                         .filter(rankType -> rankType.getPriority() >= asHyriPlayer().getRank().getPriority())
                         .isPresent())
                 .forEach(this.data::addUnlockedBlock);
