@@ -5,12 +5,15 @@ import fr.hyriode.api.util.Skin;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.api.BridgerData;
 import fr.hyriode.bridger.api.BridgerStatistics;
+import fr.hyriode.bridger.game.animation.BridgerFinishAnimation;
+import fr.hyriode.bridger.game.animation.impl.FallingBlockAnimation;
 import fr.hyriode.bridger.game.player.BridgerGamePlayer;
 import fr.hyriode.hyggdrasil.api.server.HyggServer;
 import fr.hyriode.hyrame.IHyrame;
 import fr.hyriode.hyrame.game.HyriGame;
 import fr.hyriode.hyrame.game.HyriGameState;
 import fr.hyriode.hyrame.game.HyriGameType;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
     private final HyriBridger plugin;
     private final List<Boolean> emplacements;
     private final BridgerSession session;
+    private final List<BridgerFinishAnimation> animations;
 
     public BridgerGame(IHyrame hyrame, HyriBridger plugin) {
         super(hyrame, plugin, new BridgerGameInfo("bridger", "Bridger"), BridgerGamePlayer.class,
@@ -39,6 +43,11 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
         for (int i = 0; i < getType().getMaxPlayers(); i++) {
             this.emplacements.add(Boolean.FALSE);
         }
+
+        this.animations = new ArrayList<>();
+        final FallingBlockAnimation fallingBlockAnimation = new FallingBlockAnimation();
+        Bukkit.getScheduler().runTaskTimer(this.getPlugin(), fallingBlockAnimation, 20L, 0L);
+        this.animations.add(fallingBlockAnimation);
 
         this.setState(HyriGameState.READY);
     }
@@ -97,5 +106,9 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
     @Override
     public BridgerGameType getType() {
         return (BridgerGameType) super.getType();
+    }
+
+    public List<BridgerFinishAnimation> getAnimations() {
+        return animations;
     }
 }

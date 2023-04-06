@@ -1,8 +1,8 @@
 package fr.hyriode.bridger.gui;
 
-import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.game.player.BridgerGamePlayer;
+import fr.hyriode.bridger.language.BridgerMessage;
 import fr.hyriode.hyrame.inventory.HyriInventory;
 import fr.hyriode.hyrame.item.ItemBuilder;
 import fr.hyriode.hyrame.language.HyrameMessage;
@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import static fr.hyriode.bridger.language.BridgerMessage.*;
 import static fr.hyriode.hyrame.utils.Symbols.DOT_BOLD;
 import static org.bukkit.ChatColor.*;
 
@@ -76,14 +77,14 @@ public class ChangeIslandGUI extends HyriInventory {
     }
 
     private String getIslandName(int islandNumber) {
-        return GRAY + getValue("gui.item.island") + " " + new DecimalFormat("00").format(islandNumber+1);
+        return GRAY + GUI_ITEM_ISLAND.asString(gamePlayer.getPlayer()) + " " + new DecimalFormat("00").format(islandNumber+1);
     }
 
     private List<String> getIslandLore(IslandStatus status) {
         return Arrays.asList(
-                DARK_GRAY + DOT_BOLD + " " + GRAY + getValue("gui.lore.status") + ": " + status.getChatColor() + getValue(status.getKey()),
+                DARK_GRAY + DOT_BOLD + " " + GRAY + GUI_LORE_STATUS.asString(gamePlayer.getPlayer()) + ": " + status.getChatColor() + status.message.asString(gamePlayer.getPlayer()),
                 "",
-                getValue("gui.lore.click-to-teleport")
+                GUI_LORE_CLICK_TO_TELEPORT.asString(gamePlayer.getPlayer())
         );
     }
 
@@ -99,22 +100,18 @@ public class ChangeIslandGUI extends HyriInventory {
         }
     }
 
-    private String getValue(String key) {
-        return HyriLanguageMessage.get(key).getValue(owner);
-    }
-
     private enum IslandStatus {
-        FREE(GREEN, "gui.lore.status.free", (short) 5),
-        OCCUPIED(RED, "gui.lore.status.occupied", (short) 14),
-        SELF_OCCUPIED(GOLD, "gui.lore.status.self-occupied", (short) 1);
+        FREE(GREEN, GUI_LORE_STATUS_FREE, (short) 5),
+        OCCUPIED(RED, GUI_LORE_STATUS_OCCUPIED, (short) 14),
+        SELF_OCCUPIED(GOLD, GUI_LORE_STATUS_SELF_OCCUPIED, (short) 1);
 
         private final ChatColor chatColor;
-        private final String key;
+        private final BridgerMessage message;
         private final Short colorData;
 
-        IslandStatus(ChatColor chatColor, String key, Short colorData) {
+        IslandStatus(ChatColor chatColor, BridgerMessage message, Short colorData) {
             this.chatColor = chatColor;
-            this.key = key;
+            this.message = message;
             this.colorData = colorData;
         }
 
@@ -122,8 +119,8 @@ public class ChangeIslandGUI extends HyriInventory {
             return chatColor;
         }
 
-        public String getKey() {
-            return key;
+        public BridgerMessage getMessage() {
+            return message;
         }
 
         public Short getColorData() {

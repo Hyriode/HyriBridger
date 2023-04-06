@@ -1,14 +1,15 @@
 package fr.hyriode.bridger.gui;
 
-import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.api.BridgerData;
 import fr.hyriode.bridger.game.blocks.BridgerBlock;
 import fr.hyriode.bridger.game.player.BridgerGamePlayer;
+import fr.hyriode.bridger.language.BridgerMessage;
 import fr.hyriode.hyrame.inventory.HyriInventory;
 import fr.hyriode.hyrame.item.ItemBuilder;
 import fr.hyriode.hyrame.language.HyrameMessage;
+import fr.hyriode.hyrame.utils.HyrameHead;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,7 +20,7 @@ import java.util.List;
 
 import static org.bukkit.ChatColor.*;
 
-public class ChangeBlockGUI extends HyriInventory {
+    public class ChangeBlockGUI extends HyriInventory {
 
     private final HyriBridger plugin;
     private final BridgerGamePlayer gamePlayer;
@@ -60,13 +61,13 @@ public class ChangeBlockGUI extends HyriInventory {
             if (block.equals(this.gamePlayer.getActualBlock())) {
                 this.setItem(slot, new ItemBuilder(block.getMaterial(), 1, block.getMeta())
                         .withName(AQUA + block.getItemStackName(this.owner.getUniqueId()))
-                        .withLore(this.getLoreValue("gui.lore.block.selected"))
+                        .withLore(BridgerMessage.GUI_LORE_BLOCK_SELECTED.asList(gamePlayer.getPlayer()))
                         .withGlow()
                         .build());
             } else if (this.playerData.hasUnlocked(block)) {
                 this.setItem(slot, new ItemBuilder(block.getMaterial(), 1, block.getMeta())
                         .withName(GREEN + block.getItemStackName(this.owner.getUniqueId()))
-                        .withLore(this.getLoreValue("gui.lore.block.possessed-block"))
+                        .withLore(BridgerMessage.GUI_LORE_BLOCK_POSSESSED_BLOCK.asList(gamePlayer.getPlayer()))
                         .build(), event -> {
                     gamePlayer.setActualBlock(block);
                     new ChangeBlockGUI(this.plugin, this.owner, this.page).open();
@@ -85,26 +86,17 @@ public class ChangeBlockGUI extends HyriInventory {
         }
 
         if (this.page + 1 < numberPages){
-            this.setItem(53, new ItemBuilder(Material.ARROW, 1)
-                    .withName(DARK_AQUA + this.getValue("gui.item-name.next-page"))
-                    .withLore(RESET + "" + AQUA + (this.page + 1) + "/" + numberPages)
+            this.setItem(53, ItemBuilder.asHead(HyrameHead.MONITOR_FORWARD)
+                    .withName(HyrameMessage.PAGINATION_NEXT_PAGE_ITEM_NAME.asString(this.owner).replace("%current_page%", String.valueOf(this.page + 1)).replace("%total_pages%", String.valueOf(numberPages)))
+                    .withLore(HyrameMessage.PAGINATION_NEXT_PAGE_ITEM_LORE.asList(this.owner))
                     .build(), inventoryClickEvent -> new ChangeBlockGUI(this.plugin, this.owner, this.page+1).open());
         }
 
         if (this.page != 0) {
-            this.setItem(45, new ItemBuilder(Material.ARROW, 1)
-                    .withName(DARK_AQUA + this.getValue("gui.item-name.previous-page"))
-                    .withLore(RESET + "" + AQUA + (this.page + 1)  + "/" + numberPages)
+            this.setItem(45, ItemBuilder.asHead(HyrameHead.MONITOR_FORWARD)
+                    .withName(HyrameMessage.PAGINATION_NEXT_PAGE_ITEM_NAME.asString(this.owner).replace("%current_page%", String.valueOf(this.page + 1)).replace("%total_pages%", String.valueOf(numberPages)))
+                    .withLore(HyrameMessage.PAGINATION_NEXT_PAGE_ITEM_LORE.asList(this.owner))
                     .build(), inventoryClickEvent -> new ChangeBlockGUI(this.plugin, this.owner, this.page-1).open());
         }
-    }
-
-    private List<String> getLoreValue(String key) {
-        String baseString = HyriLanguageMessage.get(key).getValue(this.owner);
-        return Arrays.asList(baseString.split("\n"));
-    }
-
-    private String getValue(String key) {
-        return HyriLanguageMessage.get(key).getValue(this.owner);
     }
 }

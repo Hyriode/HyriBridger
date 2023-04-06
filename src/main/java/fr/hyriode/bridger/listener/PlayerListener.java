@@ -1,8 +1,8 @@
 package fr.hyriode.bridger.listener;
 
-import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.game.player.BridgerGamePlayer;
+import fr.hyriode.bridger.language.BridgerMessage;
 import fr.hyriode.hyrame.listener.HyriListener;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -56,7 +56,7 @@ public class PlayerListener extends HyriListener<HyriBridger> {
             return;
         }
         event.setCancelled(true);
-        event.getPlayer().sendMessage(ChatColor.RED + HyriLanguageMessage.get("message.player.oob.block").getValue(event.getPlayer()));
+        event.getPlayer().sendMessage(ChatColor.RED + BridgerMessage.MESSAGE_PLAYER_OOB_BLOCK.asString(event.getPlayer()));
     }
 
     @EventHandler (priority = EventPriority.LOWEST)
@@ -95,11 +95,11 @@ public class PlayerListener extends HyriListener<HyriBridger> {
 
         if (max.getX() + 5 < to.getX()) {
             gamePlayer.getPlayer().teleport(max.clone().subtract(2, 0, 0));
-            gamePlayer.getPlayer().sendMessage(ChatColor.RED + HyriLanguageMessage.get("message.player.oob").getValue(event.getPlayer()));
+            gamePlayer.getPlayer().sendMessage(ChatColor.RED + BridgerMessage.MESSAGE_PLAYER_OOB.asString(event.getPlayer()));
             return;
         } else if (min.getX() - 5 > to.getX()) {
             gamePlayer.getPlayer().teleport(min.clone().add(2, 0, 0));
-            gamePlayer.getPlayer().sendMessage(ChatColor.RED + HyriLanguageMessage.get("message.player.oob").getValue(event.getPlayer()));
+            gamePlayer.getPlayer().sendMessage(ChatColor.RED + BridgerMessage.MESSAGE_PLAYER_OOB.asString(event.getPlayer()));
             return;
         }
 
@@ -120,11 +120,6 @@ public class PlayerListener extends HyriListener<HyriBridger> {
         BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer(event.getPlayer());
 
         if (gamePlayer == null) {
-            return;
-        }
-
-        if (gamePlayer.isSpectating()) {
-            //TODO gamePlayer.getPlayer().teleport(gamePlayer.getWatchedPlayer().getPlayer());
             return;
         }
 

@@ -5,12 +5,10 @@ import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.api.BridgerMedal;
 import fr.hyriode.bridger.game.BridgerGame;
 import fr.hyriode.bridger.game.player.BridgerGamePlayer;
+import fr.hyriode.bridger.language.BridgerMessage;
 import fr.hyriode.hyrame.game.scoreboard.HyriGameScoreboard;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
 
@@ -29,11 +27,11 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
     public void addLines() {
         this.addCurrentDateLine(0);
         addBlankLine(1);
-        setLine(2, ChatColor.AQUA + "" + ChatColor.BOLD + getValue("scoreboard.best-time"));
+        setLine(2, ChatColor.AQUA + "" + ChatColor.BOLD + BridgerMessage.SCOREBOARD_BEST_TIME.asList(player));
         setLine(3, getBestTime(), line -> line.setValue(getBestTime()), 20);
         setLine(4, getActualTime(), line -> line.setValue(getActualTime()), 1);
         addBlankLine(5);
-        setLine(6, ChatColor.DARK_AQUA + getValue("scoreboard.top-3"));
+        setLine(6, ChatColor.DARK_AQUA + BridgerMessage.SCOREBOARD_TOP_3.asString(player));
         setLine(7, getBestTimes(1), line -> line.setValue(ChatColor.AQUA + getBestTimes(1)), 20);
         setLine(8, getBestTimes(2), line -> line.setValue(ChatColor.GOLD + getBestTimes(2)), 20);
         setLine(9, getBestTimes(3), line -> line.setValue(ChatColor.GRAY + getBestTimes(3)), 20);
@@ -43,16 +41,12 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
         addHostnameLine();
     }
 
-    private String getDateLine() {
-        return ChatColor.GRAY + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
-    }
-
     private String getBestTime() {
         return (this.gamePlayer.getPersonalBest() != null) ? ChatColor.YELLOW + this.gamePlayer.getPersonalBest().toFormattedTime() : ChatColor.GRAY + "-.---";
     }
 
     private String getActualTime() {
-        String startString = ChatColor.WHITE + getValue("scoreboard.actual-time") + " " + ChatColor.YELLOW;
+        String startString = ChatColor.WHITE + BridgerMessage.SCOREBOARD_ACTUAL_TIME.asString(player) + " " + ChatColor.YELLOW;
         return (this.gamePlayer.isBridging() && this.gamePlayer.getTimer() != null && this.gamePlayer.getTimer().getFormattedActualTime() != null) ?
                 startString + this.gamePlayer.getTimer().getFormattedActualTime() : startString + "0.000";
     }
@@ -63,10 +57,6 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
 
     private String getMedalLine() {
         final BridgerMedal bridgerMedal = this.gamePlayer.getMedal();
-        return ChatColor.GOLD + getValue("scoreboard.medal.actual") + ((bridgerMedal != null) ? getValue(bridgerMedal.getLanguageValue()) : ChatColor.RED + "✘");
-    }
-
-    private String getValue(String key) {
-        return HyriLanguageMessage.get(key).getValue(player);
+        return ChatColor.GOLD + BridgerMessage.SCOREBOARD_MEDAL_ACTUAL.asString(player) + ((bridgerMedal != null) ? HyriLanguageMessage.get(bridgerMedal.getLanguageValue()).getValue(player) : ChatColor.RED + "✘");
     }
 }

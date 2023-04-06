@@ -1,5 +1,7 @@
 main: fr.hyriode.bridger.HyriBridger
 version: @version@
 name: Bridger
-author: Calyx
+authors:
+  - Calyx
+  - Pas2Stress
 depend: [Hyrame]

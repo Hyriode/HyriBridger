@@ -2,6 +2,7 @@ package fr.hyriode.bridger.game.blocks;
 
 import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.api.player.IHyriPlayer;
+import fr.hyriode.bridger.language.BridgerMessage;
 import org.bukkit.Material;
 
 import java.util.*;
@@ -133,7 +134,7 @@ public enum BridgerBlock {
             return HyriLanguageMessage.get(this.nameKey).getValue(player);
         } catch (NullPointerException e) {
             System.out.println("[Bridger] NullPointerException: " + this.nameKey);
-            return HyriLanguageMessage.get("block.not-found").getValue(player);
+            return BridgerMessage.BLOCK_NOT_FOUND.asString(player);
         }
     }
 
@@ -151,7 +152,7 @@ public enum BridgerBlock {
     }
 
     public List<String> getNotBuyableLore(IHyriPlayer account)  {
-        String baseString = HyriLanguageMessage.get("gui.lore.block.not-buyable-block").getValue(account.getUniqueId())
+        String baseString = BridgerMessage.GUI_LORE_BLOCK_NOT_BUYABLE_BLOCK.asString(account)
                 .replace("%cost%", String.valueOf(this.cost))
                 .replace("%missing%", String.valueOf(this.getCost() - account.getHyris().getAmount()));
         return Arrays.asList(baseString.split("\n"));

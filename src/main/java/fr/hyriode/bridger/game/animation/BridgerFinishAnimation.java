@@ -22,7 +22,7 @@ public abstract class BridgerFinishAnimation {
         this.specifications.addAll(Arrays.asList(specifications));
     }
 
-    abstract void play(final List<Location> blocks);
+    protected abstract void play(final List<Location> blocks);
 
     public String getId() {
         return id;
