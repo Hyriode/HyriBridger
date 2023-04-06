@@ -57,6 +57,6 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
 
     private String getMedalLine() {
         final BridgerMedal bridgerMedal = this.gamePlayer.getMedal();
-        return ChatColor.GOLD + BridgerMessage.SCOREBOARD_MEDAL_ACTUAL.asString(player) + ((bridgerMedal != null) ? HyriLanguageMessage.get(bridgerMedal.getMessageValue()).getValue(player) : ChatColor.RED + "✘");
+        return ChatColor.GOLD + BridgerMessage.SCOREBOARD_MEDAL_ACTUAL.asString(player) + ((bridgerMedal != null) ? bridgerMedal.getMessageValue().asString(player) : ChatColor.RED + "✘");
     }
 }
