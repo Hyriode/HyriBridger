@@ -1,7 +1,6 @@
 package fr.hyriode.bridger.game.player;
 
 import fr.hyriode.api.HyriAPI;
-import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.api.player.model.IHyriTransaction;
 import fr.hyriode.bridger.HyriBridger;
@@ -14,9 +13,9 @@ import fr.hyriode.bridger.game.task.BridgeTask;
 import fr.hyriode.bridger.game.timers.BridgerPlayedDuration;
 import fr.hyriode.bridger.game.timers.BridgerTimer;
 import fr.hyriode.bridger.gui.MainGUI;
+import fr.hyriode.bridger.language.BridgerMessage;
 import fr.hyriode.hyrame.actionbar.ActionBar;
 import fr.hyriode.hyrame.game.HyriGamePlayer;
-import fr.hyriode.hyrame.game.HyriGameSpectator;
 import fr.hyriode.hyrame.game.util.HyriGameItems;
 import fr.hyriode.hyrame.hologram.Hologram;
 import fr.hyriode.hyrame.item.ItemBuilder;
@@ -24,8 +23,6 @@ import fr.hyriode.hyrame.npc.NPC;
 import fr.hyriode.hyrame.npc.NPCManager;
 import fr.hyriode.hyrame.title.Title;
 import fr.hyriode.hyrame.utils.Area;
-import fr.hyriode.hyrame.utils.AreaWrapper;
-import fr.hyriode.hyrame.utils.LocationWrapper;
 import fr.hyriode.hyrame.utils.PlayerUtil;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.PacketPlayOutBlockChange;
@@ -133,8 +130,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         }
 
         this.spawnPlayer();
-        new ActionBar(ChatColor.RED + this.getTranslatedMessage("message.player.failed-bridge")
-                .replace("%block%", "0")).send(this.player);
+        new ActionBar(ChatColor.RED + BridgerMessage.MESSAGE_PLAYER_FAILED_BRIDGE.asString(player).replace("%block%", "0")).send(this.player);
     }
 
     public void startBridging() {
@@ -162,7 +158,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
             statisticsData.addBridgesMade(1);
         } else {
-            new ActionBar(ChatColor.RED + this.getTranslatedMessage("message.player.failed-bridge")
+            new ActionBar(ChatColor.RED + BridgerMessage.MESSAGE_PLAYER_FAILED_BRIDGE.asString(player)
                     .replace("%block%", String.valueOf(this.placedBlocks.size()-1))).send(this.player);
             statisticsData.addBridgeFailed(1);
         }
@@ -188,9 +184,11 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
         this.player.playSound(this.spawn, Sound.LEVEL_UP, 10, 1);
 
-        Title.sendTitle(this.player, new Title(ChatColor.AQUA + this.timer.toFinalDuration().toFormattedTime(), ChatColor.DARK_AQUA + this.getTranslatedMessage("title.sub.player.pb")
-                .replace("%pb%", ChatColor.AQUA + this.timer.toFinalDuration().toFormattedTime())
-                , 5, 40, 15));
+        Title.sendTitle(this.player, new Title(
+                ChatColor.AQUA + this.timer.toFinalDuration().toFormattedTime(),
+                ChatColor.DARK_AQUA + BridgerMessage.TITLE_SUB_PLAYER_PB.asString(player).replace("%pb%", ChatColor.AQUA + this.timer.toFinalDuration().toFormattedTime()),
+                5, 40, 15)
+        );
         this.plugin.getMessageHelper().sendSuccessPBMessage(this.player, this.timer.toFinalDuration());
     }
 
@@ -222,12 +220,12 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     private void refreshHologram() {
         this.deleteHologram();
         this.hologram = new Hologram.Builder(this.plugin, this.hologramLocation)
-                .withLine(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + this.getTranslatedMessage("hologram.stats"))
-                .withLine(ChatColor.AQUA + this.getTranslatedMessage("scoreboard.medal.actual") + (this.getMedal() != null ? this.getTranslatedMessage(this.getMedal().getLanguageValue()) : ChatColor.RED + "✘"))
-                .withLine(ChatColor.AQUA + this.getTranslatedMessage("hologram.placed-blocks") + ChatColor.YELLOW + this.statisticsData.getBlocksPlaced())
-                .withLine(ChatColor.AQUA + this.getTranslatedMessage("hologram.made-bridges") + ChatColor.YELLOW + this.statisticsData.getBridgesMade())
-                .withLine(ChatColor.AQUA + this.getTranslatedMessage("hologram.failed-bridged") + ChatColor.YELLOW + this.statisticsData.getBridgeFailed())
-                .withLine(ChatColor.AQUA + this.getTranslatedMessage("hologram.played-time") + ChatColor.YELLOW + new BridgerPlayedDuration(Duration.ofMillis(asHyriPlayer().getStatistics().getPlayTime(HyriAPI.get().getServer().getType()) + this.getPlayTime()), this.player).toFormattedTime())
+                .withLine(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + BridgerMessage.HOLOGRAM_STATS.asString(player))
+                .withLine(ChatColor.AQUA + BridgerMessage.SCOREBOARD_MEDAL_ACTUAL.asString(player) + (this.getMedal() != null ? this.getMedal().getMessageValue().asString(player) : ChatColor.RED + "✘"))
+                .withLine(ChatColor.AQUA + BridgerMessage.HOLOGRAM_PLACED_BLOCKS.asString(player) + ChatColor.YELLOW + this.statisticsData.getBlocksPlaced())
+                .withLine(ChatColor.AQUA + BridgerMessage.HOLOGRAM_MADE_BRIDGES.asString(player) + ChatColor.YELLOW + this.statisticsData.getBridgesMade())
+                .withLine(ChatColor.AQUA + BridgerMessage.HOLOGRAM_FAILED_BRIDGED.asString(player) + ChatColor.YELLOW + this.statisticsData.getBridgeFailed())
+                .withLine(ChatColor.AQUA + BridgerMessage.HOLOGRAM_PLAYED_TIME.asString(player) + ChatColor.YELLOW + new BridgerPlayedDuration(Duration.ofMillis(asHyriPlayer().getStatistics().getPlayTime(HyriAPI.get().getServer().getType()) + this.getPlayTime()), this.player).toFormattedTime())
                 .build();
         this.hologram.setLocation(this.hologramLocation);
         this.hologram.addReceiver(this.player);
@@ -243,8 +241,8 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     private void setupNPC() {
         this.deleteNPC();
         List<String> npcHolo = new ArrayList<>();
-        npcHolo.add(this.getTranslatedMessage("npc.name"));
-        npcHolo.add(this.getTranslatedMessage("npc.lore"));
+        npcHolo.add(BridgerMessage.NPC_NAME.asString(player));
+        npcHolo.add(BridgerMessage.NPC_LORE.asString(player));
 
         this.npc = NPCManager.createNPC(this.npcLocation, BridgerGame.NPC_SKIN, npcHolo);
 
@@ -352,10 +350,6 @@ public class BridgerGamePlayer extends HyriGamePlayer {
             packet.block = CraftMagicNumbers.getBlock(material).fromLegacyData(data);
             ((CraftPlayer) this.player).getHandle().playerConnection.sendPacket(packet);
         }
-    }
-
-    private String getTranslatedMessage(String key) {
-        return HyriLanguageMessage.get(key).getValue(this.player);
     }
 
     public boolean isBridging() {

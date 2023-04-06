@@ -1,16 +1,14 @@
 package fr.hyriode.bridger.commands;
 
-import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.api.rank.PlayerRank;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.game.player.BridgerGamePlayer;
+import fr.hyriode.bridger.language.BridgerMessage;
 import fr.hyriode.hyrame.command.HyriCommand;
 import fr.hyriode.hyrame.command.HyriCommandContext;
 import fr.hyriode.hyrame.command.HyriCommandInfo;
 import org.bukkit.entity.Player;
-
-import java.util.UUID;
 
 import static org.bukkit.ChatColor.RED;
 
@@ -40,22 +38,18 @@ public class SpectateCommand extends HyriCommand<HyriBridger> {
             Player sender = (Player) ctx.getSender();
             BridgerGamePlayer target = plugin.getGame().getPlayer(hyriCommandOutput.get(IHyriPlayer.class).getUniqueId());
             if (target == null) {
-                sender.sendMessage(RED + getValue(sender.getUniqueId(), "message.player.player-does-not-exist"));
+                sender.sendMessage(RED + BridgerMessage.MESSAGE_PLAYER_PLAYER_DOES_NOT_EXIST.asString(gamePlayer.getPlayer()));
                 return;
             }
             if (target.getUniqueId().equals(sender.getUniqueId())) {
-                sender.sendMessage(RED + this.getValue(sender.getUniqueId(), "message.player.can-not-spectate-himself"));
+                sender.sendMessage(RED + BridgerMessage.MESSAGE_PLAYER_CAN_NOT_SPECTATE_HIMSELF.asString(gamePlayer.getPlayer()));
                 return;
             }
             if (target.isSpectating()) {
-                sender.sendMessage(RED + this.getValue(sender.getUniqueId(), "message.player.can-not-spectate-spectator"));
+                sender.sendMessage(RED + BridgerMessage.MESSAGE_PLAYER_CAN_NOT_SPECTATE_SPECTATOR.asString(gamePlayer.getPlayer()));
                 return;
             }
             gamePlayer.joinSpectators(target);
         });
-    }
-
-    private String getValue(UUID uuid, String key) {
-        return HyriLanguageMessage.get(key).getValue(uuid);
     }
 }

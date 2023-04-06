@@ -146,8 +146,7 @@ public enum BridgerBlock {
     }
 
     public List<String> getNotPossessedLore(UUID player)  {
-        String baseString = HyriLanguageMessage.get(this.specificationNeeded.getLoreKey()).getValue(player)
-                .replace("%cost%", String.valueOf(this.cost));
+        String baseString = this.specificationNeeded.getMessage().asString(player).replace("%cost%", String.valueOf(this.cost));
         return Arrays.asList(baseString.split("\n"));
     }
 

@@ -4,45 +4,48 @@ import fr.hyriode.api.rank.IHyriRankType;
 import fr.hyriode.api.rank.PlayerRank;
 import fr.hyriode.api.rank.StaffRank;
 import fr.hyriode.bridger.api.BridgerMedal;
+import fr.hyriode.bridger.language.BridgerMessage;
 
 import java.util.Optional;
 
+import static fr.hyriode.bridger.language.BridgerMessage.*;
+
 public enum Specification {
 
-    DEFAULT("gui.lore.block.buyable-block"),
-    VIP("gui.lore.block.rank-needed-block.vip", PlayerRank.VIP),
-    VIP_PLUS("gui.lore.block.rank-needed-block.vip+", PlayerRank.VIP_PLUS),
-    EPIC("gui.lore.block.rank-needed-block.epic", PlayerRank.EPIC),
-    MEDAL_BRONZE("gui.lore.block.medal-needed-block.bronze", BridgerMedal.BRONZE),
-    MEDAL_IRON("gui.lore.block.medal-needed-block.iron", BridgerMedal.IRON),
-    MEDAL_GOLD("gui.lore.block.medal-needed-block.gold", BridgerMedal.GOLD),
-    MEDAL_ULTIMATE("gui.lore.block.medal-needed-block.ultimate", BridgerMedal.ULTIMATE),
-    STAFF("gui.lore.block.rank-needed-block.staff", StaffRank.HELPER);
+    DEFAULT(GUI_LORE_BLOCK_BUYABLE_BLOCK),
+    VIP(GUI_LORE_BLOCK_RANK_NEEDED_BLOCK_VIP, PlayerRank.VIP),
+    VIP_PLUS(GUI_LORE_BLOCK_RANK_NEEDED_BLOCK_VIP_PLUS, PlayerRank.VIP_PLUS),
+    EPIC(GUI_LORE_BLOCK_RANK_NEEDED_BLOCK_EPIC, PlayerRank.EPIC),
+    MEDAL_BRONZE(GUI_LORE_BLOCK_MEDAL_NEEDED_BLOCK_BRONZE, BridgerMedal.BRONZE),
+    MEDAL_IRON(GUI_LORE_BLOCK_MEDAL_NEEDED_BLOCK_IRON, BridgerMedal.IRON),
+    MEDAL_GOLD(GUI_LORE_BLOCK_MEDAL_NEEDED_BLOCK_GOLD, BridgerMedal.GOLD),
+    MEDAL_ULTIMATE(GUI_LORE_BLOCK_MEDAL_NEEDED_BLOCK_ULTIMATE, BridgerMedal.ULTIMATE),
+    STAFF(GUI_LORE_BLOCK_RANK_NEEDED_BLOCK_STAFF, StaffRank.HELPER);
 
-    private final String loreKey;
+    private final BridgerMessage message;
     private final IHyriRankType rankType;
     private final BridgerMedal medal;
 
-    Specification(String loreKey) {
-        this.loreKey = loreKey;
+    Specification(BridgerMessage message) {
+        this.message = message;
         this.rankType = null;
         this.medal = null;
     }
 
-    Specification(String loreKey, IHyriRankType rank) {
-        this.loreKey = loreKey;
+    Specification(BridgerMessage message, IHyriRankType rank) {
+        this.message = message;
         this.rankType = rank;
         this.medal = null;
     }
 
-    Specification(String loreKey, BridgerMedal medal) {
-        this.loreKey = loreKey;
+    Specification(BridgerMessage message, BridgerMedal medal) {
+        this.message = message;
         this.rankType = null;
         this.medal = medal;
     }
 
-    public String getLoreKey() {
-        return loreKey;
+    public BridgerMessage getMessage() {
+        return message;
     }
 
     public Optional<IHyriRankType> getOptionalRankType() {
