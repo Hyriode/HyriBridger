@@ -1,10 +1,13 @@
 package fr.hyriode.bridger.game.timers;
 
 import fr.hyriode.api.language.HyriLanguageMessage;
+import fr.hyriode.bridger.language.BridgerMessage;
 import fr.hyriode.hyrame.utils.DurationConverter;
 import org.bukkit.entity.Player;
 
 import java.time.Duration;
+
+import static fr.hyriode.bridger.language.BridgerMessage.*;
 
 public class BridgerPlayedDuration extends DurationConverter {
     private final Player player;
@@ -15,10 +18,10 @@ public class BridgerPlayedDuration extends DurationConverter {
     }
 
     public String toFormattedTime() {
-        return this.toDaysPart() + " " + this.getValue("utils.days") + " " + this.toHoursPart() + " " + this.getValue("utils.hours") + " " + this.toMinutesPart() + " " + this.getValue("utils.minutes");
+        return this.toDaysPart() + " " + this.getValue(UTILS_DAYS) + " " + this.toHoursPart() + " " + this.getValue(UTILS_HOURS) + " " + this.toMinutesPart() + " " + this.getValue(UTILS_MINUTES);
     }
 
-    private String getValue(String key) {
-        return HyriLanguageMessage.get(key).getValue(this.player);
+    private String getValue(BridgerMessage message) {
+        return message.asString(this.player);
     }
 }

@@ -2,11 +2,13 @@ package fr.hyriode.bridger.gui;
 
 import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.api.player.IHyriPlayer;
+import fr.hyriode.bridger.BridgerProvider;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.api.BridgerBlockTransaction;
 import fr.hyriode.bridger.api.BridgerData;
 import fr.hyriode.bridger.game.blocks.BridgerBlock;
 import fr.hyriode.bridger.game.player.BridgerGamePlayer;
+import fr.hyriode.bridger.language.BridgerMessage;
 import fr.hyriode.hyrame.inventory.HyriInventory;
 import fr.hyriode.hyrame.item.ItemBuilder;
 import org.bukkit.Material;
@@ -39,14 +41,14 @@ public class ValidateBuyGUI extends HyriInventory {
         this.setVerticalLine(8, 44, glassPane);
 
         this.setItem(13, new ItemBuilder(Material.SIGN)
-                .withName(DARK_AQUA + this.getValue("gui.item-name.buy-block")
+                .withName(DARK_AQUA + BridgerMessage.GUI_ITEM_NAME_BUY_BLOCK.asString(this.owner)
                         .replace("%block%", AQUA + this.blockName + DARK_AQUA)
                         .replace("%cost%", LIGHT_PURPLE + String.valueOf(this.block.getCost())))
                 .build());
 
         this.setItem(30, new ItemBuilder(Material.STAINED_CLAY, 1, (short) 13)
-                .withName(GREEN + this.getValue("utils.yes"))
-                .withLore(DARK_AQUA + this.getValue("gui.item-name.buy-block")
+                .withName(GREEN + BridgerMessage.UTILS_YES.asString(gamePlayer.getPlayer()))
+                .withLore(DARK_AQUA + BridgerMessage.GUI_ITEM_NAME_BUY_BLOCK.asString(this.owner)
                         .replace("%block%", AQUA + this.blockName)
                         .replace("%cost%", LIGHT_PURPLE + String.valueOf(this.block.getCost())))
                 .build(), event -> {
@@ -62,20 +64,16 @@ public class ValidateBuyGUI extends HyriInventory {
 
             this.owner.closeInventory();
 
-            this.owner.sendMessage(DARK_AQUA + this.getValue("message.player.bought")
+            this.owner.sendMessage(DARK_AQUA + BridgerMessage.MESSAGE_PLAYER_BOUGHT.asString(this.owner)
                     .replace("%block%", AQUA + this.blockName)
                     .replace("%cost%", LIGHT_PURPLE + String.valueOf(this.block.getCost())));
         });
 
         this.setItem(32, new ItemBuilder(Material.STAINED_CLAY, 1, (short) 14)
-                .withName(RED + this.getValue("utils.no"))
-                .withLore(DARK_AQUA + this.getValue("gui.item-name.buy-block")
+                .withName(RED + BridgerMessage.UTILS_NO.asString(this.owner))
+                .withLore(DARK_AQUA + BridgerMessage.GUI_ITEM_NAME_BUY_BLOCK.asString(this.owner)
                         .replace("%block%", AQUA + this.blockName)
                         .replace("%cost%", LIGHT_PURPLE + String.valueOf(this.block.getCost())))
                 .build(), event -> new ChangeBlockGUI(this.plugin, this.owner, 0).open());
-    }
-
-    private String getValue(String key) {
-        return HyriLanguageMessage.get(key).getValue(this.owner);
     }
 }

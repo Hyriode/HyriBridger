@@ -5,6 +5,7 @@ import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.game.BridgerGameType;
 import fr.hyriode.bridger.game.player.BridgerGamePlayer;
+import fr.hyriode.bridger.language.BridgerMessage;
 import fr.hyriode.hyrame.inventory.HyriInventory;
 import fr.hyriode.hyrame.item.ItemBuilder;
 import org.bukkit.ChatColor;
@@ -42,15 +43,15 @@ public class MainGUI extends HyriInventory {
 
     private void setChangeIslandGUI() {
         this.setItem(33, new ItemBuilder(Material.REDSTONE_COMPARATOR, 1)
-                .withName(ChatColor.DARK_AQUA + getValue("gui.item.change-island"))
-                .withLore(ChatColor.GRAY + getValue("gui.item-lore.change-island"))
+                .withName(ChatColor.DARK_AQUA + BridgerMessage.GUI_ITEM_CHANGE_ISLAND.asString(this.owner))
+                .withLore(ChatColor.GRAY + BridgerMessage.GUI_ITEM_LORE_CHANGE_ISLAND.asString(this.owner))
                 .build(), event -> new ChangeIslandGUI(plugin, owner).open());
     }
 
     private void setChangeBlockGUI() {
         this.setItem(15, new ItemBuilder(Material.GOLD_BLOCK, 1, gamePlayer.getActualBlock().getMeta())
-                .withName(ChatColor.DARK_AQUA + getValue("gui.item.change-block"))
-                .withLore(ChatColor.GRAY + getValue("gui.item-lore.change-block"))
+                .withName(ChatColor.DARK_AQUA + BridgerMessage.GUI_ITEM_CHANGE_BLOCK.asString(this.owner))
+                .withLore(ChatColor.GRAY + BridgerMessage.GUI_ITEM_LORE_CHANGE_BLOCK.asString(this.owner))
                 .build(), event -> new ChangeBlockGUI(plugin, owner, 0).open());
     }
 
@@ -61,12 +62,12 @@ public class MainGUI extends HyriInventory {
             if (HyriAPI.get().getConfig().isDevEnvironment() || !HyriAPI.get().getServer().getType().equalsIgnoreCase(type.getName())) {
                 itemBuilder = new ItemBuilder(type.getItemstack())
                         .withName(ChatColor.DARK_AQUA + getValue("gui.item." + type.getName().toLowerCase()))
-                        .withLore(ChatColor.GRAY + getValue("gui.lore.bridger-mode"));
+                        .withLore(ChatColor.GRAY + BridgerMessage.GUI_LORE_BRIDGER_MODE.asString(this.owner));
                 this.setItem(index, itemBuilder.build(), event -> HyriAPI.get().getQueueManager().addPlayerInQueue(event.getWhoClicked().getUniqueId(), "bridger", type.getName(), null));
             } else {
                 itemBuilder = new ItemBuilder(type.getItemstack())
                         .withName(ChatColor.DARK_AQUA + getValue("gui.item." + type.getDisplayName()))
-                        .withLore(ChatColor.GRAY + getValue("gui.lore.bridger-mode-selected"))
+                        .withLore(ChatColor.GRAY + BridgerMessage.GUI_LORE_BRIDGER_MODE_SELECTED.asString(this.owner))
                         .withGlow();
                 this.setItem(index, itemBuilder.build());
             }

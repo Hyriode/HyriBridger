@@ -1,8 +1,7 @@
 package fr.hyriode.bridger.utils;
 
-import fr.hyriode.api.HyriAPI;
 import fr.hyriode.bridger.api.BridgerDuration;
-import org.bukkit.ChatColor;
+import fr.hyriode.bridger.language.BridgerMessage;
 import org.bukkit.entity.Player;
 
 import static fr.hyriode.hyrame.utils.Symbols.HYPHENS_LINE;
@@ -11,29 +10,23 @@ import static org.bukkit.ChatColor.*;
 public class MessageHelper {
 
     public void sendSuccessPBMessage(Player player, BridgerDuration pbTime) {
-        sendHeader(player);
-        player.sendMessage(MessageUtil.getCentredMultiLinesMessage(HyriAPI.get().getLanguageManager().getMessage("message.player.succeed-pb").getValue(player)
-               .replace("%pb%", pbTime.toFormattedTime())));
-        sendFooter(player);
+        player.sendMessage(getHeader() + MessageUtil.getCentredMultiLinesMessage(BridgerMessage.MESSAGE_PLAYER_SUCCEED_PB.asString(player)
+               .replace("%pb%", pbTime.toFormattedTime())) + "\n" + getFooter(player));
     }
 
     public void sendFailedPBMessage(Player player, BridgerDuration pbTime, BridgerDuration actualTime) {
-        sendHeader(player);
-        player.sendMessage(MessageUtil.getCentredMultiLinesMessage(HyriAPI.get().getLanguageManager().getMessage("message.player.failed-pb").getValue(player)
+        player.sendMessage(getHeader() + MessageUtil.getCentredMultiLinesMessage(BridgerMessage.MESSAGE_PLAYER_FAILED_PB.asString(player)
                 .replace("%pb%", pbTime.toFormattedTime())
-                .replace("%time%", actualTime.toFormattedTime())));
-        sendFooter(player);
+                .replace("%time%", actualTime.toFormattedTime())) + "\n" + getFooter(player));
     }
 
-    public void sendHeader(Player player) {
-        player.sendMessage(DARK_AQUA + "" + STRIKETHROUGH + HYPHENS_LINE);
+    public String getHeader() {
+        return DARK_AQUA + "" + STRIKETHROUGH + HYPHENS_LINE + "\n";
     }
 
-    public void sendFooter(Player player) {
-        player.sendMessage(
-                MessageUtil.getCentredMessage(HyriAPI.get().getLanguageManager().getMessage("message.player.rewards.hyris").getValue(player)) + "\n" +
-                MessageUtil.getCentredMessage(HyriAPI.get().getLanguageManager().getMessage("message.player.rewards.xp").getValue(player)) + "\n" +
-                DARK_AQUA + "" + STRIKETHROUGH + HYPHENS_LINE
-        );
+    public String getFooter(Player player) {
+        return MessageUtil.getCentredMessage(BridgerMessage.MESSAGE_PLAYER_REWARDS_HYRIS.asString(player)) + "\n" +
+                MessageUtil.getCentredMessage(BridgerMessage.MESSAGE_PLAYER_REWARDS_XP.asString(player)) + "\n" +
+                DARK_AQUA + "" + STRIKETHROUGH + HYPHENS_LINE;
     }
 }
