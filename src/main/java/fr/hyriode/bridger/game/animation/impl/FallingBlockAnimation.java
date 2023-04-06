@@ -35,6 +35,7 @@ public class FallingBlockAnimation extends BridgerFinishAnimation implements Run
 
     @Override
     public void run() {
+        if (fallingBlocks.isEmpty()) return;
         Iterator<FallingBlock> iterator = fallingBlocks.iterator();
         while (iterator.hasNext()) {
             FallingBlock fallingBlock = iterator.next();
