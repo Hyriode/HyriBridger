@@ -75,6 +75,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
     public void onJoin() {
         this.spawn = this.calculateLocation(this.plugin.getConfiguration().getIslandSpawn().asBukkit());
+        this.player.teleport(this.spawn);
         this.hologramLocation = this.calculateLocation(this.plugin.getConfiguration().getIslandHologram().asBukkit());
         this.npcLocation = this.calculateLocation(this.plugin.getConfiguration().getIslandNpc().asBukkit());
         this.gameArea = this.calculateArea(this.plugin.getConfiguration().getIslandArea().asArea());
