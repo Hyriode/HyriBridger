@@ -27,7 +27,7 @@ public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
     public void addLines() {
         this.addCurrentDateLine(0);
         addBlankLine(1);
-        setLine(2, ChatColor.AQUA + "" + ChatColor.BOLD + BridgerMessage.SCOREBOARD_BEST_TIME.asList(player));
+        setLine(2, ChatColor.AQUA + "" + ChatColor.BOLD + BridgerMessage.SCOREBOARD_BEST_TIME.asString(player));
         setLine(3, getBestTime(), line -> line.setValue(getBestTime()), 20);
         setLine(4, getActualTime(), line -> line.setValue(getActualTime()), 1);
         addBlankLine(5);

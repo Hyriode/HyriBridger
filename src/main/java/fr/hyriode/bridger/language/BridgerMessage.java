@@ -181,11 +181,6 @@ public enum BridgerMessage {
         this.formatter = formatter;
     }
 
-    BridgerMessage(String key, BridgerMessage prefix) {
-        this.key = key;
-        this.formatter = (target, input) -> prefix.asString(target) + input;
-    }
-
     BridgerMessage(String key) {
         this(key, (target, input) -> input);
     }
@@ -205,10 +200,6 @@ public enum BridgerMessage {
         return this.asString(IHyriPlayer.get(uuid));
     }
 
-    public void sendTo(Player player) {
-        player.sendMessage(this.asString(player));
-    }
-
     public List<String> asList(IHyriPlayer account) {
         return new ArrayList<>(Arrays.asList(this.asString(account).split("\n")));
     }
@@ -217,7 +208,4 @@ public enum BridgerMessage {
         return this.asList(IHyriPlayer.get(player.getUniqueId()));
     }
 
-    public String getKey() {
-        return key;
-    }
 }
