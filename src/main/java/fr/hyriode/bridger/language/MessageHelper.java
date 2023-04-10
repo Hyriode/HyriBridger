@@ -26,8 +26,8 @@ public class MessageHelper {
     }
 
     public String getFooter(Player player) {
-        return MessageUtil.getCentredMessage(BridgerMessage.MESSAGE_PLAYER_REWARDS_HYRIS.asString(player))  +
-                MessageUtil.getCentredMessage(BridgerMessage.MESSAGE_PLAYER_REWARDS_XP.asString(player) + "\n") +
+        return MessageUtil.getCentredMessage(BridgerMessage.MESSAGE_PLAYER_REWARDS_HYRIS.asString(player)) + " " +
+                MessageUtil.getCentredMessage(BridgerMessage.MESSAGE_PLAYER_REWARDS_XP.asString(player)) + "\n" +
                 getLine();
     }
 }
