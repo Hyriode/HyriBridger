@@ -21,12 +21,15 @@ import fr.hyriode.hyrame.hologram.Hologram;
 import fr.hyriode.hyrame.item.ItemBuilder;
 import fr.hyriode.hyrame.npc.NPC;
 import fr.hyriode.hyrame.npc.NPCManager;
+import fr.hyriode.hyrame.packet.PacketUtil;
 import fr.hyriode.hyrame.title.Title;
 import fr.hyriode.hyrame.utils.Area;
 import fr.hyriode.hyrame.utils.PlayerUtil;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.PacketPlayOutBlockChange;
+import net.minecraft.server.v1_8_R3.PacketPlayOutMapChunk;
 import org.bukkit.*;
+import org.bukkit.craftbukkit.v1_8_R3.CraftChunk;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.util.CraftMagicNumbers;
@@ -338,11 +341,17 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
     private void deletePlacedBlocks() {
         //TODO animations
+        final List<Chunk> chunkToReload = new ArrayList<>();
         for (Location placedBlock : placedBlocks) {
+            if (!chunkToReload.contains(placedBlock.getChunk()))
+                chunkToReload.add(placedBlock.getChunk(
             placedBlock.getBlock().setType(Material.AIR);
             this.sendBlockChange(placedBlock, Material.AIR, (byte) 0);
         }
         placedBlocks.clear();
+        for (Chunk chunk : chunkToReload) {
+            PacketUtil.sendPacket(new PacketPlayOutMapChunk(((CraftChunk) chunk).getHandle(), true, 65535));
+        }
     }
 
     public void sendBlockChange(Location loc, Material material, byte data) {
