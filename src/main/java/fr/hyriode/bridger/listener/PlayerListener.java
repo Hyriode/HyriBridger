@@ -94,11 +94,11 @@ public class PlayerListener extends HyriListener<HyriBridger> {
         Location min = gamePlayer.getGameArea().getMin();
 
         if (max.getX() + 5 < to.getX()) {
-            gamePlayer.getPlayer().teleport(max.clone().subtract(2, 0, 0));
+            gamePlayer.getPlayer().teleport(gamePlayer.getSpawn());
             gamePlayer.getPlayer().sendMessage(ChatColor.RED + BridgerMessage.MESSAGE_PLAYER_OOB.asString(event.getPlayer()));
             return;
         } else if (min.getX() - 5 > to.getX()) {
-            gamePlayer.getPlayer().teleport(min.clone().add(2, 0, 0));
+            gamePlayer.getPlayer().teleport(gamePlayer.getSpawn());
             gamePlayer.getPlayer().sendMessage(ChatColor.RED + BridgerMessage.MESSAGE_PLAYER_OOB.asString(event.getPlayer()));
             return;
         }
