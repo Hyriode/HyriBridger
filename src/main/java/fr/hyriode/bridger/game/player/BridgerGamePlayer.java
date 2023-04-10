@@ -344,7 +344,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         final List<Chunk> chunkToReload = new ArrayList<>();
         for (Location placedBlock : placedBlocks) {
             if (!chunkToReload.contains(placedBlock.getChunk()))
-                chunkToReload.add(placedBlock.getChunk(
+                chunkToReload.add(placedBlock.getChunk());
             placedBlock.getBlock().setType(Material.AIR);
             this.sendBlockChange(placedBlock, Material.AIR, (byte) 0);
         }
