@@ -1,4 +1,4 @@
-package fr.hyriode.bridger.utils;
+package fr.hyriode.bridger.language;
 
 import org.bukkit.ChatColor;
 

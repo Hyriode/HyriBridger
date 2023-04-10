@@ -3,7 +3,7 @@ package fr.hyriode.bridger;
 import fr.hyriode.api.HyriAPI;
 import fr.hyriode.bridger.config.BridgerConfig;
 import fr.hyriode.bridger.game.BridgerGame;
-import fr.hyriode.bridger.utils.MessageHelper;
+import fr.hyriode.bridger.language.MessageHelper;
 import fr.hyriode.hyggdrasil.api.server.HyggServer;
 import fr.hyriode.hyrame.HyrameLoader;
 import fr.hyriode.hyrame.IHyrame;

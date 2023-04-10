@@ -1,7 +1,6 @@
-package fr.hyriode.bridger.utils;
+package fr.hyriode.bridger.language;
 
 import fr.hyriode.bridger.api.BridgerDuration;
-import fr.hyriode.bridger.language.BridgerMessage;
 import org.bukkit.entity.Player;
 
 import static fr.hyriode.hyrame.utils.Symbols.HYPHENS_LINE;
@@ -11,7 +10,7 @@ public class MessageHelper {
 
     public void sendSuccessPBMessage(Player player, BridgerDuration pbTime) {
         player.sendMessage(
-                getLine()  + "\n" +
+                getLine()  + "\n§r" +
                 MessageUtil.getCentredMultiLinesMessage(BridgerMessage.MESSAGE_PLAYER_SUCCEED_PB.asString(player).replace("%pb%", pbTime.toFormattedTime())) + "\n" +
                 getFooter(player));
     }
@@ -27,7 +26,7 @@ public class MessageHelper {
     }
 
     public String getFooter(Player player) {
-        return MessageUtil.getCentredMessage(BridgerMessage.MESSAGE_PLAYER_REWARDS_HYRIS.asString(player)+ "\n")  +
+        return MessageUtil.getCentredMessage(BridgerMessage.MESSAGE_PLAYER_REWARDS_HYRIS.asString(player))  +
                 MessageUtil.getCentredMessage(BridgerMessage.MESSAGE_PLAYER_REWARDS_XP.asString(player) + "\n") +
                 getLine();
     }
