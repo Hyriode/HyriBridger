@@ -438,4 +438,8 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     public void setTimer(BridgerTimer timer) {
         this.timer = timer;
     }
+
+    public Location getSpawn() {
+        return spawn;
+    }
 }
