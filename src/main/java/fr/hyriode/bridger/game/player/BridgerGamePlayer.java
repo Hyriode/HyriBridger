@@ -339,6 +339,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         this.onJoin();
     }
 
+    @SuppressWarnings("deprecation")
     private void deletePlacedBlocks() {
         //TODO animations
         final List<Chunk> chunkToReload = new ArrayList<>();
@@ -346,11 +347,11 @@ public class BridgerGamePlayer extends HyriGamePlayer {
             if (!chunkToReload.contains(placedBlock.getChunk()))
                 chunkToReload.add(placedBlock.getChunk());
             placedBlock.getBlock().setType(Material.AIR);
-            this.sendBlockChange(placedBlock, Material.AIR, (byte) 0);
+            //this.sendBlockChange(placedBlock, Material.AIR, (byte) 0);
         }
         placedBlocks.clear();
         for (Chunk chunk : chunkToReload) {
-            PacketUtil.sendPacket(new PacketPlayOutMapChunk(((CraftChunk) chunk).getHandle(), true, 65535));
+            chunk.getWorld().refreshChunk(chunk.getX(), chunk.getZ());
         }
     }
 
