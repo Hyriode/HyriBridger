@@ -227,9 +227,9 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     private void refreshHologram() {
-        this.deleteHologram();
-        if (hologramItem != null) this.destroyFakeItem();
-        this.showFakeItem(this.hologramLocation.clone().add(0, 0.5, 0));
+//        this.deleteHologram();
+//        if (hologramItem != null) this.destroyFakeItem();
+//        this.showFakeItem(this.hologramLocation.clone().add(0, 0.5, 0));
         this.hologram = new Hologram.Builder(this.plugin, this.hologramLocation)
                 .withLine(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + BridgerMessage.HOLOGRAM_STATS.asString(player))
                 .withLine(ChatColor.AQUA + BridgerMessage.SCOREBOARD_MEDAL_ACTUAL.asString(player) + (this.getMedal() != null ? this.getMedal().getMessageValue().asString(player) : ChatColor.RED + "✘"))
