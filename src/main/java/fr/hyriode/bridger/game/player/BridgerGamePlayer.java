@@ -31,10 +31,12 @@ import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.CraftChunk;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.craftbukkit.v1_8_R3.util.CraftMagicNumbers;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -226,7 +228,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     private void refreshHologram() {
         this.deleteHologram();
         if (hologramItem != null) this.destroyFakeItem();
-        this.showFakeItem(this.hologramLocation.add(0, 0.5, 0));
+        this.showFakeItem(this.hologramLocation.clone().add(0, 0.5, 0));
         this.hologram = new Hologram.Builder(this.plugin, this.hologramLocation)
                 .withLine(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + BridgerMessage.HOLOGRAM_STATS.asString(player))
                 .withLine(ChatColor.AQUA + BridgerMessage.SCOREBOARD_MEDAL_ACTUAL.asString(player) + (this.getMedal() != null ? this.getMedal().getMessageValue().asString(player) : ChatColor.RED + "✘"))
@@ -244,6 +246,10 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         hologramItem = new EntityItem(((CraftWorld) loc.getWorld()).getHandle());
         hologramItem.setLocation(loc.getX(), loc.getY(), loc.getZ(), 0 ,0);
         hologramItem.setItemStack(CraftItemStack.asNMSCopy(new ItemStack(Material.GOLDEN_APPLE, 1, (short) 1)));
+        hologramItem.motX = 0;
+        hologramItem.motY = 0;
+        hologramItem.motZ = 0;
+        hologramItem.velocityChanged = true;
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutSpawnEntity(hologramItem, 2));
     }
 
