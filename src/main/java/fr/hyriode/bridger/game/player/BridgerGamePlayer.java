@@ -14,6 +14,7 @@ import fr.hyriode.bridger.game.timers.BridgerPlayedDuration;
 import fr.hyriode.bridger.game.timers.BridgerTimer;
 import fr.hyriode.bridger.gui.MainGUI;
 import fr.hyriode.bridger.language.BridgerMessage;
+import fr.hyriode.bridger.util.CustomItem;
 import fr.hyriode.hyrame.actionbar.ActionBar;
 import fr.hyriode.hyrame.game.HyriGamePlayer;
 import fr.hyriode.hyrame.game.util.HyriGameItems;
@@ -63,7 +64,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     private HyriBridgerScoreboard scoreboard;
     private NPC npc;
     private Hologram hologram;
-    private EntityItem hologramItem;
+    private CustomItem hologramItem;
 
     //== Temporary data
     private BridgerPlayerState state;
@@ -243,13 +244,12 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     public void showFakeItem(Location loc) {
-        hologramItem = new EntityItem(((CraftWorld) loc.getWorld()).getHandle());
+        hologramItem = new CustomItem(((CraftWorld) loc.getWorld()).getHandle());
         hologramItem.setLocation(loc.getX(), loc.getY(), loc.getZ(), 0 ,0);
         hologramItem.setItemStack(CraftItemStack.asNMSCopy(new ItemStack(Material.GOLDEN_APPLE, 1, (short) 1)));
         hologramItem.motX = 0;
         hologramItem.motY = 0;
         hologramItem.motZ = 0;
-        hologramItem.velocityChanged = true;
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutSpawnEntity(hologramItem, 2));
     }
 
