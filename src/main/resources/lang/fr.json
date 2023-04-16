@@ -29,7 +29,7 @@
   "gui.item.island": "Ile",
   "gui.item.change-island": "Changer d'île",
   "gui.item.change-mode": "Changer de mode",
-  "gui.item.change-block": "Changer de block",
+  "gui.item.change-block": "Changer de bloc",
   "gui.item-name.go-back": "Précédent",
 
   "gui.lore.status.occupied":"Occupée",

@@ -9,6 +9,7 @@ import fr.hyriode.bridger.game.player.BridgerGamePlayer;
 import fr.hyriode.bridger.language.BridgerMessage;
 import fr.hyriode.hyrame.inventory.HyriInventory;
 import fr.hyriode.hyrame.item.ItemBuilder;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -39,7 +40,7 @@ public class ConfirmPurchaseGUI extends HyriInventory {
         this.setVerticalLine(8, 44, glassPane);
 
         this.setItem(13, new ItemBuilder(this.block.getMaterial())
-                .withName(this.block.getItemStackName(this.owner.getUniqueId()))
+                .withName(AQUA + this.block.getItemStackName(this.owner.getUniqueId()))
                 .withLore(this.block.getNotPossessedLore(this.owner.getUniqueId()))
                 .removeLoreLines(2)
                 .build());

@@ -44,7 +44,6 @@ public class BridgerLeaderboard {
 
         this.display.show();
 
-
         this.setup = true;
     }
 
