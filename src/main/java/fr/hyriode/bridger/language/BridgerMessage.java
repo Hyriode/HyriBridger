@@ -12,6 +12,8 @@ import java.util.function.BiFunction;
 
 public enum BridgerMessage {
 
+    LEADERBOARD_HEADER("leaderboard.header"),
+
     SCOREBOARD_BEST_TIME("scoreboard.best-time"),
     SCOREBOARD_ACTUAL_TIME("scoreboard.actual-time"),
     SCOREBOARD_TOP_3("scoreboard.top-3"),
@@ -35,7 +37,6 @@ public enum BridgerMessage {
     GUI_ITEM_CHANGE_MODE("gui.item.change-mode"),
     GUI_ITEM_CHANGE_BLOCK("gui.item.change-block"),
     GUI_ITEM_NAME_GO_BACK("gui.item-name.go-back"),
-    GUI_ITEM_NAME_BUY_BLOCK("gui.item-name.buy-block"),
 
     GUI_LORE_STATUS_OCCUPIED("gui.lore.status.occupied"),
     GUI_LORE_STATUS_SELF_OCCUPIED("gui.lore.status.self-occupied"),

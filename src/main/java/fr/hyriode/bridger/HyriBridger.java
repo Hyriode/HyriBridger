@@ -3,6 +3,8 @@ package fr.hyriode.bridger;
 import fr.hyriode.api.HyriAPI;
 import fr.hyriode.bridger.config.BridgerConfig;
 import fr.hyriode.bridger.game.BridgerGame;
+import fr.hyriode.bridger.game.BridgerGameType;
+import fr.hyriode.bridger.game.leaderboard.BridgerLeaderboardHandler;
 import fr.hyriode.bridger.language.MessageHelper;
 import fr.hyriode.hyggdrasil.api.server.HyggServer;
 import fr.hyriode.hyrame.HyrameLoader;
@@ -15,6 +17,7 @@ import org.bukkit.Location;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashMap;
 import java.util.logging.Level;
 
 public class HyriBridger extends JavaPlugin {
@@ -25,6 +28,8 @@ public class HyriBridger extends JavaPlugin {
 
     private IHyrame hyrame;
     private BridgerGame game;
+
+    private BridgerLeaderboardHandler leaderboardHandler;
 
     private MessageHelper messageHelper;
     private BridgerConfig configuration;
@@ -57,15 +62,22 @@ public class HyriBridger extends JavaPlugin {
                             new LocationWrapper(new Location(IHyrame.WORLD.get(), 6.0, 96, -52.0))
                     ),
                     97.0,
-                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 25, 0.0, 0))
-            );
+                    new LocationWrapper(new Location(IHyrame.WORLD.get(), 25, 0.0, 0)),
+                    new LocationWrapper(0, 0, 0),
+                    new HashMap<BridgerGameType, LocationWrapper>(){{
+                        this.put(BridgerGameType.SHORT, new LocationWrapper(0, 0, 0));
+                        this.put(BridgerGameType.NORMAL, new LocationWrapper(0, 0, 0));
+                        this.put(BridgerGameType.DIAGONAL, new LocationWrapper(0, 0, 0));
+                    }});
         } else this.configuration = HyriAPI.get().getServer().getConfig(BridgerConfig.class);
 
         this.hyrame = HyrameLoader.load(new BridgerProvider(this));
         this.messageHelper = new MessageHelper();
+        this.leaderboardHandler = new BridgerLeaderboardHandler();
 
         this.game = new BridgerGame(this.hyrame, this);
         this.hyrame.getGameManager().registerGame(() -> this.game);
+
 
         HyriAPI.get().getServer().setState(HyggServer.State.READY);
     }
@@ -107,6 +119,10 @@ public class HyriBridger extends JavaPlugin {
 
     public MessageHelper getMessageHelper() {
         return messageHelper;
+    }
+
+    public BridgerLeaderboardHandler getLeaderboardHandler() {
+        return this.leaderboardHandler;
     }
 
     public static HyriBridger get() {

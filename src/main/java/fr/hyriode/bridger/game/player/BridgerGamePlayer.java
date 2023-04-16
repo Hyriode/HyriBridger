@@ -8,6 +8,8 @@ import fr.hyriode.bridger.api.*;
 import fr.hyriode.bridger.config.BridgerConfig;
 import fr.hyriode.bridger.game.BridgerGame;
 import fr.hyriode.bridger.game.blocks.BridgerBlock;
+import fr.hyriode.bridger.game.item.LeaveLeaderboardsItem;
+import fr.hyriode.bridger.game.item.TeleportLeaderboardsItem;
 import fr.hyriode.bridger.game.scoreboard.HyriBridgerScoreboard;
 import fr.hyriode.bridger.game.task.BridgeTask;
 import fr.hyriode.bridger.game.timers.BridgerPlayedDuration;
@@ -15,6 +17,7 @@ import fr.hyriode.bridger.game.timers.BridgerTimer;
 import fr.hyriode.bridger.gui.MainGUI;
 import fr.hyriode.bridger.language.BridgerMessage;
 import fr.hyriode.bridger.util.CustomItem;
+import fr.hyriode.hyrame.IHyrame;
 import fr.hyriode.hyrame.actionbar.ActionBar;
 import fr.hyriode.hyrame.game.HyriGamePlayer;
 import fr.hyriode.hyrame.game.util.HyriGameItems;
@@ -22,7 +25,6 @@ import fr.hyriode.hyrame.hologram.Hologram;
 import fr.hyriode.hyrame.item.ItemBuilder;
 import fr.hyriode.hyrame.npc.NPC;
 import fr.hyriode.hyrame.npc.NPCManager;
-import fr.hyriode.hyrame.packet.PacketUtil;
 import fr.hyriode.hyrame.title.Title;
 import fr.hyriode.hyrame.utils.Area;
 import fr.hyriode.hyrame.utils.PlayerUtil;
@@ -37,7 +39,6 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.craftbukkit.v1_8_R3.util.CraftMagicNumbers;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -64,7 +65,6 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     private HyriBridgerScoreboard scoreboard;
     private NPC npc;
     private Hologram hologram;
-    private CustomItem hologramItem;
 
     //== Temporary data
     private BridgerPlayerState state;
@@ -119,17 +119,20 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         this.player.setGameMode(GameMode.SURVIVAL);
         this.player.getInventory().clear();
 
-        this.giveBlocks();
+        this.giveItems();
     }
 
-    private void giveBlocks() {
+    private void giveItems() {
         final PlayerInventory inventory = this.player.getInventory();
+
         inventory.clear();
         inventory.addItem(new ItemStack(this.getActualBlock().getMaterial(), 64 * 9, this.getActualBlock().getMeta()));
         inventory.setItem(3, new ItemBuilder(Material.IRON_PICKAXE)
                 .withEnchant(Enchantment.DIG_SPEED, 2)
                 .unbreakable()
                 .build());
+
+        IHyrame.get().getItemManager().giveItem(this.player, 8, TeleportLeaderboardsItem.class);
     }
 
     public void resetPlayerBridge() {
@@ -140,6 +143,17 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
         this.spawnPlayer();
         new ActionBar(ChatColor.RED + BridgerMessage.MESSAGE_PLAYER_FAILED_BRIDGE.asString(player).replace("%block%", "0")).send(this.player);
+    }
+
+    public void teleportToLeaderboards() {
+        if (this.isBridging()) {
+            this.endBridging(false);
+        }
+
+        this.state = BridgerPlayerState.LEADERBOARDS;
+        this.player.teleport(HyriBridger.get().getConfiguration().getLeaderboardIsland().asBukkit());
+
+        IHyrame.get().getItemManager().giveItem(this.player, 8, LeaveLeaderboardsItem.class);
     }
 
     public void startBridging() {
@@ -161,6 +175,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
             game.getSession().add(this.player, this.timer.toFinalDuration());
 
             final IHyriPlayer account = HyriAPI.get().getPlayerManager().getPlayer(this.player.getUniqueId());
+
             account.getHyris().add(5).exec();
             account.getNetworkLeveling().addExperience(10);
             account.update();
@@ -189,6 +204,10 @@ public class BridgerGamePlayer extends HyriGamePlayer {
             }
         }
 
+        // Update leaderboard
+        this.plugin.getLeaderboardHandler().getLeaderboard(this.game.getType()).addTime(this.uniqueId, this.timer.toFinalDuration());
+
+        // Update statistics
         this.statisticsData.setPersonalBest(this.timer.toFinalDuration());
 
         this.player.playSound(this.spawn, Sound.LEVEL_UP, 10, 1);
@@ -227,6 +246,8 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     private void refreshHologram() {
+        this.deleteHologram();
+
         this.hologram = new Hologram.Builder(this.plugin, this.hologramLocation)
                 .withLine(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + BridgerMessage.HOLOGRAM_STATS.asString(player))
                 .withLine(ChatColor.AQUA + BridgerMessage.SCOREBOARD_MEDAL_ACTUAL.asString(player) + (this.getMedal() != null ? this.getMedal().getMessageValue().asString(player) : ChatColor.RED + "✘"))
@@ -375,6 +396,10 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         return state == BridgerPlayerState.SPECTATING;
     }
 
+    public boolean isInLeaderboards()  {
+        return this.state == BridgerPlayerState.LEADERBOARDS;
+    }
+
     public BridgerStatistics getStatistics() {
         return statistics;
     }
@@ -419,7 +444,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
     public void setActualBlock(BridgerBlock actualBlock) {
         this.data.setSelectedBlock(actualBlock);
-        this.giveBlocks();
+        this.giveItems();
     }
 
     public List<Location> getPlacedBlocks() {

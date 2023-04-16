@@ -1,4 +1,8 @@
 {
+  "leaderboard.header": "&3%type% &8┃ &7Leaderboard",
+
+  "item.leaderboard-island.name": "&bLeaderboards island",
+
   "scoreboard.best-time": "Best time:",
   "scoreboard.actual-time": "Current time:",
   "scoreboard.top-3": "Top 3 of the session:",
@@ -13,16 +17,20 @@
   "npc.name": "&6&lTrainer",
   "npc.lore": "&3Settings / modes",
 
-  "gui.item.short": "Short bridge",
-  "gui.item.normal": "Normal bridge",
-  "gui.item.diagonal": "Diagonal bridge",
+  "gui.change-block.name": "Change block",
+  "gui.change-island.name": "Change island",
+  "gui.main.name": "Main Menu",
+  "gui.confirm-purchase.name": "Confirm purchase",
+
+  "gui.item.short": "Bridger Short",
+  "gui.item.normal": "Bridger Normal",
+  "gui.item.diagonal": "Bridger Diagonal",
   "gui.item.choose-island": "Choose your island",
   "gui.item.island": "Island",
   "gui.item.change-island": "Change island",
   "gui.item.change-mode": "Change mode",
   "gui.item.change-block": "Change block",
   "gui.item-name.go-back": "Go back",
-  "gui.item-name.buy-block": "Do you want to buy %block%&3 for %cost% §d⛃ &3?",
 
   "gui.lore.status.occupied":"Taken",
   "gui.lore.status.self-occupied":"This is your island",
@@ -30,7 +38,7 @@
   "gui.lore.bridger-mode": "Click to choose this mode",
   "gui.lore.bridger-mode-selected": "&cYou are already in this mode",
   "gui.lore.block.selected": "&aSelected!",
-  "gui.lore.block.possessed-block": "&eClick to select",
+  "gui.lore.block.possessed-block": "&3Click to select",
   "gui.lore.block.buyable-block": "&7Cost: &d%cost%⛃\n\n&3Click to buy",
   "gui.lore.block.not-buyable-block": "&7Cost: &d%cost%⛃\n\n&cYou don't have enough money (Miss : %missing% ⛃)",
   "gui.item-lore.change-island": "Click to change island",
@@ -40,8 +48,8 @@
 
   "gui.lore.block.rank-needed-block.vip": "&7Need: &eVIP\n\n&cYou don't have this block",
   "gui.lore.block.rank-needed-block.vip+": "&7Need: &aVIP+\n\n&cYou don't have this block",
-  "gui.lore.block.rank-needed-block.epic": "&7Need: &bEPIC\n\n&cYou don't have this block",
-  "gui.lore.block.rank-needed-block.partner": "&7Need: &6PARTNER\n\n&cYou don't have this block",
+  "gui.lore.block.rank-needed-block.epic": "&7Need: &bEpic\n\n&cYou don't have this block",
+  "gui.lore.block.rank-needed-block.partner": "&7Need: &6Partner\n\n&cYou don't have this block",
 
   "gui.lore.block.medal-needed-block.bronze": "&7Need: &7BRONZE medal\n\n&cYou don't have this block",
   "gui.lore.block.medal-needed-block.iron": "&7Need: &fSilver medal\n\n&cYou don't have this block",

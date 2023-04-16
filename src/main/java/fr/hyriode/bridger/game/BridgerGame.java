@@ -73,7 +73,6 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
     public void handleLogout(Player player) {
         final BridgerGamePlayer gamePlayer = this.getPlayer(player);
         final BridgerStatistics statistics = gamePlayer.getStatistics();
-        final BridgerStatistics.Data statisticsData = gamePlayer.getStatisticsData();
         final BridgerData data = gamePlayer.getData();
 
         gamePlayer.onLeave();

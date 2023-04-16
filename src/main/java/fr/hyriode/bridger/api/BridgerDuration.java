@@ -1,7 +1,5 @@
 package fr.hyriode.bridger.api;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.text.DecimalFormat;
 
 public class BridgerDuration implements Comparable<BridgerDuration> {

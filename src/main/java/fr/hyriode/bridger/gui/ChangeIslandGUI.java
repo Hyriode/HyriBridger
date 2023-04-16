@@ -30,7 +30,7 @@ public class ChangeIslandGUI extends HyriInventory {
     private final ItemStack glassPane = new ItemBuilder(Material.STAINED_GLASS_PANE, 1, (short) 9).withName(" ").build();;
 
     public ChangeIslandGUI(HyriBridger plugin, Player owner) {
-        super(owner, "Change island", 9*6);
+        super(owner, name(owner, "gui.change-island.name"), 9*6);
         this.plugin = plugin;
         this.gamePlayer = this.plugin.getGame().getPlayer(this.owner);
 

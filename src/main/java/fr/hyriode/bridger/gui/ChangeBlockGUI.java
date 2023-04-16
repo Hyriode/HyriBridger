@@ -30,7 +30,7 @@ import static org.bukkit.ChatColor.*;
     private final List<Integer> slots = new ArrayList<>(Arrays.asList(19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34));
 
     public ChangeBlockGUI(HyriBridger plugin, Player owner, int page) {
-        super(owner, "Change Block", 9*6);
+        super(owner, name(owner, "gui.change-block.name"), 9*6);
         this.plugin = plugin;
         this.gamePlayer = this.plugin.getGame().getPlayer(owner.getUniqueId());
         this.playerData = gamePlayer.getData();
@@ -53,6 +53,7 @@ import static org.bukkit.ChatColor.*;
         final int freeSpace = 14;
         final int actualShowedBlocksSize = (Math.min((this.page * freeSpace) + freeSpace, BridgerBlock.values().length));
         final int numberPages = (BridgerBlock.values().length / freeSpace);
+        final IHyriPlayer account = IHyriPlayer.get(this.owner.getUniqueId());
 
         for (int i = this.page*freeSpace; i < actualShowedBlocksSize; i++) {
             final BridgerBlock block = BridgerBlock.getById(i);
@@ -77,10 +78,10 @@ import static org.bukkit.ChatColor.*;
                 final ItemBuilder blockItemBuilder = new ItemBuilder(block.getMaterial(), 1, block.getMeta())
                         .withName(RED + block.getItemStackName(this.owner.getUniqueId()));
 
-                if(IHyriPlayer.get(owner.getUniqueId()).getHyris().getAmount() < block.getCost()) {
-                    this.setItem(slot, blockItemBuilder.withLore(block.getNotBuyableLore(IHyriPlayer.get(this.owner.getUniqueId()))).build());
+                if (account.getHyris().getAmount() < block.getCost()) {
+                    this.setItem(slot, blockItemBuilder.withLore(block.getNotBuyableLore(account)).build());
                 }else {
-                    this.setItem(slot, blockItemBuilder.withLore(block.getNotPossessedLore(owner.getUniqueId())).build(), event -> new ValidateBuyGUI(this.plugin, this.owner, block).open());
+                    this.setItem(slot, blockItemBuilder.withLore(block.getNotPossessedLore(owner.getUniqueId())).build(), event -> new ConfirmPurchaseGUI(this.plugin, this.owner, block).open());
                 }
             }
         }
@@ -89,14 +90,14 @@ import static org.bukkit.ChatColor.*;
             this.setItem(53, ItemBuilder.asHead(HyrameHead.MONITOR_FORWARD)
                     .withName(HyrameMessage.PAGINATION_NEXT_PAGE_ITEM_NAME.asString(this.owner).replace("%current_page%", String.valueOf(this.page + 1)).replace("%total_pages%", String.valueOf(numberPages)))
                     .withLore(HyrameMessage.PAGINATION_NEXT_PAGE_ITEM_LORE.asList(this.owner))
-                    .build(), inventoryClickEvent -> new ChangeBlockGUI(this.plugin, this.owner, this.page+1).open());
+                    .build(), event -> new ChangeBlockGUI(this.plugin, this.owner, this.page+1).open());
         }
 
         if (this.page != 0) {
             this.setItem(45, ItemBuilder.asHead(HyrameHead.MONITOR_FORWARD)
                     .withName(HyrameMessage.PAGINATION_NEXT_PAGE_ITEM_NAME.asString(this.owner).replace("%current_page%", String.valueOf(this.page + 1)).replace("%total_pages%", String.valueOf(numberPages)))
                     .withLore(HyrameMessage.PAGINATION_NEXT_PAGE_ITEM_LORE.asList(this.owner))
-                    .build(), inventoryClickEvent -> new ChangeBlockGUI(this.plugin, this.owner, this.page-1).open());
+                    .build(), event -> new ChangeBlockGUI(this.plugin, this.owner, this.page-1).open());
         }
     }
 }

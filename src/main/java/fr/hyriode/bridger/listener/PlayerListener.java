@@ -85,8 +85,16 @@ public class PlayerListener extends HyriListener<HyriBridger> {
         Location to = event.getTo();
 
         if (to.getY() < this.plugin.getConfiguration().getMinY()) {
-            event.getPlayer().setGameMode(GameMode.ADVENTURE);
-            gamePlayer.resetPlayerBridge();
+            if (gamePlayer.isInLeaderboards()) {
+                gamePlayer.teleportToLeaderboards();
+            } else {
+                event.getPlayer().setGameMode(GameMode.ADVENTURE);
+                gamePlayer.resetPlayerBridge();
+            }
+            return;
+        }
+
+        if (gamePlayer.isInLeaderboards()) {
             return;
         }
 
@@ -141,4 +149,5 @@ public class PlayerListener extends HyriListener<HyriBridger> {
     public void onPlayerTakeDamage(EntityDamageEvent event) {
         event.setCancelled(true);
     }
+
 }
