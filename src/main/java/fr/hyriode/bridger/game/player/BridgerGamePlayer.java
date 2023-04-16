@@ -29,6 +29,8 @@ import fr.hyriode.hyrame.utils.Area;
 import fr.hyriode.hyrame.utils.PlayerUtil;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.*;
+import org.bukkit.Chunk;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.util.CraftMagicNumbers;
