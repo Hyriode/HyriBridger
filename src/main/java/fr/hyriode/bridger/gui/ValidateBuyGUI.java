@@ -52,7 +52,6 @@ public class ValidateBuyGUI extends HyriInventory {
                         .replace("%block%", AQUA + this.blockName)
                         .replace("%cost%", LIGHT_PURPLE + String.valueOf(this.block.getCost())))
                 .build(), event -> {
-
             final BridgerData data = gamePlayer.getData();
             data.addUnlockedBlock(block);
 

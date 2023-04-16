@@ -227,9 +227,6 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     private void refreshHologram() {
-//        this.deleteHologram();
-//        if (hologramItem != null) this.destroyFakeItem();
-//        this.showFakeItem(this.hologramLocation.clone().add(0, 0.5, 0));
         this.hologram = new Hologram.Builder(this.plugin, this.hologramLocation)
                 .withLine(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + BridgerMessage.HOLOGRAM_STATS.asString(player))
                 .withLine(ChatColor.AQUA + BridgerMessage.SCOREBOARD_MEDAL_ACTUAL.asString(player) + (this.getMedal() != null ? this.getMedal().getMessageValue().asString(player) : ChatColor.RED + "✘"))
@@ -241,20 +238,6 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         this.hologram.setLocation(this.hologramLocation);
         this.hologram.addReceiver(this.player);
         this.hologram.sendLines();
-    }
-
-    public void showFakeItem(Location loc) {
-        hologramItem = new CustomItem(((CraftWorld) loc.getWorld()).getHandle());
-        hologramItem.setLocation(loc.getX(), loc.getY(), loc.getZ(), 0 ,0);
-        hologramItem.setItemStack(CraftItemStack.asNMSCopy(new ItemStack(Material.GOLDEN_APPLE, 1, (short) 1)));
-        hologramItem.motX = 0;
-        hologramItem.motY = 0;
-        hologramItem.motZ = 0;
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutSpawnEntity(hologramItem, 2));
-    }
-
-    public void destroyFakeItem() {
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityDestroy(hologramItem.getId()));
     }
 
     public void deleteNPC() {
