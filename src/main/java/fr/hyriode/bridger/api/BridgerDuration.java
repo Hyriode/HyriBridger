@@ -1,7 +1,5 @@
 package fr.hyriode.bridger.api;
 
-import java.text.DecimalFormat;
-
 public class BridgerDuration implements Comparable<BridgerDuration> {
 
     private final long ms;
@@ -11,7 +9,8 @@ public class BridgerDuration implements Comparable<BridgerDuration> {
     }
 
     public String toFormattedTime() {
-        double roundedNumber = Math.round(ms * 20) / 20.0;
+        double durationInSeconds = ms / 1000.0;
+        double roundedNumber = Math.round(durationInSeconds * 20) / 20.0;
         String result = String.valueOf(roundedNumber);
         if (result.split("\\.")[1].length() == 1) {
             result += "0";
