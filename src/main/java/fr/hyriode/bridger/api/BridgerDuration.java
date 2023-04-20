@@ -25,8 +25,9 @@ public class BridgerDuration implements Comparable<BridgerDuration> {
             millisPart = 0;
             secondsPart += 1;
         }
-        return secondsPart + "." + new DecimalFormat("0#").format(millisPart) + "0";
+        return secondsPart + "." + new DecimalFormat("00").format(millisPart) + "0";
     }
+
     public long getExactTime() {
         return ms;
     }

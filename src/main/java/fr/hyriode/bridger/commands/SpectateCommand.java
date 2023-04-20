@@ -35,9 +35,9 @@ public class SpectateCommand extends HyriCommand<HyriBridger> {
             return;
         }
 
-        ctx.registerArgument("%player%", "/spectate %player%", hyriCommandOutput -> {
-            Player sender = (Player) ctx.getSender();
-            BridgerGamePlayer target = plugin.getGame().getPlayer(hyriCommandOutput.get(IHyriPlayer.class).getUniqueId());
+        ctx.registerArgument("%player%", "/spectate %player%", output  -> {
+            Player sender = ctx.getSender();
+            BridgerGamePlayer target = plugin.getGame().getPlayer(output.get(IHyriPlayer.class).getUniqueId());
             if (target == null) {
                 sender.sendMessage(RED + BridgerMessage.MESSAGE_PLAYER_PLAYER_DOES_NOT_EXIST.asString(gamePlayer.getPlayer()));
                 return;

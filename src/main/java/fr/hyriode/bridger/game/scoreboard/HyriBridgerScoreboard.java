@@ -1,6 +1,5 @@
 package fr.hyriode.bridger.game.scoreboard;
 
-import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.api.BridgerMedal;
 import fr.hyriode.bridger.game.BridgerGame;

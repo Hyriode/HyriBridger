@@ -1,8 +1,6 @@
 package fr.hyriode.bridger.game.leaderboard;
 
-import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.game.BridgerGameType;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;

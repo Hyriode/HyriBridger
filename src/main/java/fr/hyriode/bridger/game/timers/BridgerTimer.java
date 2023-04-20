@@ -1,7 +1,6 @@
 package fr.hyriode.bridger.game.timers;
 
 import fr.hyriode.bridger.api.BridgerDuration;
-import org.bukkit.scheduler.BukkitTask;
 
 public class BridgerTimer {
 

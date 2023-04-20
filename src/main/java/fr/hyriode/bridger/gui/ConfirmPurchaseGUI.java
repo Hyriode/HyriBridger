@@ -9,7 +9,6 @@ import fr.hyriode.bridger.game.player.BridgerGamePlayer;
 import fr.hyriode.bridger.language.BridgerMessage;
 import fr.hyriode.hyrame.inventory.HyriInventory;
 import fr.hyriode.hyrame.item.ItemBuilder;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

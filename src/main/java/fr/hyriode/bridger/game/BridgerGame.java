@@ -8,7 +8,6 @@ import fr.hyriode.bridger.api.BridgerStatistics;
 import fr.hyriode.bridger.game.animation.BridgerFinishAnimation;
 import fr.hyriode.bridger.game.animation.impl.FallingBlockAnimation;
 import fr.hyriode.bridger.game.player.BridgerGamePlayer;
-import fr.hyriode.hyggdrasil.api.server.HyggServer;
 import fr.hyriode.hyrame.IHyrame;
 import fr.hyriode.hyrame.game.HyriGame;
 import fr.hyriode.hyrame.game.HyriGameState;
