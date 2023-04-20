@@ -439,7 +439,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     public void setActualBlock(BridgerBlock actualBlock) {
-        this.data.setSelectedBlock(actualBlock);
+        this.data.setSelectedBlock(actualBlock, player);
         this.giveItems();
     }
 

@@ -78,7 +78,6 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
         gamePlayer.onLeave();
 
         statistics.update(player.getUniqueId());
-        data.update(player.getUniqueId());
 
         super.handleLogout(player);
     }

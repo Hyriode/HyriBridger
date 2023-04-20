@@ -6,6 +6,7 @@ import fr.hyriode.api.mongodb.MongoDocument;
 import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.api.player.model.IHyriPlayerData;
 import fr.hyriode.bridger.game.blocks.BridgerBlock;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,17 +54,14 @@ public class BridgerData implements IHyriPlayerData {
         this.selectedBlockId = selectedBlockId;
     }
 
-    public void setSelectedBlock(BridgerBlock block) {
+    public void setSelectedBlock(BridgerBlock block, Player player) {
         this.selectedBlockId = block.getId();
+        this.update(HyriAPI.get().getPlayerManager().getPlayer(player.getUniqueId()));
     }
 
     public void update(IHyriPlayer account) {
         account.getData().add("bridger", this);
         account.update();
-    }
-
-    public void update(UUID player) {
-        this.update(HyriAPI.get().getPlayerManager().getPlayer(player));
     }
 
     public static BridgerData get(IHyriPlayer account) {
