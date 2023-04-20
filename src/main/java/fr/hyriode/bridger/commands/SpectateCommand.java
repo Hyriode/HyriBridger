@@ -5,9 +5,10 @@ import fr.hyriode.api.rank.PlayerRank;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.game.player.BridgerGamePlayer;
 import fr.hyriode.bridger.language.BridgerMessage;
+import fr.hyriode.hyrame.command.CommandContext;
+import fr.hyriode.hyrame.command.CommandInfo;
+import fr.hyriode.hyrame.command.CommandUsage;
 import fr.hyriode.hyrame.command.HyriCommand;
-import fr.hyriode.hyrame.command.HyriCommandContext;
-import fr.hyriode.hyrame.command.HyriCommandInfo;
 import org.bukkit.entity.Player;
 
 import static org.bukkit.ChatColor.RED;
@@ -15,16 +16,16 @@ import static org.bukkit.ChatColor.RED;
 public class SpectateCommand extends HyriCommand<HyriBridger> {
 
     public SpectateCommand(HyriBridger plugin) {
-        super(plugin, new HyriCommandInfo("spectate")
+        super(plugin, new CommandInfo("spectate")
                 .withAliases("spec", "sp", "spect")
                 .withPermission(iHyriPlayer -> iHyriPlayer.getRank().isSuperior(PlayerRank.VIP_PLUS))
-                .withUsage("/spectate <player>")
+                .withUsage(new CommandUsage().withStringMessage(player -> "/spectate <player>"))
                 .withDescription("permit to teleport a player to an other in spectator"));
     }
 
     @Override
-    public void handle(HyriCommandContext ctx) {
-        BridgerGamePlayer gamePlayer = plugin.getGame().getPlayer((Player) ctx.getSender());
+    public void handle(CommandContext ctx) {
+        BridgerGamePlayer gamePlayer = plugin.getGame().getPlayer(ctx.getSender());
         if (ctx.getArgs().length == 0) {
             if (gamePlayer.isSpectating()) {
                 gamePlayer.quitSpectators();
@@ -34,7 +35,7 @@ public class SpectateCommand extends HyriCommand<HyriBridger> {
             return;
         }
 
-        handleArgument(ctx, "%player%", hyriCommandOutput -> {
+        ctx.registerArgument("%player%", "/spectate %player%", hyriCommandOutput -> {
             Player sender = (Player) ctx.getSender();
             BridgerGamePlayer target = plugin.getGame().getPlayer(hyriCommandOutput.get(IHyriPlayer.class).getUniqueId());
             if (target == null) {
