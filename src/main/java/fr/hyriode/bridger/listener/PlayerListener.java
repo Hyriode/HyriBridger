@@ -35,11 +35,11 @@ public class PlayerListener extends HyriListener<HyriBridger> {
     public void onPlaceBlock(BlockPlaceEvent event) {
         final BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer(event.getPlayer());
 
-        if (event.getBlock().getType() == Material.SKULL_ITEM) {
+        if (event.getBlock().getType() != gamePlayer.getData().getSelectedBlock().getMaterial()) {
             event.setCancelled(true);
             return;
         }
-        
+
         if (!gamePlayer.isBridging() && event.getBlockAgainst().hasMetadata(BREAKABLE_META_DATA_KEY)) {
             event.setCancelled(true);
             event.getBlockAgainst().setType(Material.AIR);
