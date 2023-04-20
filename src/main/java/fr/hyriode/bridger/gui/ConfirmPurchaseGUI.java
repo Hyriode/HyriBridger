@@ -55,7 +55,7 @@ public class ConfirmPurchaseGUI extends HyriInventory {
                     final IHyriPlayer account = gamePlayer.asHyriPlayer();
 
                     account.getTransactions().add("bridgerBlocks", new BridgerBlockTransaction(this.block));
-                    account.getHyris().remove(this.block.getCost());
+                    account.getHyris().remove(this.block.getCost()).exec();
                     account.update();
 
                     this.plugin.getGame().getPlayer(this.owner.getUniqueId()).setActualBlock(block);

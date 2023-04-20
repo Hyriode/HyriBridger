@@ -78,9 +78,9 @@ import static org.bukkit.ChatColor.*;
                 final ItemBuilder blockItemBuilder = new ItemBuilder(block.getMaterial(), 1, block.getMeta())
                         .withName(RED + block.getItemStackName(this.owner.getUniqueId()));
 
-                if (account.getHyris().getAmount() < block.getCost()) {
+                if (!account.getHyris().hasEnough(block.getCost())) {
                     this.setItem(slot, blockItemBuilder.withLore(block.getNotBuyableLore(account)).build());
-                }else {
+                } else {
                     this.setItem(slot, blockItemBuilder.withLore(block.getNotPossessedLore(owner.getUniqueId())).build(), event -> new ConfirmPurchaseGUI(this.plugin, this.owner, block).open());
                 }
             }
