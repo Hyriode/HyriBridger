@@ -19,7 +19,7 @@ public class BridgerDuration implements Comparable<BridgerDuration> {
     }
 
     public String toFormattedTime() {
-        long roundedMs = Math.round((double) this.ms / 50.0) * 50;
+        long roundedMs = (long) (Math.ceil((double) this.ms / 50.0) * 50);
         long seconds = roundedMs / 1000;
         long millis = roundedMs % 1000;
         return seconds + "." + new DecimalFormat("00").format(millis);
