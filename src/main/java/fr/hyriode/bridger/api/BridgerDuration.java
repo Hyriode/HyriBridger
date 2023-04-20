@@ -19,13 +19,10 @@ public class BridgerDuration implements Comparable<BridgerDuration> {
     }
 
     public String toFormattedTime() {
-        long secondsPart = this.toSecondsPart();
-        long millisPart = this.toMillisPart();
-        if (millisPart == 1000) {
-            millisPart = 0;
-            secondsPart += 1;
-        }
-        return secondsPart + "." + new DecimalFormat("00").format(millisPart) + "0";
+        long roundedMs = Math.round((double) this.ms / 50) * 50;
+        long seconds = roundedMs / 1000;
+        long millis = roundedMs % 1000;
+        return seconds + "." + new DecimalFormat("00").format(millis) + "0";
     }
 
     public long getExactTime() {
