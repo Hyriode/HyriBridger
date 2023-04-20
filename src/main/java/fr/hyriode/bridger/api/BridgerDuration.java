@@ -15,14 +15,17 @@ public class BridgerDuration implements Comparable<BridgerDuration> {
     }
 
     public long toMillisPart() {
-        return Math.round((double) this.ms % 1000 / 500) * 500;
+        return this.ms  % 1000;
     }
 
     public String toFormattedTime() {
-        long roundedMs = Math.round((double) this.ms / 50) * 50;
-        long seconds = roundedMs / 1000;
-        long millis = roundedMs % 1000;
-        return seconds + "." + new DecimalFormat("00").format(millis) + "0";
+        long secondsPart = this.toSecondsPart();
+        long millisPart = this.toMillisPart();
+        if (millisPart % 50 >= 25) {
+            secondsPart += 1;
+        }
+        millisPart = (millisPart / 50) * 50;
+        return secondsPart + "." + new DecimalFormat("00").format(millisPart);
     }
 
     public long getExactTime() {
