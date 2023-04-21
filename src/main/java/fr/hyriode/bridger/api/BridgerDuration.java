@@ -1,13 +1,18 @@
 package fr.hyriode.bridger.api;
 
 import java.text.DecimalFormat;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BridgerDuration implements Comparable<BridgerDuration> {
 
     private final long ms;
 
     public BridgerDuration(long timeInMs) {
-        this.ms = timeInMs;
+        if(ThreadLocalRandom.current().nextBoolean()) {
+            this.ms = Math.round(timeInMs/50)* 50L + 50;
+        } else {
+            this.ms = Math.round(timeInMs/50)* 50L;
+        }
     }
 
     public long toSecondsPart() {
@@ -19,14 +24,8 @@ public class BridgerDuration implements Comparable<BridgerDuration> {
     }
 
     public String toFormattedTime() {
-        return this.toSecondsPart() + "." + new DecimalFormat("000").format(this.toMillisPart());
-        /*float durationInSeconds = (float) (ms / 1000.0);
-        double roundedNumber = Math.round(durationInSeconds * 20) / 20.0;
-        String result = String.valueOf(roundedNumber);
-        if (result.split("\\.")[1].length() == 1) {
-            result += "0";
-        }
-        return result + "0";*/
+        DecimalFormat format = new DecimalFormat("000");
+        return this.toSecondsPart() + "." + format.format(this.toMillisPart());
     }
 
     public long getExactTime() {
