@@ -8,10 +8,14 @@ public class BridgerDuration implements Comparable<BridgerDuration> {
     private final long ms;
 
     public BridgerDuration(long timeInMs) {
-        if(ThreadLocalRandom.current().nextBoolean()) {
-            this.ms = Math.round(timeInMs/50)* 50L + 50;
+        if (timeInMs == 0) {
+            ms = 0;
         } else {
-            this.ms = Math.round(timeInMs/50)* 50L;
+            if (ThreadLocalRandom.current().nextBoolean()) {
+                this.ms = Math.round(timeInMs / 50) * 50L + 50;
+            } else {
+                this.ms = Math.round(timeInMs / 50) * 50L;
+            }
         }
     }
 
