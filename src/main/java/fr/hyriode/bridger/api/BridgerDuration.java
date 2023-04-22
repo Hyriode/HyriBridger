@@ -8,28 +8,26 @@ public class BridgerDuration implements Comparable<BridgerDuration> {
     private final long ms;
 
     public BridgerDuration(long timeInMs) {
-        if (timeInMs == 0) {
-            ms = 0;
-        } else {
-            if (ThreadLocalRandom.current().nextBoolean()) {
-                this.ms = Math.round(timeInMs / 50) * 50L + 50;
-            } else {
-                this.ms = Math.round(timeInMs / 50) * 50L;
-            }
-        }
+        ms = timeInMs;
     }
 
-    public long toSecondsPart() {
+    public long toSecondsPart(long timeInMs) {
         return (this.ms / 1000) % 1000;
     }
 
-    public long toMillisPart() {
+    public long toMillisPart(long timeInMs) {
         return this.ms  % 1000;
     }
 
     public String toFormattedTime() {
+        long result;
+        if (ThreadLocalRandom.current().nextBoolean()) {
+            result = Math.round(ms / 50) * 50L + 50;
+        } else {
+            result = Math.round(ms / 50) * 50L;
+        }
         DecimalFormat format = new DecimalFormat("000");
-        return this.toSecondsPart() + "." + format.format(this.toMillisPart());
+        return this.toSecondsPart(result) + "." + format.format(this.toMillisPart(result));
     }
 
     public long getExactTime() {
