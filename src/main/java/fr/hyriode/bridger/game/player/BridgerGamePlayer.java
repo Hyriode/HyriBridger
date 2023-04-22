@@ -160,7 +160,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     public void endBridging(boolean success) {
         this.bridgeTask.stop();
 
-        if (success && this.placedBlocks.size() > 20 && this.timer.getActualTime() > 3700) {
+        if (success && this.placedBlocks.size() > 20 && this.timer.getActualTime() > 1700) {
             if (statisticsData.getPersonalBest() == null || statisticsData.getPersonalBest().getExactTime() == 0 || new BridgerDuration(this.timer.getActualTime()).getExactTime() < statisticsData.getPersonalBest().getExactTime()) {
                 this.successPersonalBest();
             } else {
