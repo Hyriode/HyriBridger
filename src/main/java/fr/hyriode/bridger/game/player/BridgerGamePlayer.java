@@ -41,7 +41,9 @@ import org.bukkit.inventory.PlayerInventory;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class BridgerGamePlayer extends HyriGamePlayer {
@@ -365,18 +367,17 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
     @SuppressWarnings("deprecation")
     private void deletePlacedBlocks() {
-        //TODO animations
-        final List<Chunk> chunkToReload = new ArrayList<>();
+        final Set<Chunk> chunkToReload = new HashSet<>();
         for (Location placedBlock : placedBlocks) {
-            if (!chunkToReload.contains(placedBlock.getChunk()))
-                chunkToReload.add(placedBlock.getChunk());
+            chunkToReload.add(placedBlock.getChunk());
             placedBlock.getBlock().setType(Material.AIR);
-            //this.sendBlockChange(placedBlock, Material.AIR, (byte) 0);
         }
         placedBlocks.clear();
-        for (Chunk chunk : chunkToReload) {
-            chunk.getWorld().refreshChunk(chunk.getX(), chunk.getZ());
-        }
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            for (Chunk chunk : chunkToReload) {
+                chunk.getWorld().refreshChunk(chunk.getX(), chunk.getZ());
+            }
+        }, 5L);
     }
 
     public void sendBlockChange(Location loc, Material material, byte data) {
