@@ -4,10 +4,7 @@ import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.game.player.BridgerGamePlayer;
 import fr.hyriode.bridger.language.BridgerMessage;
 import fr.hyriode.hyrame.listener.HyriListener;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,7 +28,7 @@ public class PlayerListener extends HyriListener<HyriBridger> {
 
     public static final String BREAKABLE_META_DATA_KEY = "BridgerBreakable";
 
-    @EventHandler (priority = EventPriority.LOWEST)
+    @EventHandler (priority = EventPriority.LOWEST) @SuppressWarnings("deprecation")
     public void onPlaceBlock(BlockPlaceEvent event) {
         final BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer(event.getPlayer());
 
@@ -62,6 +59,11 @@ public class PlayerListener extends HyriListener<HyriBridger> {
         }
         event.setCancelled(true);
         event.getPlayer().sendMessage(ChatColor.RED + BridgerMessage.MESSAGE_PLAYER_OOB_BLOCK.asString(event.getPlayer()));
+
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            Chunk chunk = event.getBlock().getChunk();
+            chunk.getWorld().refreshChunk(chunk.getX(), chunk.getZ());
+        }, 5L);
     }
 
     @EventHandler (priority = EventPriority.LOWEST)
