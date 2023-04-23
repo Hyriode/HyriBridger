@@ -10,6 +10,7 @@ import fr.hyriode.bridger.game.BridgerGame;
 import fr.hyriode.bridger.game.blocks.BridgerBlock;
 import fr.hyriode.bridger.game.item.LeaveLeaderboardsItem;
 import fr.hyriode.bridger.game.item.TeleportLeaderboardsItem;
+import fr.hyriode.bridger.game.leaderboard.BridgerLeaderboard;
 import fr.hyriode.bridger.game.scoreboard.HyriBridgerScoreboard;
 import fr.hyriode.bridger.game.task.BridgeTask;
 import fr.hyriode.bridger.game.timers.BridgerPlayedDuration;
@@ -160,6 +161,12 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     public void endBridging(boolean success) {
         this.bridgeTask.stop();
 
+        // Update leaderboard
+        final BridgerLeaderboard leaderboard = this.plugin.getLeaderboardHandler().getLeaderboard(this.game.getType());
+        if (!leaderboard.hasTime(this.uniqueId)) {
+            leaderboard.addTime(this.uniqueId, this.timer.toFinalDuration());
+        }
+
         if (success && this.placedBlocks.size() > 20 && this.timer.getActualTime() > 1700) {
             if (statisticsData.getPersonalBest() == null || statisticsData.getPersonalBest().getExactTime() == 0 || new BridgerDuration(this.timer.getActualTime()).getExactTime() < statisticsData.getPersonalBest().getExactTime()) {
                 this.successPersonalBest();
@@ -198,9 +205,6 @@ public class BridgerGamePlayer extends HyriGamePlayer {
                 }
             }
         }
-
-        // Update leaderboard
-        this.plugin.getLeaderboardHandler().getLeaderboard(this.game.getType()).addTime(this.uniqueId, this.timer.toFinalDuration());
 
         // Update statistics
         this.statisticsData.setPersonalBest(this.timer.toFinalDuration());

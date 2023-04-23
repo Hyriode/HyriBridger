@@ -70,4 +70,8 @@ public class BridgerLeaderboard {
         return this.type;
     }
 
+    public boolean hasTime(UUID playerId) {
+        return this.handle.getScore(HyriLeaderboardScope.TOTAL, playerId) > 0;
+    }
+
 }
