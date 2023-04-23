@@ -163,13 +163,13 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     public void endBridging(boolean success) {
         this.bridgeTask.stop();
 
-        // Update leaderboard
-        final BridgerLeaderboard leaderboard = this.plugin.getLeaderboardHandler().getLeaderboard(this.game.getType());
-        if (!leaderboard.hasTime(this.uniqueId)) {
-            leaderboard.addTime(this.uniqueId, this.timer.toFinalDuration());
-        }
-
         if (success && this.placedBlocks.size() > 20 && this.timer.getActualTime() > 1700) {
+            // Update leaderboard
+            final BridgerLeaderboard leaderboard = this.plugin.getLeaderboardHandler().getLeaderboard(this.game.getType());
+            if (!leaderboard.hasTime(this.uniqueId)) {
+                leaderboard.addTime(this.uniqueId, this.timer.toFinalDuration());
+            }
+            
             if (statisticsData.getPersonalBest() == null || statisticsData.getPersonalBest().getExactTime() == 0 || new BridgerDuration(this.timer.getActualTime()).getExactTime() < statisticsData.getPersonalBest().getExactTime()) {
                 this.successPersonalBest();
             } else {
