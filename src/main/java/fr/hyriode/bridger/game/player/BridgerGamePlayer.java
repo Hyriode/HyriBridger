@@ -201,6 +201,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     private void successPersonalBest() {
+        statistics.update(player.getUniqueId());
         if (this.getMedal() == null || !this.getMedal().equals(BridgerMedal.ULTIMATE)) {
             for (BridgerMedal bridgerMedal : BridgerMedal.values()) {
                 if (this.timer.toFinalDuration().getExactTime() < bridgerMedal.getTimeToReach(game.getType())) {
