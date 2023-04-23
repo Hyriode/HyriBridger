@@ -169,9 +169,10 @@ public class BridgerGamePlayer extends HyriGamePlayer {
             if (!leaderboard.hasTime(this.uniqueId)) {
                 leaderboard.addTime(this.uniqueId, this.timer.toFinalDuration());
             }
-            
+
             if (statisticsData.getPersonalBest() == null || statisticsData.getPersonalBest().getExactTime() == 0 || new BridgerDuration(this.timer.getActualTime()).getExactTime() < statisticsData.getPersonalBest().getExactTime()) {
                 this.successPersonalBest();
+                leaderboard.addTime(this.uniqueId, this.timer.toFinalDuration());
             } else {
                 this.failPersonalBest();
             }
