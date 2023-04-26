@@ -28,7 +28,8 @@ public class PlayerListener extends HyriListener<HyriBridger> {
 
     public static final String BREAKABLE_META_DATA_KEY = "BridgerBreakable";
 
-    @EventHandler (priority = EventPriority.LOWEST) @SuppressWarnings("deprecation")
+    @EventHandler
+    @SuppressWarnings("deprecation")
     public void onPlaceBlock(BlockPlaceEvent event) {
         final BridgerGamePlayer gamePlayer = this.plugin.getGame().getPlayer(event.getPlayer());
 
@@ -55,6 +56,7 @@ public class PlayerListener extends HyriListener<HyriBridger> {
 
             gamePlayer.getPlacedBlocks().add(event.getBlock().getLocation());
             event.getBlockPlaced().setMetadata(BREAKABLE_META_DATA_KEY, new FixedMetadataValue(plugin, true));
+            event.setCancelled(false);
             return;
         }
         event.setCancelled(true);
