@@ -75,7 +75,6 @@ public class BridgerDuration implements Comparable<BridgerDuration> {
     public static long roundToNearestFiveCents(long durationInMillis) {
         double durationInSeconds = durationInMillis / 1000.0; // convertit en secondes
         double roundedDurationInSeconds = Math.round(durationInSeconds * 20) / 20.0; // arrondit à 0,05 près
-        long roundedDurationInMillis = Math.round(roundedDurationInSeconds * 1000); // convertit en millisecondes
-        return roundedDurationInMillis;
+        return Math.round(roundedDurationInSeconds * 1000);
     }
 }
