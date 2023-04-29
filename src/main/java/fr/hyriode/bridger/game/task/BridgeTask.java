@@ -23,7 +23,7 @@ public class BridgeTask extends BukkitRunnable {
         this.isRunning = true;
         this.gamePlayer.setTimer(new BridgerTimer());
         this.gamePlayer.getTimer().start();
-        this.task = this.runTaskTimer(gamePlayer.getPlugin(), 1, 1);
+        this.task = this.runTaskTimer(gamePlayer.getPlugin(), 0, 1);
     }
 
     public void stop() {
