@@ -19,7 +19,7 @@ public class BridgerDuration implements Comparable<BridgerDuration> {
     }
 
     public String toFormattedTime() {
-        return this.toSecondsPart() + "." + new DecimalFormat("000").format(this.toMillisPart());
+        return new DecimalFormat("0.000").format(roundToNearestFiveCents(this.toSecondsPart() + (double) this.toMillisPart() / 1000));
     }
 
     public long getExactTime() {
@@ -29,5 +29,9 @@ public class BridgerDuration implements Comparable<BridgerDuration> {
     @Override
     public int compareTo(BridgerDuration other) {
         return Long.compare(this.getExactTime(), other.getExactTime());
+    }
+
+    public static double roundToNearestFiveCents(double value) {
+        return Math.round(value * 20.0) / 20.0;
     }
 }
