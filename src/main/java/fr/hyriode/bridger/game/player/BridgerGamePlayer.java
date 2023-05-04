@@ -306,8 +306,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
             this.data.addUnlockedBlock(medal.getRewardBlock());
         Stream.of(BridgerBlock.values())
                 .filter(block ->
-                        // TODO: to be added in the prod version (removed for testing)
-                        // asHyriPlayer().getRank().isStaff() ||
+                        asHyriPlayer().getRank().isStaff() ||
                         block.getCost() == 0 ||
                         block.getSpecificationNeeded().getOptionalRankType()
                                 .filter(rankType -> rankType.getPriority() >= asHyriPlayer().getRank().getPriority())
