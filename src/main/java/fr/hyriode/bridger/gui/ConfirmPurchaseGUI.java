@@ -48,20 +48,16 @@ public class ConfirmPurchaseGUI extends HyriInventory {
                 .withName(GREEN + BridgerMessage.UTILS_YES.asString(gamePlayer.getPlayer()))
                 .build(),
                 event -> {
-                    final BridgerData data = gamePlayer.getData();
-
-                    data.addUnlockedBlock(block);
-
                     final IHyriPlayer account = gamePlayer.asHyriPlayer();
 
                     account.getTransactions().add("bridgerBlocks", new BridgerBlockTransaction(this.block));
                     account.getHyris().remove(this.block.getCost()).exec();
                     account.update();
 
-                    this.plugin.getGame().getPlayer(this.owner.getUniqueId()).setActualBlock(block);
+                    gamePlayer.addUnlockedBlock(block);
+                    gamePlayer.setActualBlock(block);
 
                     this.owner.closeInventory();
-
                     this.owner.sendMessage(DARK_AQUA + BridgerMessage.MESSAGE_PLAYER_BOUGHT.asString(this.owner)
                             .replace("%block%", AQUA + this.blockName)
                             .replace("%cost%", LIGHT_PURPLE + String.valueOf(this.block.getCost())));

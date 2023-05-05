@@ -85,6 +85,7 @@ public enum BridgerBlock {
     ;
 
     private static final Map<Integer, BridgerBlock> BY_ID = new HashMap<>();
+
     static {
         for (BridgerBlock bridgerBlock : values()) {
             BY_ID.put(bridgerBlock.getId(), bridgerBlock);
@@ -98,7 +99,7 @@ public enum BridgerBlock {
     private final Specification specificationNeeded;
 
     BridgerBlock(Material material) {
-        this(material, 0, 0, DEFAULT);
+        this(material, 0, -1, DEFAULT);
     }
 
     BridgerBlock(Material material, Specification specificationNeeded) {
@@ -133,9 +134,9 @@ public enum BridgerBlock {
         try {
             return HyriLanguageMessage.get(this.nameKey).getValue(player);
         } catch (NullPointerException e) {
-            System.out.println("[Bridger] NullPointerException: " + this.nameKey);
-            return BridgerMessage.BLOCK_NOT_FOUND.asString(player);
+            e.printStackTrace();
         }
+        return null;
     }
 
     public String getAbsoluteName(UUID player) {

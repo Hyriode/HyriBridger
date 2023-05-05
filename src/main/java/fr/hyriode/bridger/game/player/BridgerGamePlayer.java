@@ -48,6 +48,8 @@ import java.util.stream.Stream;
 
 public class BridgerGamePlayer extends HyriGamePlayer {
 
+    private final List<BridgerBlock> unlockedBlocks = new ArrayList<>();
+
     //== Utils
     private HyriBridger plugin;
     private BridgerGame game;
@@ -95,6 +97,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
         this.player.setGameMode(GameMode.SURVIVAL);
         this.player.setCanPickupItems(false);
+
         //Spawn player
         this.spawnPlayer();
     }
@@ -299,24 +302,30 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     }
 
     public void initBlocks() {
-        final List<IHyriTransaction> transactions = this.asHyriPlayer().getTransactions().getAll("bridgerBlocks");
+        final IHyriPlayer account = this.asHyriPlayer();
+        final List<IHyriTransaction> transactions = account.getTransactions().getAll("bridgerBlocks");
+
         if (transactions != null) {
-            for (IHyriTransaction transaction : transactions)
-                this.data.addUnlockedBlock(transaction.loadContent(new BridgerBlockTransaction()).getBlock());
+            for (IHyriTransaction transaction : transactions) {
+                this.unlockedBlocks.add(transaction.loadContent(new BridgerBlockTransaction()).getBlock());
+            }
         }
-        for (BridgerMedal medal : BridgerMedal.getMedalsBefore(statisticsData.getHighestAcquiredMedal()))
-            this.data.addUnlockedBlock(medal.getRewardBlock());
+
+        for (BridgerMedal medal : BridgerMedal.getMedalsBefore(statisticsData.getHighestAcquiredMedal())) {
+            this.unlockedBlocks.add(medal.getRewardBlock());
+        }
+
         Stream.of(BridgerBlock.values())
                 .filter(block ->
-                        asHyriPlayer().getRank().isStaff() ||
-                        block.getCost() == 0 ||
+                        account.getRank().isStaff() ||
+                        block.getCost() == -1 ||
                         block.getSpecificationNeeded().getOptionalRankType()
-                                .filter(rankType -> rankType.getPriority() >= asHyriPlayer().getRank().getPriority())
+                                .filter(rankType -> rankType.getId() >= account.getRank().getType().getId())
                                 .isPresent() ||
                         block.getSpecificationNeeded().getOptionalMedal()
                                 .filter(medal -> BridgerMedal.getMedalsBefore(medal).contains(statisticsData.getHighestAcquiredMedal()))
                                 .isPresent()
-                ).forEach(this.data::addUnlockedBlock);
+                ).forEach(this.unlockedBlocks::add);
     }
 
     private Location calculateLocation(Location location) {
@@ -485,4 +494,13 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     public Location getSpawn() {
         return spawn;
     }
+
+    public boolean hasUnlockedBlock(BridgerBlock block) {
+        return this.unlockedBlocks.contains(block);
+    }
+
+    public void addUnlockedBlock(BridgerBlock block) {
+        this.unlockedBlocks.add(block);
+    }
+
 }

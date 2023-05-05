@@ -55,7 +55,7 @@ import static org.bukkit.ChatColor.*;
         final int numberPages = (BridgerBlock.values().length / freeSpace);
         final IHyriPlayer account = IHyriPlayer.get(this.owner.getUniqueId());
 
-        for (int i = this.page*freeSpace; i < actualShowedBlocksSize; i++) {
+        for (int i = this.page * freeSpace; i < actualShowedBlocksSize; i++) {
             final BridgerBlock block = BridgerBlock.getById(i);
             final int slot = this.slots.get(i % freeSpace);
 
@@ -65,7 +65,7 @@ import static org.bukkit.ChatColor.*;
                         .withLore(BridgerMessage.GUI_LORE_BLOCK_SELECTED.asList(gamePlayer.getPlayer()))
                         .withGlow()
                         .build());
-            } else if (this.playerData.hasUnlocked(block)) {
+            } else if (this.gamePlayer.hasUnlockedBlock(block)) {
                 this.setItem(slot, new ItemBuilder(block.getMaterial(), 1, block.getMeta())
                         .withName(GREEN + block.getItemStackName(this.owner.getUniqueId()))
                         .withLore(BridgerMessage.GUI_LORE_BLOCK_POSSESSED_BLOCK.asList(gamePlayer.getPlayer()))
