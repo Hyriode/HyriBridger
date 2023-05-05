@@ -166,12 +166,14 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         if (success && this.placedBlocks.size() > 20 && this.timer.getActualTime() > 1700) {
             // Update leaderboard
             final BridgerLeaderboard leaderboard = this.plugin.getLeaderboardHandler().getLeaderboard(this.game.getType());
+
             if (!leaderboard.hasTime(this.uniqueId)) {
                 leaderboard.addTime(this.uniqueId, this.timer.toFinalDuration());
             }
 
             if (statisticsData.getPersonalBest() == null || statisticsData.getPersonalBest().getExactTime() == 0 || new BridgerDuration(this.timer.getActualTime()).getExactTime() < statisticsData.getPersonalBest().getExactTime()) {
                 this.successPersonalBest();
+
                 leaderboard.addTime(this.uniqueId, this.timer.toFinalDuration());
             } else {
                 this.failPersonalBest();
@@ -179,7 +181,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
 
             game.getSession().add(this.player, this.timer.toFinalDuration());
 
-            final IHyriPlayer account = HyriAPI.get().getPlayerManager().getPlayer(this.player.getUniqueId());
+            final IHyriPlayer account = IHyriPlayer.get(this.player.getUniqueId());
 
             account.getHyris().add(5).exec();
             account.getNetworkLeveling().addExperience(10);
