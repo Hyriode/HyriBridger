@@ -11,7 +11,7 @@ import fr.hyriode.bridger.game.blocks.BridgerBlock;
 import fr.hyriode.bridger.game.item.LeaveLeaderboardsItem;
 import fr.hyriode.bridger.game.item.TeleportLeaderboardsItem;
 import fr.hyriode.bridger.game.leaderboard.BridgerLeaderboard;
-import fr.hyriode.bridger.game.scoreboard.HyriBridgerScoreboard;
+import fr.hyriode.bridger.game.scoreboard.BridgerScoreboard;
 import fr.hyriode.bridger.game.task.BridgeTask;
 import fr.hyriode.bridger.game.timers.BridgerPlayedDuration;
 import fr.hyriode.bridger.game.timers.BridgerTimer;
@@ -60,7 +60,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
     private Location npcLocation;
 
     //== User experience
-    private HyriBridgerScoreboard scoreboard;
+    private BridgerScoreboard scoreboard;
     private NPC npc;
     private Hologram hologram;
 
@@ -239,7 +239,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         if (this.scoreboard != null) {
             this.scoreboard.hide();
         }
-        this.scoreboard = new HyriBridgerScoreboard(this.plugin, this.player);
+        this.scoreboard = new BridgerScoreboard(this.plugin, this.player);
         this.scoreboard.show();
     }
 

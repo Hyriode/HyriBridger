@@ -1,5 +1,6 @@
 package fr.hyriode.bridger.game;
 
+import fr.hyriode.api.player.IHyriPlayerSession;
 import fr.hyriode.bridger.api.BridgerDuration;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -27,7 +28,10 @@ public class BridgerSession {
         if (i < 1 || i > scores.size()) {
             return ChatColor.GRAY + "*****:" + ChatColor.YELLOW + " -.---";
         }
+
         final Player player = scores.keySet().stream().sorted(Comparator.comparing(scores::get)).collect(Collectors.toList()).get(i - 1);
-        return ChatColor.GRAY + player.getDisplayName() + ": " + ChatColor.YELLOW + scores.get(player).toFormattedTime();
+        final IHyriPlayerSession session = IHyriPlayerSession.get(player.getUniqueId());
+
+        return ChatColor.GRAY + session.getNameWithRank() + ": " + ChatColor.YELLOW + scores.get(player).toFormattedTime();
     }
 }

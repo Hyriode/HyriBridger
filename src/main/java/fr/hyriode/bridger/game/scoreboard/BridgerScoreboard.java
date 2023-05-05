@@ -9,13 +9,13 @@ import fr.hyriode.hyrame.game.scoreboard.HyriGameScoreboard;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public class HyriBridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
+public class BridgerScoreboard extends HyriGameScoreboard<BridgerGame> {
 
     private final HyriBridger plugin;
     private final Player player;
     private final BridgerGamePlayer gamePlayer;
 
-    public HyriBridgerScoreboard(HyriBridger plugin, Player player) {
+    public BridgerScoreboard(HyriBridger plugin, Player player) {
         super(plugin, plugin.getGame(), player, plugin.getGame().getName());
         this.plugin = plugin;
         this.player = player;

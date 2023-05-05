@@ -13,6 +13,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -20,9 +21,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class PlayerListener extends HyriListener<HyriBridger> {
+public class BridgerListener extends HyriListener<HyriBridger> {
 
-    public PlayerListener(HyriBridger plugin) {
+    public BridgerListener(HyriBridger plugin) {
         super(plugin);
     }
 
@@ -156,6 +157,11 @@ public class PlayerListener extends HyriListener<HyriBridger> {
 
     @EventHandler
     public void onPlayerTakeDamage(EntityDamageEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onExplosionPrime(ExplosionPrimeEvent event) {
         event.setCancelled(true);
     }
 
