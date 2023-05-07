@@ -66,9 +66,7 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
         gamePlayer.setData(BridgerData.get(player.getUniqueId()));
 
         final BridgerLeaderboard leaderboard = this.plugin.getLeaderboardHandler().getLeaderboard(this.getType());
-        if (!leaderboard.hasTime(gamePlayer.getUniqueId()) && gamePlayer.getPersonalBest() != null) {
-            leaderboard.addTime(gamePlayer.getUniqueId(), gamePlayer.getPersonalBest());
-        } else if (leaderboard.hasTime(gamePlayer.getUniqueId()) && !leaderboard.isSuperior(gamePlayer.getUniqueId(), gamePlayer.getPersonalBest())) {
+        if (leaderboard.hasTime(gamePlayer.getUniqueId()) && !leaderboard.isSuperior(gamePlayer.getUniqueId(), gamePlayer.getPersonalBest())) {
             leaderboard.addTime(gamePlayer.getUniqueId(), gamePlayer.getPersonalBest());
         }
 
