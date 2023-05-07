@@ -66,6 +66,10 @@ public class BridgerLeaderboard {
         }
     }
 
+    public boolean isSuperior(UUID playerId, BridgerDuration time) {
+        return this.handle.getScore(HyriLeaderboardScope.TOTAL, playerId) < -time.getExactTime();
+    }
+
     public BridgerGameType getType() {
         return this.type;
     }
