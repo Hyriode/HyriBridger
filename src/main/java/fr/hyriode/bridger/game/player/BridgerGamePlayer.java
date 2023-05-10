@@ -318,9 +318,8 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         Stream.of(BridgerBlock.values())
                 .filter(block ->
                         account.getRank().isStaff() ||
-                        block.getCost() == -1 ||
                         block.getSpecificationNeeded().getOptionalRankType()
-                                .filter(rankType -> rankType.getId() >= account.getRank().getType().getId())
+                                .filter(rankType -> rankType.getId() <= account.getRank().getPlayerType().getId())
                                 .isPresent() ||
                         block.getSpecificationNeeded().getOptionalMedal()
                                 .filter(medal -> BridgerMedal.getMedalsBefore(medal).contains(statisticsData.getHighestAcquiredMedal()))
