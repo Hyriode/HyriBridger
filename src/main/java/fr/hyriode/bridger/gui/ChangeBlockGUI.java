@@ -4,6 +4,7 @@ import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.api.BridgerData;
 import fr.hyriode.bridger.game.blocks.BridgerBlock;
+import fr.hyriode.bridger.game.blocks.Specification;
 import fr.hyriode.bridger.game.player.BridgerGamePlayer;
 import fr.hyriode.bridger.language.BridgerMessage;
 import fr.hyriode.hyrame.inventory.HyriInventory;
@@ -81,7 +82,10 @@ import static org.bukkit.ChatColor.*;
                 if (!account.getHyris().hasEnough(block.getCost())) {
                     this.setItem(slot, blockItemBuilder.withLore(block.getNotBuyableLore(account)).build());
                 } else {
-                    this.setItem(slot, blockItemBuilder.withLore(block.getNotPossessedLore(owner.getUniqueId())).build(), event -> new ConfirmPurchaseGUI(this.plugin, this.owner, block).open());
+                    this.setItem(slot, blockItemBuilder.withLore(block.getNotPossessedLore(owner.getUniqueId())).build(), event -> {
+                        if (block.getSpecificationNeeded() != Specification.DEFAULT) return;
+                        new ConfirmPurchaseGUI(this.plugin, this.owner, block).open();
+                    });
                 }
             }
         }
