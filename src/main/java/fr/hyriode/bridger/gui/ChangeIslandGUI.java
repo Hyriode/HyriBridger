@@ -78,15 +78,17 @@ public class ChangeIslandGUI extends HyriInventory {
 
     private List<String> getFreeIslandLore() {
         return Arrays.asList(
-                DARK_GRAY + DOT_BOLD + " " + GRAY + GUI_LORE_STATUS.asString(gamePlayer.getPlayer()) + ": " + IslandStatus.FREE.getChatColor() + IslandStatus.FREE.message.asString(gamePlayer.getPlayer()),
+                DARK_GRAY + DOT_BOLD + " " + GRAY + GUI_LORE_STATUS.asString(gamePlayer.getPlayer()) + ": " + IslandStatus.FREE.getChatColor() + IslandStatus.FREE.getMessage().asString(gamePlayer.getPlayer()),
                 "",
                 GUI_LORE_CLICK_TO_TELEPORT.asString(gamePlayer.getPlayer())
         );
     }
 
     private List<String> getOccupiedIslandLore(BridgerGamePlayer player) {
+        final IslandStatus status = player.getUniqueId() == owner.getUniqueId() ? IslandStatus.SELF_OCCUPIED : IslandStatus.OCCUPIED;
+
         return Arrays.asList(
-                DARK_GRAY + DOT_BOLD + " " + GRAY + GUI_LORE_STATUS.asString(gamePlayer.getPlayer()) + ": " + IslandStatus.FREE.getChatColor() + IslandStatus.FREE.message.asString(gamePlayer.getPlayer()),
+                DARK_GRAY + DOT_BOLD + " " + GRAY + GUI_LORE_STATUS.asString(gamePlayer.getPlayer()) + ": " + status.getChatColor() + status.getMessage().asString(gamePlayer.getPlayer()),
                 DARK_GRAY + DOT_BOLD + " " + GRAY + GUI_LORE_BY.asString(gamePlayer.getPlayer()) + ": " + player.getPlayer().getDisplayName()
         );
     }
