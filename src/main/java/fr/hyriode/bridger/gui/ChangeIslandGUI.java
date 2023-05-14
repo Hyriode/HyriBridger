@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -87,10 +88,13 @@ public class ChangeIslandGUI extends HyriInventory {
     private List<String> getOccupiedIslandLore(BridgerGamePlayer player) {
         final IslandStatus status = player.getUniqueId() == owner.getUniqueId() ? IslandStatus.SELF_OCCUPIED : IslandStatus.OCCUPIED;
 
-        return Arrays.asList(
-                DARK_GRAY + DOT_BOLD + " " + GRAY + GUI_LORE_STATUS.asString(gamePlayer.getPlayer()) + ": " + status.getChatColor() + status.getMessage().asString(gamePlayer.getPlayer()),
-                DARK_GRAY + DOT_BOLD + " " + GRAY + GUI_LORE_BY.asString(gamePlayer.getPlayer()) + ": " + player.getPlayer().getDisplayName()
-        );
+        final List<String> lore = new ArrayList<>(Collections.singletonList(DARK_GRAY + DOT_BOLD + " " + GRAY + GUI_LORE_STATUS.asString(gamePlayer.getPlayer()) + ": " + status.getChatColor() + status.getMessage().asString(gamePlayer.getPlayer())));
+
+        if (status == IslandStatus.OCCUPIED) {
+            lore.add(DARK_GRAY + DOT_BOLD + " " + GRAY + GUI_LORE_BY.asString(gamePlayer.getPlayer()) + ": " + player.getPlayer().getDisplayName());
+        }
+
+        return lore;
     }
 
     private void warpToIsland(int islandIndex) {
