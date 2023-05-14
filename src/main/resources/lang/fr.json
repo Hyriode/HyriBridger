@@ -45,6 +45,7 @@
   "gui.item-lore.change-block": "Cliquer pour changer de bloc",
   "gui.lore.status": "&7Statut",
   "gui.lore.click-to-teleport": "&3Cliquez pour vous-y téléporter",
+  "gui.lore.by": "&7Par",
 
   "gui.lore.block.rank-needed-block.vip": "&7Requiert: &eVIP\n\n&cVous ne possèdez pas ce bloc",
   "gui.lore.block.rank-needed-block.vip+": "&7Requiert: &aVIP+\n\n&cVous ne possèdez pas ce bloc",
