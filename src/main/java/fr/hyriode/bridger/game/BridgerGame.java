@@ -7,6 +7,7 @@ import fr.hyriode.bridger.api.BridgerData;
 import fr.hyriode.bridger.api.BridgerStatistics;
 import fr.hyriode.bridger.game.animation.BridgerFinishAnimation;
 import fr.hyriode.bridger.game.animation.impl.FallingBlockAnimation;
+import fr.hyriode.bridger.game.leaderboard.BridgerLeaderboard;
 import fr.hyriode.bridger.game.player.BridgerGamePlayer;
 import fr.hyriode.hyrame.IHyrame;
 import fr.hyriode.hyrame.game.HyriGame;
@@ -63,6 +64,11 @@ public class BridgerGame extends HyriGame<BridgerGamePlayer> {
         gamePlayer.setPlayerNumber(getAvailableEmplacement());
         gamePlayer.setStatistics(BridgerStatistics.get(player.getUniqueId()));
         gamePlayer.setData(BridgerData.get(player.getUniqueId()));
+
+        final BridgerLeaderboard leaderboard = this.plugin.getLeaderboardHandler().getLeaderboard(this.getType());
+        if (leaderboard.hasTime(gamePlayer.getUniqueId()) && !leaderboard.isSuperior(gamePlayer.getUniqueId(), gamePlayer.getPersonalBest())) {
+            leaderboard.addTime(gamePlayer.getUniqueId(), gamePlayer.getPersonalBest());
+        }
 
         this.getPlayer(player).onJoin();
         this.getPlayer(player).initBlocks();
