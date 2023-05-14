@@ -1,5 +1,6 @@
 package fr.hyriode.bridger.gui;
 
+import fr.hyriode.api.player.IHyriPlayerSession;
 import fr.hyriode.bridger.HyriBridger;
 import fr.hyriode.bridger.game.player.BridgerGamePlayer;
 import fr.hyriode.bridger.language.BridgerMessage;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -48,31 +50,25 @@ public class ChangeIslandGUI extends HyriInventory {
 
     @Override
     public void update() {
-        List<Boolean> emplacements = plugin.getGame().getEmplacements();
-        for (int i = 0; i < emplacements.size(); i++) {
-            boolean emplacement = emplacements.get(i);
-            int slot = islandsSlots[i];
-            IslandStatus status;
-            ItemBuilder itemBuilder = new ItemBuilder(Material.STAINED_CLAY, i+1);
-
-            if (i == gamePlayer.getPlayerNumber()) {
-                status = IslandStatus.SELF_OCCUPIED;
-            } else if (emplacement) {
-                status = IslandStatus.OCCUPIED;
-            } else {
-                status = IslandStatus.FREE;
+        for (BridgerGamePlayer player : this.plugin.getGame().getPlayers()) {
+            final int finalNumber = player.getPlayerNumber();
+            this.setItem(islandsSlots[finalNumber], new ItemBuilder(Material.STAINED_CLAY, finalNumber+1)
+                    .withData(player.getUniqueId() == owner.getUniqueId() ? IslandStatus.SELF_OCCUPIED.getColorData() : IslandStatus.OCCUPIED.getColorData())
+                    .withName(this.getIslandName(finalNumber))
+                    .withLore(this.getOccupiedIslandLore(player)).build());
+        }
+        
+        
+        for (int i = 0; i < this.plugin.getGame().getEmplacements().size(); i++) {
+            if (this.plugin.getGame().getEmplacements().get(i)) {
+                continue;
             }
 
-            itemBuilder.withData(status.getColorData())
-                    .withName(getIslandName(i))
-                    .withLore(getIslandLore(status));
-            if (status == IslandStatus.FREE) {
-                int finalI = i;
-                setItem(slot, itemBuilder.build(), event -> warpToIsland(finalI));
-            } else {
-                setItem(slot, itemBuilder.build());
-            }
-
+            final int finalI = i;
+            this.setItem(islandsSlots[i], new ItemBuilder(Material.STAINED_CLAY, i+1)
+                    .withData(IslandStatus.FREE.getColorData())
+                    .withName(this.getIslandName(i))
+                    .withLore(this.getFreeIslandLore()).build(), event -> warpToIsland(finalI));
         }
     }
 
@@ -80,11 +76,18 @@ public class ChangeIslandGUI extends HyriInventory {
         return GRAY + GUI_ITEM_ISLAND.asString(gamePlayer.getPlayer()) + " " + new DecimalFormat("00").format(islandNumber+1);
     }
 
-    private List<String> getIslandLore(IslandStatus status) {
+    private List<String> getFreeIslandLore() {
         return Arrays.asList(
-                DARK_GRAY + DOT_BOLD + " " + GRAY + GUI_LORE_STATUS.asString(gamePlayer.getPlayer()) + ": " + status.getChatColor() + status.message.asString(gamePlayer.getPlayer()),
+                DARK_GRAY + DOT_BOLD + " " + GRAY + GUI_LORE_STATUS.asString(gamePlayer.getPlayer()) + ": " + IslandStatus.FREE.getChatColor() + IslandStatus.FREE.message.asString(gamePlayer.getPlayer()),
                 "",
                 GUI_LORE_CLICK_TO_TELEPORT.asString(gamePlayer.getPlayer())
+        );
+    }
+
+    private List<String> getOccupiedIslandLore(BridgerGamePlayer player) {
+        return Arrays.asList(
+                DARK_GRAY + DOT_BOLD + " " + GRAY + GUI_LORE_STATUS.asString(gamePlayer.getPlayer()) + ": " + IslandStatus.FREE.getChatColor() + IslandStatus.FREE.message.asString(gamePlayer.getPlayer()),
+                DARK_GRAY + DOT_BOLD + " " + GRAY + GUI_LORE_BY.asString(gamePlayer.getPlayer()) + ": " + player.getPlayer().getDisplayName()
         );
     }
 
