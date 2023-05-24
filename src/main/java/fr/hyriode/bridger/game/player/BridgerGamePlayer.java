@@ -193,7 +193,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
             statisticsData.addBridgesMade(1);
         } else {
             new ActionBar(ChatColor.RED + BridgerMessage.MESSAGE_PLAYER_FAILED_BRIDGE.asString(player)
-                    .replace("%block%", String.valueOf(this.placedBlocks.size()-1))).send(this.player);
+                    .replace("%block%", String.valueOf(this.placedBlocks.size()))).send(this.player);
             statisticsData.addBridgeFailed(1);
         }
 
