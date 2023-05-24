@@ -59,11 +59,16 @@ public class BridgerLeaderboard {
     }
 
     public void addTime(UUID playerId, BridgerDuration time) {
+        if (time.getExactTime() <= 1700) return;
         this.handle.setScore(HyriLeaderboardScope.TOTAL, playerId, -time.getExactTime());
 
         if (this.setup && this.handle.getPosition(HyriLeaderboardScope.TOTAL, playerId) < 10) {
             this.display.update();
         }
+    }
+
+    public boolean isSuperior(UUID playerId, BridgerDuration time) {
+        return this.handle.getScore(HyriLeaderboardScope.TOTAL, playerId) < -time.getExactTime();
     }
 
     public BridgerGameType getType() {

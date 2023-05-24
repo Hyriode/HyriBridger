@@ -11,7 +11,7 @@ public class BridgerDuration implements Comparable<BridgerDuration> {
     }
 
     public long toSecondsPart() {
-        return (this.ms / 1000) % 1000;
+        return (long) Math.floor((double)this.ms / 1000);
     }
 
     public long toMillisPart() {

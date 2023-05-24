@@ -34,7 +34,7 @@ public class BridgeTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (this.gamePlayer.getTimer().getActualTime() > Duration.ofHours(10).toMillis() - 1) {
+        if (this.gamePlayer.getTimer().getActualTime() > Duration.ofSeconds(100000000).toMillis() - 1) {
             gamePlayer.endBridging(false);
             return;
         }

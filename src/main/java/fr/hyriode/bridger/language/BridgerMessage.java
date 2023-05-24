@@ -51,6 +51,7 @@ public enum BridgerMessage {
     GUI_ITEM_LORE_CHANGE_BLOCK("gui.item-lore.change-block"),
     GUI_LORE_STATUS("gui.lore.status"),
     GUI_LORE_CLICK_TO_TELEPORT("gui.lore.click-to-teleport"),
+    GUI_LORE_BY("gui.lore.by"),
 
     GUI_LORE_BLOCK_RANK_NEEDED_BLOCK_VIP("gui.lore.block.rank-needed-block.vip"),
     GUI_LORE_BLOCK_RANK_NEEDED_BLOCK_VIP_PLUS("gui.lore.block.rank-needed-block.vip+"),
