@@ -106,6 +106,7 @@ public enum BridgerBlock {
 
     BridgerBlock(Material material, Specification specificationNeeded) {
         this(material, 0, 0, specificationNeeded);
+        Bukkit.broadcastMessage("BridgerBlock: " + material + " " + specificationNeeded);
     }
 
     BridgerBlock(Material material, int cost) {
