@@ -5,6 +5,7 @@ import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.bridger.language.BridgerMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.material.Coal;
 
 import java.util.*;
 
@@ -148,10 +149,15 @@ public enum BridgerBlock {
     }
 
     public List<String> getNotPossessedLore(UUID player)  {
-        Bukkit.broadcastMessage(String.valueOf(this));
-        Bukkit.broadcastMessage(String.valueOf(this.specificationNeeded));
-        Bukkit.broadcastMessage(String.valueOf(this.specificationNeeded.getMessage()));
-        Bukkit.broadcastMessage(String.valueOf(this.cost));
+        if  (this == COAL_BLOCK) {
+            Bukkit.broadcastMessage(String.valueOf(this));
+            Bukkit.broadcastMessage(String.valueOf(this.specificationNeeded));
+            Bukkit.broadcastMessage(String.valueOf(this.specificationNeeded.getMessage()));
+            Bukkit.broadcastMessage(String.valueOf(this.cost));
+            Bukkit.broadcastMessage(" ");
+            Bukkit.broadcastMessage(String.valueOf(BridgerBlock.COAL_BLOCK.getSpecificationNeeded()));
+            Bukkit.broadcastMessage(String.valueOf(BridgerBlock.COAL_BLOCK.getSpecificationNeeded().getMessage()));
+        }
         String baseString = this.specificationNeeded.getMessage().asString(player).replace("%cost%", String.valueOf(this.cost));
         return Arrays.asList(baseString.split("\n"));
     }
