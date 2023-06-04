@@ -150,16 +150,7 @@ public enum BridgerBlock {
     }
 
     public List<String> getNotPossessedLore(UUID player)  {
-        if  (this == COAL_BLOCK) {
-            Bukkit.broadcastMessage(String.valueOf(this));
-            Bukkit.broadcastMessage(String.valueOf(BridgerBlock.COAL_BLOCK.getSpecificationNeeded()));
-            Bukkit.broadcastMessage(String.valueOf(BridgerBlock.COAL_BLOCK.getSpecificationNeeded().getMessage()));
-            Bukkit.broadcastMessage(String.valueOf(this.specificationNeeded));
-            Bukkit.broadcastMessage(String.valueOf(this.specificationNeeded.getMessage()));
-            Bukkit.broadcastMessage(String.valueOf(this.cost));
-            Bukkit.broadcastMessage(" ");
-        }
-        String baseString = this.specificationNeeded.getMessage().asString(player).replace("%cost%", String.valueOf(this.cost));
+        String baseString = this.getSpecificationNeeded().getMessage().asString(player).replace("%cost%", String.valueOf(this.cost));
         return Arrays.asList(baseString.split("\n"));
     }
 
@@ -183,6 +174,18 @@ public enum BridgerBlock {
     }
 
     public Specification getSpecificationNeeded() {
+        switch (this) {
+            case COAL_BLOCK:
+                return MEDAL_BRONZE;
+            case IRON_BLOCK:
+                return MEDAL_IRON;
+            case GOLD_BLOCK:
+                return MEDAL_GOLD;
+            case DIAMOND_BLOCK:
+                return MEDAL_ULTIMATE;
+            case BRIDGER_TNT:
+                return STAFF;
+        }
         return specificationNeeded;
     }
 
