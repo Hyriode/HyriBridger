@@ -149,6 +149,7 @@ public enum BridgerBlock {
 
     public List<String> getNotPossessedLore(UUID player)  {
         Bukkit.broadcastMessage(String.valueOf(this));
+        Bukkit.broadcastMessage(String.valueOf(this.specificationNeeded));
         Bukkit.broadcastMessage(String.valueOf(this.specificationNeeded.getMessage()));
         Bukkit.broadcastMessage(String.valueOf(this.cost));
         String baseString = this.specificationNeeded.getMessage().asString(player).replace("%cost%", String.valueOf(this.cost));
