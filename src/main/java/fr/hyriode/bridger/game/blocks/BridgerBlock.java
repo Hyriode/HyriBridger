@@ -3,6 +3,7 @@ package fr.hyriode.bridger.game.blocks;
 import fr.hyriode.api.language.HyriLanguageMessage;
 import fr.hyriode.api.player.IHyriPlayer;
 import fr.hyriode.bridger.language.BridgerMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import java.util.*;
@@ -147,9 +148,9 @@ public enum BridgerBlock {
     }
 
     public List<String> getNotPossessedLore(UUID player)  {
-        System.out.println(this);
-        System.out.println(this.specificationNeeded.getMessage());
-        System.out.println(this.cost);
+        Bukkit.broadcastMessage(String.valueOf(this));
+        Bukkit.broadcastMessage(String.valueOf(this.specificationNeeded.getMessage()));
+        Bukkit.broadcastMessage(String.valueOf(this.cost));
         String baseString = this.specificationNeeded.getMessage().asString(player).replace("%cost%", String.valueOf(this.cost));
         return Arrays.asList(baseString.split("\n"));
     }
