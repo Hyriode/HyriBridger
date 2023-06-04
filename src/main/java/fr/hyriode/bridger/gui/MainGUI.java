@@ -49,7 +49,7 @@ public class MainGUI extends HyriInventory {
     }
 
     private void setChangeBlockGUI() {
-        this.setItem(15, new ItemBuilder(Material.GOLD_BLOCK, 1, gamePlayer.getActualBlock().getMeta())
+        this.setItem(15, new ItemBuilder(Material.GOLD_BLOCK, 1, gamePlayer.getCurrentBlock().getMeta())
                 .withName(ChatColor.DARK_AQUA + BridgerMessage.GUI_ITEM_CHANGE_BLOCK.asString(this.owner))
                 .withLore(ChatColor.GRAY + BridgerMessage.GUI_ITEM_LORE_CHANGE_BLOCK.asString(this.owner))
                 .build(), event -> new ChangeBlockGUI(plugin, owner, 0).open());

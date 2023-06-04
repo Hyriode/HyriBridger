@@ -60,7 +60,7 @@ import static org.bukkit.ChatColor.*;
             final BridgerBlock block = BridgerBlock.getById(i);
             final int slot = this.slots.get(i % freeSpace);
 
-            if (block.equals(this.gamePlayer.getActualBlock())) {
+            if (block.equals(this.gamePlayer.getCurrentBlock())) {
                 this.setItem(slot, new ItemBuilder(block.getMaterial(), 1, block.getMeta())
                         .withName(AQUA + block.getItemStackName(this.owner.getUniqueId()))
                         .withLore(BridgerMessage.GUI_LORE_BLOCK_SELECTED.asList(gamePlayer.getPlayer()))
@@ -69,7 +69,7 @@ import static org.bukkit.ChatColor.*;
             } else if (this.gamePlayer.hasUnlockedBlock(block)) {
                 this.setItem(slot, new ItemBuilder(block.getMaterial(), 1, block.getMeta())
                         .withName(GREEN + block.getItemStackName(this.owner.getUniqueId()))
-                        .withLore(BridgerMessage.GUI_LORE_BLOCK_POSSESSED_BLOCK.asList(gamePlayer.getPlayer()))
+                        .withLore(block.getNotPossessedLore(this.owner.getUniqueId())/*BridgerMessage.GUI_LORE_BLOCK_POSSESSED_BLOCK.asList(gamePlayer.getPlayer())*/)
                         .build(), event -> {
                     gamePlayer.setActualBlock(block);
                     new ChangeBlockGUI(this.plugin, this.owner, this.page).open();
@@ -82,7 +82,7 @@ import static org.bukkit.ChatColor.*;
                 if (!account.getHyris().hasEnough(block.getCost())) {
                     this.setItem(slot, blockItemBuilder.withLore(block.getNotBuyableLore(account)).build());
                 } else {
-                    this.setItem(slot, blockItemBuilder.withLore(block.getNotPossessedLore(owner.getUniqueId())).build(), event -> {
+                    this.setItem(slot, blockItemBuilder.withLore(block.getNotPossessedLore(this.owner.getUniqueId())).build(), event -> {
                         if (block.getSpecificationNeeded() != Specification.DEFAULT) return;
                         new ConfirmPurchaseGUI(this.plugin, this.owner, block).open();
                     });

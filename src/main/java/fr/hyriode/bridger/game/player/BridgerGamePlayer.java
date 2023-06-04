@@ -127,7 +127,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         final PlayerInventory inventory = this.player.getInventory();
 
         inventory.clear();
-        inventory.addItem(new ItemStack(this.getActualBlock().getMaterial(), 64 * 9, this.getActualBlock().getMeta()));
+        inventory.addItem(new ItemStack(this.getCurrentBlock().getMaterial(), 64 * 9, this.getCurrentBlock().getMeta()));
         inventory.setItem(3, new ItemBuilder(Material.IRON_PICKAXE)
                 .withEnchant(Enchantment.DIG_SPEED, 2)
                 .unbreakable()
@@ -449,7 +449,7 @@ public class BridgerGamePlayer extends HyriGamePlayer {
         this.game.getEmplacements().set(playerNumber, true);
     }
 
-    public BridgerBlock getActualBlock() {
+    public BridgerBlock getCurrentBlock() {
         return this.data.getSelectedBlock();
     }
 
