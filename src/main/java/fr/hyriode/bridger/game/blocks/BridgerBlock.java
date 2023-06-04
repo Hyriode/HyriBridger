@@ -151,12 +151,12 @@ public enum BridgerBlock {
     public List<String> getNotPossessedLore(UUID player)  {
         if  (this == COAL_BLOCK) {
             Bukkit.broadcastMessage(String.valueOf(this));
+            Bukkit.broadcastMessage(String.valueOf(BridgerBlock.COAL_BLOCK.getSpecificationNeeded()));
+            Bukkit.broadcastMessage(String.valueOf(BridgerBlock.COAL_BLOCK.getSpecificationNeeded().getMessage()));
             Bukkit.broadcastMessage(String.valueOf(this.specificationNeeded));
             Bukkit.broadcastMessage(String.valueOf(this.specificationNeeded.getMessage()));
             Bukkit.broadcastMessage(String.valueOf(this.cost));
             Bukkit.broadcastMessage(" ");
-            Bukkit.broadcastMessage(String.valueOf(BridgerBlock.COAL_BLOCK.getSpecificationNeeded()));
-            Bukkit.broadcastMessage(String.valueOf(BridgerBlock.COAL_BLOCK.getSpecificationNeeded().getMessage()));
         }
         String baseString = this.specificationNeeded.getMessage().asString(player).replace("%cost%", String.valueOf(this.cost));
         return Arrays.asList(baseString.split("\n"));
