@@ -69,7 +69,7 @@ import static org.bukkit.ChatColor.*;
             } else if (this.gamePlayer.hasUnlockedBlock(block)) {
                 this.setItem(slot, new ItemBuilder(block.getMaterial(), 1, block.getMeta())
                         .withName(GREEN + block.getItemStackName(this.owner.getUniqueId()))
-                        .withLore(block.getNotPossessedLore(this.owner.getUniqueId())/*BridgerMessage.GUI_LORE_BLOCK_POSSESSED_BLOCK.asList(gamePlayer.getPlayer())*/)
+                        .withLore(BridgerMessage.GUI_LORE_BLOCK_POSSESSED_BLOCK.asList(gamePlayer.getPlayer()))
                         .build(), event -> {
                     gamePlayer.setActualBlock(block);
                     new ChangeBlockGUI(this.plugin, this.owner, this.page).open();

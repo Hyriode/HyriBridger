@@ -56,7 +56,7 @@
   "gui.lore.block.medal-needed-block.iron": "&7Requiert: &fMédaille d'ARGENT\n\n&cVous ne possèdez pas ce bloc",
   "gui.lore.block.medal-needed-block.gold": "&7Requiert: &eMédaille d'OR\n\n&cVous ne possèdez pas ce bloc",
   "gui.lore.block.medal-needed-block.ultimate": "&7Requiert: &cMédaille ULTIME\n\n&cVous ne possèdez pas ce bloc",
-  "gui.lore.block.rank-needed-block.staff": "&bRequiert: &cGrade staff\n&cVous ne possèdez pas ce bloc",
+  "gui.lore.block.rank-needed-block.staff": "&7Requiert: &cGrade staff\n\n&cVous ne possèdez pas ce bloc",
 
   "medal.bronze": "&7Bronze",
   "medal.iron": "&fArgent",
